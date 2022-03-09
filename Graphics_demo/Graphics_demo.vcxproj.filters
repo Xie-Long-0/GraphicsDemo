@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>qml;cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+    </Filter>
+    <Filter Include="ui">
+      <UniqueIdentifier>{ed675fbd-d1cb-4cff-adf0-799de159d3c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine">
+      <UniqueIdentifier>{6d551976-ef9e-4b8b-987f-00c232b7f3cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\entity">
+      <UniqueIdentifier>{ae0a241a-b33b-4a6b-b76a-1f41182d3caa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="action">
+      <UniqueIdentifier>{3ae5e258-80c8-4c74-b7c0-524c8ed1f61f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\MainWindow.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\xGraphicView.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\action\xActionInterface.cpp">
+      <Filter>action</Filter>
+    </ClCompile>
+    <ClCompile Include="src\action\xActionDrawLine.cpp">
+      <Filter>action</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\entity\xEntity.cpp">
+      <Filter>engine\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\entity\xLine.cpp">
+      <Filter>engine\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\FunctionsTabWidget.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\action\xActionDefault.cpp">
+      <Filter>action</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\xTypeDef.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\entity\xCircle.cpp">
+      <Filter>engine\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\xStyle.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="src\ui\MainWindow.h">
+      <Filter>ui</Filter>
+    </QtMoc>
+    <QtMoc Include="src\engine\xGraphicView.h">
+      <Filter>engine</Filter>
+    </QtMoc>
+    <QtMoc Include="src\action\xActionInterface.h">
+      <Filter>action</Filter>
+    </QtMoc>
+    <QtMoc Include="src\engine\xTypeDef.h">
+      <Filter>engine</Filter>
+    </QtMoc>
+    <QtMoc Include="src\action\xActionDrawLine.h">
+      <Filter>action</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ui\FunctionsTabWidget.h">
+      <Filter>ui</Filter>
+    </QtMoc>
+    <QtMoc Include="src\action\xActionDefault.h">
+      <Filter>action</Filter>
+    </QtMoc>
+    <QtMoc Include="src\engine\xStyle.h">
+      <Filter>engine</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="src\ui\MainWindow.ui">
+      <Filter>ui</Filter>
+    </QtUic>
+    <QtUic Include="src\ui\FunctionsTabWidget.ui">
+      <Filter>ui</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\engine\entity\xEntity.h">
+      <Filter>engine\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\entity\xLine.h">
+      <Filter>engine\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\entity\xCircle.h">
+      <Filter>engine\entity</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
