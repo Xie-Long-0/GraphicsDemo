@@ -50,9 +50,6 @@
     <ClCompile Include="src\action\xActionDrawLine.cpp">
       <Filter>action</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\entity\xEntity.cpp">
-      <Filter>engine\entity</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\entity\xLine.cpp">
       <Filter>engine\entity</Filter>
     </ClCompile>
@@ -70,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="src\engine\xStyle.cpp">
       <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\action\xActionDrawCircle.cpp">
+      <Filter>action</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +100,9 @@
     <QtMoc Include="src\engine\xStyle.h">
       <Filter>engine</Filter>
     </QtMoc>
+    <QtMoc Include="src\action\xActionDrawCircle.h">
+      <Filter>action</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\ui\MainWindow.ui">
@@ -110,9 +113,6 @@
     </QtUic>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\engine\entity\xEntity.h">
-      <Filter>engine\entity</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\entity\xLine.h">
       <Filter>engine\entity</Filter>
     </ClInclude>

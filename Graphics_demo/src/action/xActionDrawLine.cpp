@@ -5,8 +5,8 @@
 #include "engine/xGraphicView.h"
 #include "entity/xLine.h"
 
-xActionDrawLine::xActionDrawLine(QGraphicsScene *scene, xGraphicView *view, QObject *parent)
-	: xActionInterface(scene, view, parent, xDef::AT_DrawLine)
+xActionDrawLine::xActionDrawLine(xGraphicView *view, QObject *parent)
+	: xActionInterface(view, parent, xDef::AT_DrawLine)
 {
 }
 
@@ -20,36 +20,38 @@ void xActionDrawLine::mousePressEvent(QMouseEvent *e)
 	m_processed = false;
 	if (e->button() == Qt::LeftButton)
 	{
-		switch (status())
+		switch (m_status)
 		{
 		case xDef::S_Default:
-			p1 = spos;
-			setStatus(xDef::S_DrawEntity1_Start);
+			mp = spos;
+			m_status = xDef::S_DrawEntity1_Start;
 			m_processed = true;
 			break;
 
 		case xDef::S_DrawEntity1_Start:
-			p2 = spos;
-			if (tempLine == nullptr)
+			if (QLineF(mp, spos).length() > 10)
 			{
-				tempLine = new xLine();
-				m_scene->addItem(tempLine);
+				if (m_line == nullptr)
+				{
+					m_line = new xLine();
+					m_scene->addItem(m_line);
+				}
+				m_line->setLine(mp, spos);
+				m_line->setStyle(xStyle::Drawn);
+				m_status = xDef::S_DrawEntity1_End;
+				m_processed = true;
 			}
-			tempLine->setLine(p1, p2);
-			tempLine->setStyle(xStyle::Drawn);
-			setStatus(xDef::S_DrawEntity1_End);
-			m_processed = true;
 			break;
 
 		case xDef::S_DrawEntity1_End:
-			p1 = spos;
-			if (QLineF(p1, tempLine->pt1()).length() < 6)
+			mp = spos;
+			if (QLineF(mp, m_line->pt1()).length() < 6)
 			{
 				m_isGrabCtrlPoint = true;
 				m_moveP1 = true;
 				m_processed = true;
 			}
-			else if (QLineF(p1, tempLine->pt2()).length() < 6)
+			else if (QLineF(mp, m_line->pt2()).length() < 6)
 			{
 				m_isGrabCtrlPoint = true;
 				m_moveP2 = true;
@@ -58,30 +60,7 @@ void xActionDrawLine::mousePressEvent(QMouseEvent *e)
 			break;
 
 		case xDef::S_DrawFinished:
-		case xDef::S_Measured:
 		case xDef::S_ActionFinished:
-		default:
-			break;
-		}
-	}
-	else if (e->button() == Qt::RightButton)
-	{
-		switch (status())
-		{
-		case xDef::S_DrawEntity1_Start:
-			break;
-		case xDef::S_DrawEntity1_End:
-			break;
-		case xDef::S_DrawEntity2_Start:
-			break;
-		case xDef::S_DrawEntity2_End:
-			break;
-		case xDef::S_DrawFinished:
-			break;
-		case xDef::S_Measured:
-			break;
-		case xDef::S_ActionFinished:
-			break;
 		default:
 			break;
 		}
@@ -91,35 +70,33 @@ void xActionDrawLine::mousePressEvent(QMouseEvent *e)
 void xActionDrawLine::mouseMoveEvent(QMouseEvent *e)
 {
 	m_processed = false;
-	switch (status())
+	switch (m_status)
 	{
 	case xDef::S_DrawEntity1_Start:
-		p2 = pointMapToScene(e);
-		if (tempLine == nullptr)
+		if (m_line == nullptr)
 		{
-			tempLine = new xLine();
-			tempLine->setStyle(xStyle::Drawing);
-			m_scene->addItem(tempLine);
+			m_line = new xLine();
+			m_line->setStyle(xStyle::Drawing);
+			m_scene->addItem(m_line);
 		}
-		tempLine->setLine(p1, p2);
+		m_line->setLine(mp, pointMapToScene(e));
 		m_processed = true;
 		break;
 
 	case xDef::S_DrawEntity1_End:
 		if (m_moveP1)
 		{
-			tempLine->setPt1(pointMapToScene(e));
+			m_line->setPt1(pointMapToScene(e));
 			m_processed = true;
 		}
 		else if (m_moveP2)
 		{
-			tempLine->setPt2(pointMapToScene(e));
+			m_line->setPt2(pointMapToScene(e));
 			m_processed = true;
 		}
 		break;
 
 	case xDef::S_DrawFinished:
-	case xDef::S_Measured:
 	default:
 		break;
 	}

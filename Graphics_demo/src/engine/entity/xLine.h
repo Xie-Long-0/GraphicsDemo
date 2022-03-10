@@ -10,7 +10,7 @@
 class xLine : public QGraphicsLineItem
 {
 public:
-	xLine(QGraphicsItem *parent = nullptr);
+	explicit xLine(QGraphicsItem *parent = nullptr);
 	xLine(const QLineF &line, QGraphicsItem *parent = nullptr);
 	xLine(qreal x1, qreal y1, qreal x2, qreal y2, QGraphicsItem *parent = nullptr);
 	xLine(const QPointF &p1, const QPointF &p2, QGraphicsItem *parent = nullptr);
@@ -22,12 +22,14 @@ public:
 
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
-	QLineF line() const;
+	QLineF lineData() const;
 	using QGraphicsLineItem::setLine;
 	void setLine(const QPointF &p1, const QPointF &p2) { setLine(QLineF(p1, p2)); }
 
+	QPen pen() const { return m_pen; }
+	void setPen(const QPen &pen);
 	xStyle::Style style() const { return m_style; }
-	void setStyle(xStyle::Style style) { m_style = style; }
+	void setStyle(xStyle::Style style);
 
 	QPointF pt1() const;
 	QPointF pt2() const;
@@ -43,6 +45,13 @@ protected:
 	QPen m_pen;
 
 private:
-	using QGraphicsLineItem::setPen;
 	using QGraphicsLineItem::line;
+	Q_DISABLE_COPY(xLine)
 };
+
+inline void xLine::init()
+{
+	setFlag(QGraphicsItem::ItemIsMovable);
+	setFlag(QGraphicsItem::ItemIsSelectable);
+	setAcceptHoverEvents(true);
+}

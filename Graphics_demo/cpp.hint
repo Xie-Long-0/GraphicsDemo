@@ -8,3 +8,5 @@
 #define Q_GADGET
 #define Q_ENUM(x) Q_ENUMS(x) Q_ENUM_IMPL(x)
 #define Q_ENUM(x) Q_ENUM(x)
+#define Q_DISABLE_COPY(Class) Class(const Class &) = delete; Class &operator=(const Class &) = delete;
+#define Q_DISABLE_COPY_MOVE(Class) Q_DISABLE_COPY(Class) Q_DISABLE_MOVE(Class)

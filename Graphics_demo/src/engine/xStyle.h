@@ -50,6 +50,7 @@ public:
 	 * @param factor 视图的缩放系数，用于设置画笔宽度
 	*/
 	static void makeStyle(Style style = NoStyle, QPen *pen = nullptr, QBrush *brush = nullptr, qreal factor = 1.0);
+
     xStyle() = delete;
     ~xStyle() = delete;
     Q_DISABLE_COPY_MOVE(xStyle)

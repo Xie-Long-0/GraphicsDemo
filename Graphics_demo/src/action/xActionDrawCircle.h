@@ -3,23 +3,23 @@
 #include "xActionInterface.h"
 #include <QPoint>
 
+class xCircle;
 class xLine;
 
-class xActionDrawLine : public xActionInterface
+class xActionDrawCircle : public xActionInterface
 {
 	Q_OBJECT
 
 public:
-	xActionDrawLine(xGraphicView *view, QObject *parent);
-	~xActionDrawLine();
+	xActionDrawCircle(xGraphicView *view, QObject *parent);
+	~xActionDrawCircle();
 
 	void mousePressEvent(QMouseEvent *e) override;
 	void mouseMoveEvent(QMouseEvent *e) override;
 	void mouseReleaseEvent(QMouseEvent *e) override;
 
 private:
-	QPointF mp;
+	QPointF p1, p2;
+	xCircle *m_circle = nullptr;
 	xLine *m_line = nullptr;
-	bool m_moveP1 = false;
-	bool m_moveP2 = false;
 };

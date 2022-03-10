@@ -20,7 +20,7 @@ xGraphicView::xGraphicView(QGraphicsScene *scene, QWidget *parent)
 	m_pixmap->setFlag(QGraphicsItem::ItemIsSelectable, false);
 	scene->addItem(m_pixmap);
 
-	defaultAction = new xActionDefault(scene, this, this);
+	defaultAction = new xActionDefault(this, this);
 	currentAction = defaultAction;
 }
 

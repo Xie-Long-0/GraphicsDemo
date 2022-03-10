@@ -15,6 +15,7 @@ public:
 
 public slots:
 	void onLineBtnClicked();
+	void onCircleBtnClicked();
 
 private:
 	Ui::FunctionsTabWidget ui;

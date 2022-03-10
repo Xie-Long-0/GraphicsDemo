@@ -2,17 +2,17 @@
 #include "xGraphicView.h"
 #include <QMouseEvent>
 
-xActionInterface::xActionInterface(QGraphicsScene *scene, xGraphicView *view, QObject *parent, xDef::ActionType type)
+xActionInterface::xActionInterface(xGraphicView *view, QObject *parent, xDef::ActionType type)
 	: QObject(parent)
-	, m_scene(scene)
 	, m_view(view)
 	, m_type(type)
 {
+	if (view) m_scene = view->scene();
 }
 
 bool xActionInterface::isFinished() const
 {
-	if (m_status == xDef::S_ActionFinished)
+	if (m_status >= xDef::S_ActionFinished)
 		return true;
 	return false;
 }

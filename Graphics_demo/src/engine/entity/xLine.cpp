@@ -40,37 +40,52 @@ void xLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 
 	auto style = m_style;
 
-	if (option->state & QStyle::State_Selected)
+	if (style != xStyle::NoStyle)
 	{
-		style = xStyle::Selected;
+		if (option->state & QStyle::State_Selected)
+		{
+			style = xStyle::Selected;
+		}
+
+		if (option->state & QStyle::State_MouseOver)
+		{
+			if (style == xStyle::Selected)
+				style = xStyle::HoverSelected;
+			else
+				style = xStyle::Hovered;
+		}
+
+		qreal f = viewScaleFactor();
+		xStyle::makeStyle(style, &m_pen, nullptr, f);
+		// 由于父类QGraphicsLineItem存在私有成员pen，需要设置自己的m_pen以使shape()、boundingRect()等函数正确计算
+		QGraphicsLineItem::setPen(m_pen);
 	}
 
-	if (option->state & QStyle::State_MouseOver)
-	{
-		if (style == xStyle::Selected)
-			style = xStyle::HoverSelected;
-		else
-			style = xStyle::Hovered;
-	}
-
-	qreal f = viewScaleFactor();
-	xStyle::makeStyle(style, &m_pen, nullptr, f);
-	// 由于父类QGraphicsLineItem存在私有成员pen，需要设置自己的m_pen以使shape()、boundingRect()等函数正确计算
-	setPen(m_pen);
 	painter->setPen(m_pen);
 	auto l = line();
 	painter->drawLine(l);
 
-	if (style == xStyle::Selected)
+	if (option->state & QStyle::State_Selected)
 	{
-		painter->fillRect(l.x1() - 2.0 / f, l.y1() - 2.0 / f, 4.0 / f, 4.0 / f, Qt::yellow);
-		painter->fillRect(l.x2() - 2.0 / f, l.y2() - 2.0 / f, 4.0 / f, 4.0 / f, Qt::yellow);
+		qreal w = m_pen.widthF();
+		painter->fillRect(l.x1() - w, l.y1() - w, w * 2, w * 2, Qt::yellow);
+		painter->fillRect(l.x2() - w, l.y2() - w, w * 2, w * 2, Qt::yellow);
 	}
 }
 
-QLineF xLine::line() const
+QLineF xLine::lineData() const
 {
 	return QLineF(pt1(), pt2());
+}
+
+QPointF xLine::pt1() const
+{
+	return mapToScene(line().p1());
+}
+
+QPointF xLine::pt2() const
+{
+	return mapToScene(line().p2());
 }
 
 void xLine::setPt1(const QPointF &p)
@@ -93,25 +108,28 @@ void xLine::setPt2(const QPointF &p)
 	setLine(l);
 }
 
-QPointF xLine::pt1() const
+void xLine::setPen(const QPen &pen)
 {
-	return mapToScene(line().p1());
+	if (pen == m_pen)
+		return;
+	prepareGeometryChange();
+	m_pen = pen;
+	QGraphicsLineItem::setPen(m_pen);
+	m_style = xStyle::NoStyle;	// 设置无样式以使用手动设置的笔画
+	update();
 }
 
-QPointF xLine::pt2() const
+void xLine::setStyle(xStyle::Style style)
 {
-	return mapToScene(line().p2());
+	if (style == m_style)
+		return;
+	prepareGeometryChange();
+	m_style = style;
+	update();
 }
 
 qreal xLine::viewScaleFactor() const
 {
 	// 通过view的转换矩阵获取缩放系数
 	return scene()->views()[0]->transform().m11();
-}
-
-inline void xLine::init()
-{
-	setFlag(QGraphicsItem::ItemIsMovable);
-	setFlag(QGraphicsItem::ItemIsSelectable);
-	setAcceptHoverEvents(true);
 }

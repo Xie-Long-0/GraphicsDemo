@@ -1,13 +1,13 @@
 #pragma once
 
-#include "action/xActionInterface.h"
+#include "xActionInterface.h"
 
 class xActionDefault : public xActionInterface
 {
 	Q_OBJECT
 
 public:
-	xActionDefault(QGraphicsScene *scene, xGraphicView *view, QObject *parent);
+	xActionDefault(xGraphicView *view, QObject *parent);
 	~xActionDefault();
 
 	void mousePressEvent(QMouseEvent *e) override;
