@@ -2,7 +2,9 @@
 #include <QMouseEvent>
 #include <QImage>
 #include <QDebug>
+#include "action/xActionPreviewInterface.h"
 #include "action/xActionDefault.h"
+#include "entity/xEntity.h"
 
 xGraphicView::xGraphicView(QGraphicsScene *scene, QWidget *parent)
 	: QGraphicsView(scene, parent)
@@ -20,45 +22,61 @@ xGraphicView::xGraphicView(QGraphicsScene *scene, QWidget *parent)
 	m_pixmap->setFlag(QGraphicsItem::ItemIsSelectable, false);
 	scene->addItem(m_pixmap);
 
-	defaultAction = new xActionDefault(this, this);
-	currentAction = defaultAction;
+	m_default = new xActionDefault(this);
 }
 
 xGraphicView::~xGraphicView()
 {
+	if (m_action)
+		delete m_action;
+	if (m_default)
+		delete m_default;
 }
 
-void xGraphicView::setCurrentAction(xActionInterface *action)
+void xGraphicView::setAction(xActionPreviewInterface *action)
 {
-	if (action != nullptr)
+	if (m_action)
 	{
-		currentAction = action;
+		delete m_action;
 	}
-	else
-	{
-		currentAction = defaultAction;
-	}
+	m_action = action;
+}
+
+bool xGraphicView::isItemCtrlPoint(const QPointF &p) const
+{
+	
+	return false;
 }
 
 void xGraphicView::finishAction()
 {
-	if (currentAction != defaultAction)
+	if (m_action)
 	{
-		currentAction->deleteLater();
-		currentAction = defaultAction;
+		if (!m_action->isFinished())
+			m_action->cancel();
+		delete m_action;
+		m_action = nullptr;
+	}
+}
+
+void xGraphicView::cancelAction()
+{
+	if (m_action)
+	{
+		m_action->cancel();
+		delete m_action;
+		m_action = nullptr;
 	}
 }
 
 void xGraphicView::setPixmap(const QPixmap &pixmap)
 {
 	m_pixmap->setPixmap(pixmap);
-	m_pixmap->update();
 }
 
 void xGraphicView::setImage(const QImage &image)
 {
 	m_pixmap->setPixmap(QPixmap::fromImage(image));
-	m_pixmap->update();
 }
 
 void xGraphicView::zoomIn()
@@ -75,26 +93,50 @@ void xGraphicView::zoomByFactor(qreal factor)
 
 void xGraphicView::mousePressEvent(QMouseEvent *e)
 {
-	currentAction->mousePressEvent(e);
-	if (currentAction->isProcessed())
+	e->ignore();
+	if (m_action && !m_action->isFinished())
+	{
+		m_action->mousePressEvent(e);
+	}
+	else
+	{
+		m_default->mousePressEvent(e);
+	}
+	if (e->isAccepted())
 		return;
-	return QGraphicsView::mousePressEvent(e);
+	QGraphicsView::mousePressEvent(e);
 }
 
 void xGraphicView::mouseMoveEvent(QMouseEvent *e)
 {
-	currentAction->mouseMoveEvent(e);
-	if (currentAction->isProcessed())
+	e->ignore();
+	if (m_action && !m_action->isFinished())
+	{
+		m_action->mouseMoveEvent(e);
+	}
+	else
+	{
+		m_default->mouseMoveEvent(e);
+	}
+	if (e->isAccepted())
 		return;
-	return QGraphicsView::mouseMoveEvent(e);
+	QGraphicsView::mouseMoveEvent(e);
 }
 
 void xGraphicView::mouseReleaseEvent(QMouseEvent *e)
 {
-	currentAction->mouseReleaseEvent(e);
-	if (currentAction->isProcessed())
+	e->ignore();
+	if (m_action && !m_action->isFinished())
+	{
+		m_action->mouseReleaseEvent(e);
+	}
+	else
+	{
+		m_default->mouseReleaseEvent(e);
+	}
+	if (e->isAccepted())
 		return;
-	return QGraphicsView::mouseReleaseEvent(e);
+	QGraphicsView::mouseReleaseEvent(e);
 }
 
 void xGraphicView::wheelEvent(QWheelEvent *e)
@@ -122,23 +164,16 @@ void xGraphicView::wheelEvent(QWheelEvent *e)
 	}
 	else if (delta > 0)
 	{
-		qDebug() << transform();
 		scale(1.25, 1.25);
-		qDebug() << transform();
 	}
 	else if (delta < 0)
 	{
-		qDebug() << transform();
 		scale(0.8, 0.8);
-		qDebug() << transform();
 	}
 	else
 	{
 		QGraphicsView::wheelEvent(e);
 	}
-	//scene()->update();
-	//updateSceneRect(rect());
-	//e->accept();
 }
 
 void xGraphicView::keyPressEvent(QKeyEvent *e)
@@ -146,24 +181,16 @@ void xGraphicView::keyPressEvent(QKeyEvent *e)
 	switch (e->key())
 	{
 	case Qt::Key_Up:
-		qDebug() << transform();
 		translate(0, -10);
-		qDebug() << transform();
 		break;
 	case Qt::Key_Down:
-		qDebug() << transform();
 		translate(0, 10);
-		qDebug() << transform();
 		break;
 	case Qt::Key_Left:
-		qDebug() << transform();
 		translate(-10, 0);
-		qDebug() << transform();
 		break;
 	case Qt::Key_Right:
-		qDebug() << transform();
 		translate(10, 0);
-		qDebug() << transform();
 		break;
 	default:
 		QGraphicsView::keyPressEvent(e);

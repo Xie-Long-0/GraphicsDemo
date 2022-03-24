@@ -115,7 +115,9 @@
     <ClCompile Include="src\action\xActionDrawCircle.cpp" />
     <ClCompile Include="src\action\xActionDrawLine.cpp" />
     <ClCompile Include="src\action\xActionInterface.cpp" />
+    <ClCompile Include="src\action\xActionPreviewInterface.cpp" />
     <ClCompile Include="src\engine\entity\xCircle.cpp" />
+    <ClCompile Include="src\engine\entity\xEntity.cpp" />
     <ClCompile Include="src\engine\entity\xLine.cpp" />
     <ClCompile Include="src\engine\xGraphicView.cpp" />
     <ClCompile Include="src\engine\xStyle.cpp" />
@@ -123,10 +125,12 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ui\FunctionsTabWidget.cpp" />
     <ClCompile Include="src\ui\MainWindow.cpp" />
+    <ClCompile Include="src\ui\OperationWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\ui\FunctionsTabWidget.ui" />
     <QtUic Include="src\ui\MainWindow.ui" />
+    <QtUic Include="src\ui\OperationWidget.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\ui\MainWindow.h" />
@@ -138,27 +142,30 @@
     <QtMoc Include="src\engine\xGraphicView.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="src\action\xActionInterface.h" />
+    <ClInclude Include="src\action\xActionInterface.h" />
+    <QtMoc Include="src\ui\OperationWidget.h" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\engine\xTypeDef.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="src\action\xActionDrawLine.h" />
+    <ClInclude Include="src\action\xActionDrawLine.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="src\action\xActionDrawCircle.h" />
+    <ClInclude Include="src\action\xActionDrawCircle.h" />
+    <ClInclude Include="src\action\xActionPreviewInterface.h" />
     <ClInclude Include="src\engine\entity\xCircle.h" />
     <QtMoc Include="src\engine\xStyle.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\entity\xEntity.h" />
     <ClInclude Include="src\engine\entity\xLine.h" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\ui\FunctionsTabWidget.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="src\action\xActionDefault.h" />
+    <ClInclude Include="src\action\xActionDefault.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -3,6 +3,8 @@
 #include <QGraphicsView>
 
 class xActionInterface;
+class xActionPreviewInterface;
+class xActionDefault;
 
 class xGraphicView : public QGraphicsView
 {
@@ -12,11 +14,13 @@ public:
 	xGraphicView(QGraphicsScene *scene, QWidget *parent);
 	~xGraphicView();
 
-	void setCurrentAction(xActionInterface *action);
+	void setAction(xActionPreviewInterface *action);
 	qreal scaleFactor() const { return transform().m11(); }
+	bool isItemCtrlPoint(const QPointF &p) const;
 
 public slots:
 	void finishAction();
+	void cancelAction();
 	void setPixmap(const QPixmap &pixmap);
 	void setImage(const QImage &image);
 	void zoomIn();
@@ -32,8 +36,7 @@ private:
 	void mouseDoubleClickEvent(QMouseEvent *e) override;
 
 private:
-	xActionInterface *defaultAction = nullptr;
-	xActionInterface *currentAction = nullptr;
+	xActionPreviewInterface *m_action = nullptr;
+	xActionDefault *m_default = nullptr;
 	QGraphicsPixmapItem *m_pixmap = nullptr;
-	qreal m_scaleFactor = 0;
 };

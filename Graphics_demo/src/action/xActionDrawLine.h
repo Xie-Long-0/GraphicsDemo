@@ -1,21 +1,21 @@
 #pragma once
 
-#include "xActionInterface.h"
+#include "xActionPreviewInterface.h"
 #include <QPoint>
 
 class xLine;
 
-class xActionDrawLine : public xActionInterface
+class xActionDrawLine : public xActionPreviewInterface
 {
-	Q_OBJECT
-
 public:
-	xActionDrawLine(xGraphicView *view, QObject *parent);
+	xActionDrawLine(xGraphicView *view);
 	~xActionDrawLine();
 
 	void mousePressEvent(QMouseEvent *e) override;
 	void mouseMoveEvent(QMouseEvent *e) override;
 	void mouseReleaseEvent(QMouseEvent *e) override;
+
+	void cancel() override;
 
 private:
 	QPointF mp;

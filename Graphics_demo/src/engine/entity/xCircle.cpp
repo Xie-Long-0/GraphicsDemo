@@ -5,35 +5,40 @@
 #include <QGraphicsView>
 #include <QDebug>
 
-xCircle::xCircle(QGraphicsItem *parent)
+xCircle::xCircle(xGraphicView *view, QGraphicsItem *parent)
 	: QGraphicsItem(parent)
+	, xEntity(view)
 {
 	init();
 }
 
-xCircle::xCircle(const xCircleData &circle, QGraphicsItem *parent)
+xCircle::xCircle(const xCircleData &circle, xGraphicView *view, QGraphicsItem *parent)
 	: QGraphicsItem(parent)
+	, xEntity(view)
 	, m_circle(circle)
 {
 	init();
 }
 
-xCircle::xCircle(const QPointF &center, qreal radius, QGraphicsItem *parent)
+xCircle::xCircle(const QPointF &center, qreal radius, xGraphicView *view, QGraphicsItem *parent)
 	: QGraphicsItem(parent)
+	, xEntity(view)
 	, m_circle(center, radius)
 {
 	init();
 }
 
-xCircle::xCircle(qreal cx, qreal cy, qreal radius, QGraphicsItem *parent)
+xCircle::xCircle(qreal cx, qreal cy, qreal radius, xGraphicView *view, QGraphicsItem *parent)
 	: QGraphicsItem(parent)
+	, xEntity(view)
 	, m_circle(cx, cy, radius)
 {
 	init();
 }
 
-xCircle::xCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, QGraphicsItem *parent)
+xCircle::xCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, xGraphicView *view, QGraphicsItem *parent)
 	: QGraphicsItem(parent)
+	, xEntity(view)
 	, m_circle(p1, p2, p3)
 {
 	init();
@@ -75,10 +80,10 @@ void xCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	if (option->state & QStyle::State_Selected)
 	{
 		qreal w = m_pen.widthF();
-		painter->fillRect(m_circle.center().x() - w, m_circle.center().y() - w, w + w, w + w, Qt::yellow);
-		painter->fillRect(m_circle.pt1().x() - w, m_circle.pt1().y() - w, w + w, w + w, Qt::yellow);
-		painter->fillRect(m_circle.pt2().x() - w, m_circle.pt2().y() - w, w + w, w + w, Qt::yellow);
-		painter->fillRect(m_circle.pt3().x() - w, m_circle.pt3().y() - w, w + w, w + w, Qt::yellow);
+		painter->fillRect(QRectF(m_circle.center().x() - w, m_circle.center().y() - w, w + w, w + w), Qt::yellow);
+		painter->fillRect(QRectF(m_circle.pt1().x() - w, m_circle.pt1().y() - w, w + w, w + w), Qt::yellow);
+		painter->fillRect(QRectF(m_circle.pt2().x() - w, m_circle.pt2().y() - w, w + w, w + w), Qt::yellow);
+		painter->fillRect(QRectF(m_circle.pt3().x() - w, m_circle.pt3().y() - w, w + w, w + w), Qt::yellow);
 	}
 }
 
@@ -99,7 +104,10 @@ QPainterPath xCircle::shape() const
 		return path;
 
 	path.addEllipse(m_circle.center(), m_circle.radius(), m_circle.radius());
-	return StrokeShapeFromPath(path, m_pen);
+	auto sp = StrokeShapeFromPath(path, m_pen);
+	qreal w = m_pen.widthF();
+	sp.addRect(QRectF(m_circle.center().x() - w, m_circle.center().y() - w, w + w, w + w));
+	return sp;
 }
 
 xCircleData xCircle::circleData() const
@@ -173,8 +181,19 @@ void xCircle::setStyle(xStyle::Style style)
 	update();
 }
 
-qreal xCircle::viewScaleFactor() const
+QList<QPointF> xCircle::controlPoints() const
 {
-	// 通过view的转换矩阵获取缩放系数
-	return scene()->views()[0]->transform().m11();
+	auto c = circleData();
+	return { c.center(), c.pt1(), c.pt2(), c.pt3() };
+}
+
+void xCircle::moveCtrlPoint(const QPointF &pt, const QPointF &movedPt)
+{
+
+}
+
+bool xCircle::isCtrlPoint(const QPointF &p) const
+{
+	auto c = circleData();
+	return (Distance(c.pt1(), p) < 6 || Distance(c.pt2(), p) < 6 || Distance(c.pt3(), p) < 6);
 }

@@ -3,15 +3,16 @@
 #include <QGraphicsItem>
 #include "xTypeDef.h"
 #include "xStyle.h"
+#include "xEntity.h"
 
-class xCircle : public QGraphicsItem
+class xCircle : public QGraphicsItem, public xEntity
 {
 public:
-	explicit xCircle(QGraphicsItem *parent = nullptr);
-	xCircle(const xCircleData &circle, QGraphicsItem *parent = nullptr);
-	xCircle(const QPointF &center, qreal radius, QGraphicsItem *parent = nullptr);
-	xCircle(qreal cx, qreal cy, qreal radius, QGraphicsItem *parent = nullptr);
-	xCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, QGraphicsItem *parent = nullptr);
+	explicit xCircle(xGraphicView *view, QGraphicsItem *parent = nullptr);
+	xCircle(const xCircleData &circle, xGraphicView *view, QGraphicsItem *parent = nullptr);
+	xCircle(const QPointF &center, qreal radius, xGraphicView *view, QGraphicsItem *parent = nullptr);
+	xCircle(qreal cx, qreal cy, qreal radius, xGraphicView *view, QGraphicsItem *parent = nullptr);
+	xCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, xGraphicView *view, QGraphicsItem *parent = nullptr);
 
 	// 自定义实体类型枚举
 	enum { Type = xDef::ET_Circle };
@@ -31,18 +32,16 @@ public:
 	qreal radius() const { return m_circle.radius(); }
 	void setRadius(qreal radius);
 
-	QPen pen() const { return m_pen; }
-	void setPen(const QPen &pen);
-	xStyle::Style style() const { return m_style; }
-	void setStyle(xStyle::Style style);
+	void setPen(const QPen &pen) override;
+	void setStyle(xStyle::Style style) override;
+
+	QList<QPointF> controlPoints() const override;
+	void moveCtrlPoint(const QPointF &pt, const QPointF &movedPt) override;
+	bool isCtrlPoint(const QPointF &p) const override;
 
 protected:
 	inline void init();
-	// 获取视图的缩放系数
-	qreal viewScaleFactor() const;
 
-	xStyle::Style m_style = xStyle::NoStyle;
-	QPen m_pen;
 	xCircleData m_circle;
 
 private:

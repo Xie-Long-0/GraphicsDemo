@@ -5,26 +5,30 @@
 #include <QGraphicsView>
 #include <QDebug>
 
-xLine::xLine(QGraphicsItem *parent)
+xLine::xLine(xGraphicView *view, QGraphicsItem *parent)
 	: QGraphicsLineItem(parent)
+	, xEntity(view)
 {
 	init();
 }
 
-xLine::xLine(const QLineF &line, QGraphicsItem *parent)
+xLine::xLine(const QLineF &line, xGraphicView *view, QGraphicsItem *parent)
 	: QGraphicsLineItem(line, parent)
+	, xEntity(view)
 {
 	init();
 }
 
-xLine::xLine(qreal x1, qreal y1, qreal x2, qreal y2, QGraphicsItem *parent)
+xLine::xLine(qreal x1, qreal y1, qreal x2, qreal y2, xGraphicView *view, QGraphicsItem *parent)
 	: QGraphicsLineItem(x1, y1, x2, y2, parent)
+	, xEntity(view)
 {
 	init();
 }
 
-xLine::xLine(const QPointF &p1, const QPointF &p2, QGraphicsItem *parent)
+xLine::xLine(const QPointF &p1, const QPointF &p2, xGraphicView *view, QGraphicsItem *parent)
 	: QGraphicsLineItem(QLineF(p1, p2), parent)
+	, xEntity(view)
 {
 	init();
 }
@@ -68,8 +72,8 @@ void xLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 	if (option->state & QStyle::State_Selected)
 	{
 		qreal w = m_pen.widthF();
-		painter->fillRect(l.x1() - w, l.y1() - w, w * 2, w * 2, Qt::yellow);
-		painter->fillRect(l.x2() - w, l.y2() - w, w * 2, w * 2, Qt::yellow);
+		painter->fillRect(QRectF(l.x1() - w, l.y1() - w, w * 2, w * 2), Qt::yellow);
+		painter->fillRect(QRectF(l.x2() - w, l.y2() - w, w * 2, w * 2), Qt::yellow);
 	}
 }
 
@@ -108,6 +112,21 @@ void xLine::setPt2(const QPointF &p)
 	setLine(l);
 }
 
+QList<QPointF> xLine::controlPoints() const
+{
+	return { pt1(), pt2() };
+}
+
+void xLine::moveCtrlPoint(const QPointF &pt, const QPointF &movedPt)
+{
+	
+}
+
+bool xLine::isCtrlPoint(const QPointF &p) const
+{
+	return (Distance(pt1(), p) < 6 || Distance(pt2(), p) < 6);
+}
+
 void xLine::setPen(const QPen &pen)
 {
 	if (pen == m_pen)
@@ -126,10 +145,4 @@ void xLine::setStyle(xStyle::Style style)
 	prepareGeometryChange();
 	m_style = style;
 	update();
-}
-
-qreal xLine::viewScaleFactor() const
-{
-	// 通过view的转换矩阵获取缩放系数
-	return scene()->views()[0]->transform().m11();
 }

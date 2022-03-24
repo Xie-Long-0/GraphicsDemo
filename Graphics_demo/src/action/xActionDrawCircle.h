@@ -1,22 +1,22 @@
 #pragma once
 
-#include "xActionInterface.h"
+#include "xActionPreviewInterface.h"
 #include <QPoint>
 
 class xCircle;
 class xLine;
 
-class xActionDrawCircle : public xActionInterface
+class xActionDrawCircle : public xActionPreviewInterface
 {
-	Q_OBJECT
-
 public:
-	xActionDrawCircle(xGraphicView *view, QObject *parent);
+	xActionDrawCircle(xGraphicView *view);
 	~xActionDrawCircle();
 
 	void mousePressEvent(QMouseEvent *e) override;
 	void mouseMoveEvent(QMouseEvent *e) override;
 	void mouseReleaseEvent(QMouseEvent *e) override;
+
+	void cancel() override;
 
 private:
 	QPointF p1, p2;

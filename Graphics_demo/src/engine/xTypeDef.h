@@ -5,18 +5,14 @@
 
 constexpr double M_PI = 3.14159265358979323846264;
 
-class xTypeDef
-{
-
-};
-
 class xDef
 {
 	Q_GADGET
 
 public:
 	enum {
-		ET_Line = QGraphicsItem::UserType + 1,
+		ET_Unknown = QGraphicsItem::UserType,
+		ET_Line,
 		ET_Circle,
 		ET_Arc,
 		ET_Point,
@@ -29,12 +25,12 @@ public:
 	enum ActionStatus {
 		S_Unknown = -1,
 		S_Default = 0,
-		S_DrawEntity1_Start = 1,
+		S_DrawEntity1_P1,
 		S_DrawEntity1_P2,
-		S_DrawEntity1_End,
-		S_DrawEntity2_Start,
+		S_DrawEntity1_P3,
+		S_DrawEntity2_P1,
 		S_DrawEntity2_P2,
-		S_DrawEntity2_End,
+		S_DrawEntity2_P3,
 		S_DrawFinished,
 		S_Measured,
 		S_ActionFinished
@@ -44,7 +40,7 @@ public:
 	enum ActionType {
 		AT_Unknown = -1,
 		AT_Default = 0,
-		AT_DrawLine = 1,
+		AT_DrawLine,
 		AT_DrawCircle,
 		AT_DrawArc,
 		AT_DrawPoint,
@@ -57,7 +53,7 @@ public:
 };
 
 /**
- * @brief 根据基础Path创建具有宽度的Path
+ * @brief 根据基础Path创建具有画笔宽度的空心Path
  * @param path 传入的绘画路径
  * @param pen 传入的画笔
  * @return 根据pen的宽度创建的路径
@@ -70,7 +66,18 @@ QPainterPath StrokeShapeFromPath(const QPainterPath &path, const QPen &pen);
  * @param angle 角度，单位为弧度
  * @return 生成的点
 */
-inline QPointF PointFromPolar(qreal length, qreal angle);
+constexpr inline QPointF PointFromPolar(qreal length, qreal angle)
+{
+	return QPointF(std::cos(angle) * length, -std::sin(angle) * length);
+}
+
+/**
+ * @brief 计算两点间的距离
+*/
+inline qreal Distance(const QPointF &p1, const QPointF &p2)
+{
+	return std::hypot(p2.x() - p1.x(), p2.y() - p1.y());
+}
 
 /**
  * @brief 由圆心、半径及3个控制点组成的圆
@@ -112,9 +119,4 @@ inline bool xCircleData::isNull() const
 constexpr inline bool operator==(const xCircleData &c1, const xCircleData &c2)
 {
 	return (c1.c == c2.c && qFuzzyCompare(c1.r, c2.r));
-}
-
-inline QPointF PointFromPolar(qreal length, qreal angle)
-{
-	return QPointF(std::cos(angle) * length, -std::sin(angle) * length);
 }

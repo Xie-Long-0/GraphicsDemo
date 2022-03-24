@@ -5,8 +5,8 @@
 #include "engine/xGraphicView.h"
 #include "entity/xLine.h"
 
-xActionDrawLine::xActionDrawLine(xGraphicView *view, QObject *parent)
-	: xActionInterface(view, parent, xDef::AT_DrawLine)
+xActionDrawLine::xActionDrawLine(xGraphicView *view)
+	: xActionPreviewInterface(view, xDef::AT_DrawLine)
 {
 }
 
@@ -17,45 +17,44 @@ xActionDrawLine::~xActionDrawLine()
 void xActionDrawLine::mousePressEvent(QMouseEvent *e)
 {
 	auto spos = pointMapToScene(e);
-	m_processed = false;
 	if (e->button() == Qt::LeftButton)
 	{
 		switch (m_status)
 		{
 		case xDef::S_Default:
 			mp = spos;
-			m_status = xDef::S_DrawEntity1_Start;
-			m_processed = true;
+			m_status = xDef::S_DrawEntity1_P1;
+			e->accept();
 			break;
 
-		case xDef::S_DrawEntity1_Start:
-			if (QLineF(mp, spos).length() > 10)
+		case xDef::S_DrawEntity1_P1:
+			if (Distance(mp, spos) > 10)
 			{
 				if (m_line == nullptr)
 				{
-					m_line = new xLine();
+					m_line = new xLine(m_view);
 					m_scene->addItem(m_line);
 				}
 				m_line->setLine(mp, spos);
 				m_line->setStyle(xStyle::Drawn);
-				m_status = xDef::S_DrawEntity1_End;
-				m_processed = true;
+				m_status = xDef::S_ActionFinished;
+				e->accept();
 			}
 			break;
 
-		case xDef::S_DrawEntity1_End:
+		case xDef::S_DrawEntity1_P2:
 			mp = spos;
-			if (QLineF(mp, m_line->pt1()).length() < 6)
+			if (Distance(mp, m_line->pt1()) < 6)
 			{
 				m_isGrabCtrlPoint = true;
 				m_moveP1 = true;
-				m_processed = true;
+				e->accept();
 			}
-			else if (QLineF(mp, m_line->pt2()).length() < 6)
+			else if (Distance(mp, m_line->pt2()) < 6)
 			{
 				m_isGrabCtrlPoint = true;
 				m_moveP2 = true;
-				m_processed = true;
+				e->accept();
 			}
 			break;
 
@@ -69,30 +68,29 @@ void xActionDrawLine::mousePressEvent(QMouseEvent *e)
 
 void xActionDrawLine::mouseMoveEvent(QMouseEvent *e)
 {
-	m_processed = false;
 	switch (m_status)
 	{
-	case xDef::S_DrawEntity1_Start:
+	case xDef::S_DrawEntity1_P1:
 		if (m_line == nullptr)
 		{
-			m_line = new xLine();
+			m_line = new xLine(m_view);
 			m_line->setStyle(xStyle::Drawing);
 			m_scene->addItem(m_line);
 		}
 		m_line->setLine(mp, pointMapToScene(e));
-		m_processed = true;
+		e->accept();
 		break;
 
-	case xDef::S_DrawEntity1_End:
+	case xDef::S_DrawEntity1_P2:
 		if (m_moveP1)
 		{
 			m_line->setPt1(pointMapToScene(e));
-			m_processed = true;
+			e->accept();
 		}
 		else if (m_moveP2)
 		{
 			m_line->setPt2(pointMapToScene(e));
-			m_processed = true;
+			e->accept();
 		}
 		break;
 
@@ -107,5 +105,15 @@ void xActionDrawLine::mouseReleaseEvent(QMouseEvent *e)
 	m_isGrabCtrlPoint = false;
 	m_moveP1 = false;
 	m_moveP2 = false;
-	m_processed = false;
+}
+
+void xActionDrawLine::cancel()
+{
+	if (m_line)
+	{
+		m_scene->removeItem(m_line);
+		delete m_line;
+		m_line = nullptr;
+	}
+	m_status = xDef::S_Default;
 }

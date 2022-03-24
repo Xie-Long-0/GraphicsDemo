@@ -6,8 +6,8 @@
 #include "entity/xCircle.h"
 #include "entity/xLine.h"
 
-xActionDrawCircle::xActionDrawCircle(xGraphicView *view, QObject *parent)
-	: xActionInterface(view, parent, xDef::AT_DrawCircle)
+xActionDrawCircle::xActionDrawCircle(xGraphicView *view)
+	: xActionPreviewInterface(view, xDef::AT_DrawCircle)
 {
 }
 
@@ -18,36 +18,35 @@ xActionDrawCircle::~xActionDrawCircle()
 void xActionDrawCircle::mousePressEvent(QMouseEvent *e)
 {
 	auto spos = pointMapToScene(e);
-	m_processed = false;
 	if (e->button() == Qt::LeftButton)
 	{
 		switch (m_status)
 		{
 		case xDef::S_Default:
 			p1 = spos;
-			m_status = xDef::S_DrawEntity1_Start;
-			m_processed = true;
+			m_status = xDef::S_DrawEntity1_P1;
+			e->accept();
 			break;
 
-		case xDef::S_DrawEntity1_Start:
-			if (QLineF(p1, spos).length() > 10)
+		case xDef::S_DrawEntity1_P1:
+			if (Distance(p1, spos) > 10)
 			{
 				p2 = spos;
 				m_status = xDef::S_DrawEntity1_P2;
-				m_processed = true;
+				e->accept();
 			}
 			break;
 
 		case xDef::S_DrawEntity1_P2:
-			if (QLineF(p1, spos).length() > 10 && QLineF(p2, spos).length() > 10)
+			if (Distance(p1, spos) > 10 && Distance(p2, spos) > 10)
 			{
 				m_circle->setStyle(xStyle::Drawn);
-				m_status = xDef::S_DrawEntity1_End;
-				m_processed = true;
+				m_status = xDef::S_ActionFinished;
+				e->accept();
 			}
 			break;
 
-		case xDef::S_DrawEntity1_End:
+		case xDef::S_DrawEntity1_P3:
 			//p1 = spos;
 			//if (m_circle == nullptr)
 			//{
@@ -78,18 +77,17 @@ void xActionDrawCircle::mousePressEvent(QMouseEvent *e)
 
 void xActionDrawCircle::mouseMoveEvent(QMouseEvent *e)
 {
-	m_processed = false;
 	switch (m_status)
 	{
-	case xDef::S_DrawEntity1_Start:
+	case xDef::S_DrawEntity1_P1:
 		if (m_line == nullptr)
 		{
-			m_line = new xLine();
+			m_line = new xLine(m_view);
 			m_line->setStyle(xStyle::Drawing);
 			m_scene->addItem(m_line);
 		}
 		m_line->setLine(p1, pointMapToScene(e));
-		m_processed = true;
+		e->accept();
 		break;
 
 	case xDef::S_DrawEntity1_P2:
@@ -101,15 +99,15 @@ void xActionDrawCircle::mouseMoveEvent(QMouseEvent *e)
 		}
 		if (m_circle == nullptr)
 		{
-			m_circle = new xCircle();
+			m_circle = new xCircle(m_view);
 			m_circle->setStyle(xStyle::Drawing);
 			m_scene->addItem(m_circle);
 		}
 		m_circle->setCircle(xCircleData(p1, p2, pointMapToScene(e)));
-		m_processed = true;
+		e->accept();
 		break;
 
-	case xDef::S_DrawEntity1_End:
+	case xDef::S_DrawEntity1_P3:
 		break;
 	case xDef::S_DrawFinished:
 		break;
@@ -123,5 +121,21 @@ void xActionDrawCircle::mouseMoveEvent(QMouseEvent *e)
 void xActionDrawCircle::mouseReleaseEvent(QMouseEvent *e)
 {
 	m_isGrabCtrlPoint = false;
-	m_processed = false;
+}
+
+void xActionDrawCircle::cancel()
+{
+	if (m_line)
+	{
+		m_scene->removeItem(m_line);
+		delete m_line;
+		m_line = nullptr;
+	}
+	if (m_circle)
+	{
+		m_scene->removeItem(m_circle);
+		delete m_circle;
+		m_circle = nullptr;
+	}
+	m_status = xDef::S_Default;
 }
