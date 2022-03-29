@@ -20,6 +20,4 @@ public:
 private:
 	QPointF mp;
 	xLine *m_line = nullptr;
-	bool m_moveP1 = false;
-	bool m_moveP2 = false;
 };

@@ -4,6 +4,8 @@
 #include <QGraphicsItem>
 
 constexpr double M_PI = 3.14159265358979323846264;
+constexpr double DELTA_DIST = 5.0;
+constexpr double DELTA_DIST_2 = 8.0;
 
 class xDef
 {
@@ -89,13 +91,13 @@ struct xCircleData
 	xCircleData(qreal cx, qreal cy, qreal radius);
 	xCircleData(const QPointF &p1, const QPointF &p2, const QPointF &p3);
 
-	QPointF center() const { return c; }
+	constexpr QPointF center() const { return c; }
 	void setCenter(const QPointF &center);
-	qreal radius() const { return r; }
+	constexpr qreal radius() const { return r; }
 	void setRadius(qreal radius);
-	QPointF pt1() const { return p1; }
-	QPointF pt2() const { return p2; }
-	QPointF pt3() const { return p3; }
+	constexpr QPointF pt1() const { return p1; }
+	constexpr QPointF pt2() const { return p2; }
+	constexpr QPointF pt3() const { return p3; }
 
 	bool isNull() const;
 	friend constexpr inline bool operator==(const xCircleData &c1, const xCircleData &c2);

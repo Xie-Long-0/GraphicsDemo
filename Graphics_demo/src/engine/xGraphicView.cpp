@@ -14,6 +14,7 @@ xGraphicView::xGraphicView(QGraphicsScene *scene, QWidget *parent)
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);	// 隐藏水平滚动条
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);		// 隐藏垂直滚动条
 	
+	// 添加背景图片实体，并禁止选中和移动
 	m_pixmap = new QGraphicsPixmapItem();
 	m_pixmap->setAcceptHoverEvents(false);
 	m_pixmap->setAcceptTouchEvents(false);
@@ -40,12 +41,6 @@ void xGraphicView::setAction(xActionPreviewInterface *action)
 		delete m_action;
 	}
 	m_action = action;
-}
-
-bool xGraphicView::isItemCtrlPoint(const QPointF &p) const
-{
-	
-	return false;
 }
 
 void xGraphicView::finishAction()

@@ -6,42 +6,26 @@
 #include <QDebug>
 
 xCircle::xCircle(xGraphicView *view, QGraphicsItem *parent)
-	: QGraphicsItem(parent)
-	, xEntity(view)
+	: xEntity(view, parent)
 {
-	init();
 }
 
 xCircle::xCircle(const xCircleData &circle, xGraphicView *view, QGraphicsItem *parent)
-	: QGraphicsItem(parent)
-	, xEntity(view)
+	: xEntity(view, parent)
 	, m_circle(circle)
 {
-	init();
 }
 
 xCircle::xCircle(const QPointF &center, qreal radius, xGraphicView *view, QGraphicsItem *parent)
-	: QGraphicsItem(parent)
-	, xEntity(view)
+	: xEntity(view, parent)
 	, m_circle(center, radius)
 {
-	init();
-}
-
-xCircle::xCircle(qreal cx, qreal cy, qreal radius, xGraphicView *view, QGraphicsItem *parent)
-	: QGraphicsItem(parent)
-	, xEntity(view)
-	, m_circle(cx, cy, radius)
-{
-	init();
 }
 
 xCircle::xCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, xGraphicView *view, QGraphicsItem *parent)
-	: QGraphicsItem(parent)
-	, xEntity(view)
+	: xEntity(view, parent)
 	, m_circle(p1, p2, p3)
 {
-	init();
 }
 
 int xCircle::type() const
@@ -70,7 +54,7 @@ void xCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 				style = xStyle::Hovered;
 		}
 
-		qreal f = viewScaleFactor();
+		const qreal f = viewScaleFactor();
 		xStyle::makeStyle(style, &m_pen, nullptr, f);
 	}
 
@@ -79,7 +63,7 @@ void xCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
 	if (option->state & QStyle::State_Selected)
 	{
-		qreal w = m_pen.widthF();
+		const qreal w = m_pen.widthF();
 		painter->fillRect(QRectF(m_circle.center().x() - w, m_circle.center().y() - w, w + w, w + w), Qt::yellow);
 		painter->fillRect(QRectF(m_circle.pt1().x() - w, m_circle.pt1().y() - w, w + w, w + w), Qt::yellow);
 		painter->fillRect(QRectF(m_circle.pt2().x() - w, m_circle.pt2().y() - w, w + w, w + w), Qt::yellow);
@@ -90,10 +74,11 @@ void xCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 QRectF xCircle::boundingRect() const
 {
 	// 计算图形在视场中的矩形，包括画笔的宽度，否则无法正确显示
-	qreal pw = m_pen.widthF() * 2;
-	qreal x = m_circle.center().x() - m_circle.radius() - pw;
-	qreal y = m_circle.center().y() - m_circle.radius() - pw;
-	qreal w = m_circle.radius() + pw;
+	// Note：画笔宽度设置为2倍以便更容易被选中
+	const qreal pw = m_pen.widthF() * 2;
+	const qreal x = m_circle.center().x() - m_circle.radius() - pw;
+	const qreal y = m_circle.center().y() - m_circle.radius() - pw;
+	const qreal w = m_circle.radius() + pw;
 	return QRectF(x, y, w + w, w + w);
 }
 
@@ -104,49 +89,39 @@ QPainterPath xCircle::shape() const
 		return path;
 
 	path.addEllipse(m_circle.center(), m_circle.radius(), m_circle.radius());
-	auto sp = StrokeShapeFromPath(path, m_pen);
-	qreal w = m_pen.widthF();
-	sp.addRect(QRectF(m_circle.center().x() - w, m_circle.center().y() - w, w + w, w + w));
-	return sp;
-}
-
-xCircleData xCircle::circleData() const
-{
-	return xCircleData(center(), radius());
-}
-
-void xCircle::setCircle(const xCircleData &circle)
-{
-	if (circle == m_circle)
-		return;
-
-	prepareGeometryChange();
-	m_circle = circle;
-	update();
+	return StrokeShapeFromPath(path, m_pen);
 }
 
 void xCircle::setCircle(const QPointF &center, qreal radius)
 {
-	if (center == m_circle.center() && radius == m_circle.radius())
+	auto sc = mapFromScene(center);
+	if (sc == m_circle.center() && qFuzzyCompare(radius, m_circle.radius()))
 		return;
 
 	prepareGeometryChange();
-	m_circle = xCircleData(center, radius);
+	m_circle = xCircleData(sc, radius);
 	update();
 }
 
-QPointF xCircle::center() const
+void xCircle::setCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3)
 {
-	return mapToScene(m_circle.center());
+	auto c = xCircleData(mapFromScene(p1), mapFromScene(p2), mapFromScene(p3));
+	if (c.center() == m_circle.center() && qFuzzyCompare(c.radius(), m_circle.radius()))
+		return;
+
+	prepareGeometryChange();
+	m_circle = c;
+	update();
 }
 
 void xCircle::setCenter(const QPointF &center)
 {
-	if (center == m_circle.center())
+	auto sc = mapFromScene(center);
+	if (sc == m_circle.center())
 		return;
 
 	prepareGeometryChange();
-	m_circle.setCenter(center);
+	m_circle.setCenter(sc);
 	update();
 }
 
@@ -160,40 +135,66 @@ void xCircle::setRadius(qreal radius)
 	update();
 }
 
-void xCircle::setPen(const QPen &pen)
+void xCircle::setPt1(const QPointF &p)
 {
-	if (pen == m_pen)
+	auto sp = mapFromScene(p);
+	if (sp == m_circle.pt1())
 		return;
 
 	prepareGeometryChange();
-	m_pen = pen;
-	m_style = xStyle::NoStyle;	// 设置无样式以使用手动设置的笔画
+	m_circle = xCircleData(sp, m_circle.pt2(), m_circle.pt3());
 	update();
 }
 
-void xCircle::setStyle(xStyle::Style style)
+void xCircle::setPt2(const QPointF &p)
 {
-	if (style == m_style)
+	auto sp = mapFromScene(p);
+	if (sp == m_circle.pt2())
 		return;
 
 	prepareGeometryChange();
-	m_style = style;
+	m_circle = xCircleData(m_circle.pt1(), sp, m_circle.pt3());
+	update();
+}
+
+void xCircle::setPt3(const QPointF &p)
+{
+	auto sp = mapFromScene(p);
+	if (sp == m_circle.pt3())
+		return;
+
+	prepareGeometryChange();
+	m_circle = xCircleData(m_circle.pt1(), m_circle.pt2(), sp);
 	update();
 }
 
 QList<QPointF> xCircle::controlPoints() const
 {
-	auto c = circleData();
-	return { c.center(), c.pt1(), c.pt2(), c.pt3() };
+	return { center(), pt1(), pt2(), pt3() };
 }
 
 void xCircle::moveCtrlPoint(const QPointF &pt, const QPointF &movedPt)
 {
+	if (!(flags() & ItemIsMovable))
+		return;
 
+	if (Distance(pt, pt1()) < DELTA_DIST / viewScaleFactor())
+	{
+		setPt1(movedPt);
+	}
+	else if (Distance(pt, pt2()) < DELTA_DIST / viewScaleFactor())
+	{
+		setPt2(movedPt);
+	}
+	else if (Distance(pt, pt3()) < DELTA_DIST / viewScaleFactor())
+	{
+		setPt3(movedPt);
+	}
 }
 
 bool xCircle::isCtrlPoint(const QPointF &p) const
 {
-	auto c = circleData();
-	return (Distance(c.pt1(), p) < 6 || Distance(c.pt2(), p) < 6 || Distance(c.pt3(), p) < 6);
+	return (Distance(pt1(), p) < DELTA_DIST_2 / viewScaleFactor()
+		|| Distance(pt2(), p) < DELTA_DIST_2 / viewScaleFactor()
+		|| Distance(pt3(), p) < DELTA_DIST_2 / viewScaleFactor());
 }

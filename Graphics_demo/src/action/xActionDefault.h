@@ -2,6 +2,8 @@
 
 #include "xActionInterface.h"
 
+class xEntity;
+
 class xActionDefault : public xActionInterface
 {
 public:
@@ -11,4 +13,9 @@ public:
 	void mousePressEvent(QMouseEvent *e) override;
 	void mouseMoveEvent(QMouseEvent *e) override;
 	void mouseReleaseEvent(QMouseEvent *e) override;
+
+private:
+	QPointF m_p;
+	xEntity *m_item = nullptr;
+	bool m_isGrabCtrlPoint = false;
 };

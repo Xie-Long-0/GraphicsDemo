@@ -16,7 +16,7 @@ QPainterPath StrokeShapeFromPath(const QPainterPath &path, const QPen &pen)
 	if (pen.widthF() <= 0.0)
 		ps.setWidth(penWidthZero);
 	else
-		ps.setWidth(pen.widthF());
+		ps.setWidth(pen.widthF() * 2);
 	ps.setJoinStyle(pen.joinStyle());
 	ps.setMiterLimit(pen.miterLimit());
 	return ps.createStroke(path);

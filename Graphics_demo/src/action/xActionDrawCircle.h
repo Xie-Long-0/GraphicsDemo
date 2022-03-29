@@ -19,7 +19,7 @@ public:
 	void cancel() override;
 
 private:
-	QPointF p1, p2;
+	QPointF mp1, mp2;
 	xCircle *m_circle = nullptr;
 	xLine *m_line = nullptr;
 };

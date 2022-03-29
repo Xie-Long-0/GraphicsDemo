@@ -16,7 +16,6 @@ public:
 
 	void setAction(xActionPreviewInterface *action);
 	qreal scaleFactor() const { return transform().m11(); }
-	bool isItemCtrlPoint(const QPointF &p) const;
 
 public slots:
 	void finishAction();

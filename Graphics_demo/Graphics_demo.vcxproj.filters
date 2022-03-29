@@ -80,6 +80,12 @@
     <ClCompile Include="src\ui\OperationWidget.cpp">
       <Filter>ui</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\entity\xRegLine.cpp">
+      <Filter>engine\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\entity\xRegionEntity.cpp">
+      <Filter>engine\entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
@@ -139,6 +145,12 @@
     </ClInclude>
     <ClInclude Include="src\action\xActionPreviewInterface.h">
       <Filter>action</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\entity\xRegLine.h">
+      <Filter>engine\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\entity\xRegionEntity.h">
+      <Filter>engine\entity</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
