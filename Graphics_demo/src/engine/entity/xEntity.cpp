@@ -1,4 +1,5 @@
 #include "xEntity.h"
+#include <QGraphicsSceneMouseEvent>
 
 xEntity::xEntity(xGraphicView *view, QGraphicsItem *parent)
 	: QGraphicsItem(parent)
@@ -26,4 +27,10 @@ void xEntity::setStyle(xStyle::Style style)
 	prepareGeometryChange();
 	m_style = style;
 	update();
+}
+
+void xEntity::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
+{
+	if ((e->buttons() & Qt::LeftButton) && (flags() & ItemIsMovable))
+		moveBy(e->scenePos());
 }

@@ -57,6 +57,7 @@ void xLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 	painter->setPen(m_pen);
 	painter->drawLine(m_line);
 
+	// 选中时绘画控制点
 	if (option->state & QStyle::State_Selected)
 	{
 		const qreal w = m_pen.widthF();
@@ -67,6 +68,9 @@ void xLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 
 QRectF xLine::boundingRect() const
 {
+	if (m_line.isNull())
+		return QRectF();
+
 	// 计算图形在视场中的矩形，包括画笔的宽度，否则无法正确显示
 	// Note：画笔宽度设置为2倍以便更容易被选中
 	const qreal w = m_pen.widthF() * 2;
@@ -122,6 +126,16 @@ void xLine::setPt2(const QPointF &p)
 	update();
 }
 
+void xLine::moveBy(const QPointF &delta)
+{
+	if (delta.isNull())
+		return;
+
+	prepareGeometryChange();
+	m_line.translate(delta);
+	update();
+}
+
 QList<QPointF> xLine::controlPoints() const
 {
 	return { pt1(), pt2() };
@@ -129,9 +143,6 @@ QList<QPointF> xLine::controlPoints() const
 
 void xLine::moveCtrlPoint(const QPointF &pt, const QPointF &movedPt)
 {
-	if (!(flags() & ItemIsMovable))
-		return;
-
 	if (Distance(pt, pt1()) < DELTA_DIST / viewScaleFactor())
 	{
 		setPt1(movedPt);
@@ -144,6 +155,8 @@ void xLine::moveCtrlPoint(const QPointF &pt, const QPointF &movedPt)
 
 bool xLine::isCtrlPoint(const QPointF &p) const
 {
+	if (!(flags() & ItemIsMovable))
+		return false;
 	return (Distance(pt1(), p) < DELTA_DIST_2 / viewScaleFactor()
 		|| Distance(pt2(), p) < DELTA_DIST_2 / viewScaleFactor());
 }

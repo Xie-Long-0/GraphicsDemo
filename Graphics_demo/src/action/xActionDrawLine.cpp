@@ -3,7 +3,7 @@
 #include <QMouseEvent>
 #include <QDebug>
 #include "engine/xGraphicView.h"
-#include "entity/xLine.h"
+#include "entity/xRegLine.h"
 
 xActionDrawLine::xActionDrawLine(xGraphicView *view)
 	: xActionPreviewInterface(view, xDef::AT_DrawLine)
@@ -18,7 +18,7 @@ xActionDrawLine::~xActionDrawLine()
 
 void xActionDrawLine::mousePressEvent(QMouseEvent *e)
 {
-	auto spos = pointMapToScene(e);
+	auto spos = viewMapToScene(e);
 	if (e->button() == Qt::LeftButton)
 	{
 		switch (m_status)
@@ -33,7 +33,10 @@ void xActionDrawLine::mousePressEvent(QMouseEvent *e)
 			if (Distance(mp, spos) > DELTA_DIST_2)
 			{
 				m_line->setLine(mp, spos);
-				m_line->setStyle(xStyle::Drawn);
+				m_line->setStyle(xStyle::RegDrawn);
+				// TEST
+				m_line->setSubLine(mp, spos);
+
 				// 操作完成，设置为S_ActionFinished
 				m_status = xDef::S_ActionFinished;
 				e->accept();
@@ -48,7 +51,7 @@ void xActionDrawLine::mousePressEvent(QMouseEvent *e)
 
 void xActionDrawLine::mouseMoveEvent(QMouseEvent *e)
 {
-	auto spos = pointMapToScene(e);
+	auto spos = viewMapToScene(e);
 	switch (m_status)
 	{
 	case xDef::S_DrawEntity1_P1:
@@ -56,11 +59,12 @@ void xActionDrawLine::mouseMoveEvent(QMouseEvent *e)
 		{
 			if (m_line == nullptr)
 			{
-				m_line = new xLine(m_view);
-				m_line->setStyle(xStyle::Drawing);
+				m_line = new xRegLine(m_view);
+				m_line->setRegWidth(30);
+				m_line->setStyle(xStyle::RegDrawing);
 				m_scene->addItem(m_line);
 			}
-			m_line->setLine(mp, pointMapToScene(e));
+			m_line->setLine(mp, viewMapToScene(e));
 			e->accept();
 		}
 		break;

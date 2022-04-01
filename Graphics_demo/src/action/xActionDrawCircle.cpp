@@ -19,7 +19,7 @@ xActionDrawCircle::~xActionDrawCircle()
 
 void xActionDrawCircle::mousePressEvent(QMouseEvent *e)
 {
-	auto spos = pointMapToScene(e);
+	auto spos = viewMapToScene(e);
 	if (e->button() == Qt::LeftButton)
 	{
 		switch (m_status)
@@ -67,7 +67,7 @@ void xActionDrawCircle::mouseMoveEvent(QMouseEvent *e)
 			m_line->setStyle(xStyle::Drawing);
 			m_scene->addItem(m_line);
 		}
-		m_line->setLine(mp1, pointMapToScene(e));
+		m_line->setLine(mp1, viewMapToScene(e));
 		e->accept();
 		break;
 
@@ -85,7 +85,7 @@ void xActionDrawCircle::mouseMoveEvent(QMouseEvent *e)
 			m_circle->setStyle(xStyle::Drawing);
 			m_scene->addItem(m_circle);
 		}
-		m_circle->setCircle(xCircleData(mp1, mp2, pointMapToScene(e)));
+		m_circle->setCircle(xCircleData(mp1, mp2, viewMapToScene(e)));
 		e->accept();
 		break;
 

@@ -21,6 +21,11 @@ xGraphicView::xGraphicView(QGraphicsScene *scene, QWidget *parent)
 	m_pixmap->setFlag(QGraphicsItem::ItemIsFocusable, false);
 	m_pixmap->setFlag(QGraphicsItem::ItemIsMovable, false);
 	m_pixmap->setFlag(QGraphicsItem::ItemIsSelectable, false);
+
+	QImage img(2048, 2048, QImage::Format_RGB888);
+	img.fill(Qt::black);
+	m_pixmap->setPixmap(QPixmap::fromImage(img));
+
 	scene->addItem(m_pixmap);
 
 	m_default = new xActionDefault(this);

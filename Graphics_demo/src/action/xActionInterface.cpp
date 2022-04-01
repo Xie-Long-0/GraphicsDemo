@@ -13,7 +13,7 @@ xActionInterface::~xActionInterface()
 {
 }
 
-QPointF xActionInterface::pointMapToScene(QMouseEvent *e) const
+QPointF xActionInterface::viewMapToScene(QMouseEvent *e) const
 {
 	if (m_view == nullptr || e == nullptr)
 		return QPointF();

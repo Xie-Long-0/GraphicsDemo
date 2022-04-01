@@ -17,5 +17,7 @@ public:
 private:
 	QPointF m_p;
 	xEntity *m_item = nullptr;
+	bool m_willMoveItem = false;
 	bool m_isGrabCtrlPoint = false;
+	bool m_isGrabRegionEdge = false;
 };

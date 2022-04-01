@@ -32,6 +32,7 @@ public:
 	void setPt1(const QPointF &p);
 	void setPt2(const QPointF &p);
 
+	void moveBy(const QPointF &delta) override;
 	QList<QPointF> controlPoints() const override;
 	void moveCtrlPoint(const QPointF &pt, const QPointF &movedPt) override;
 	bool isCtrlPoint(const QPointF &p) const override;

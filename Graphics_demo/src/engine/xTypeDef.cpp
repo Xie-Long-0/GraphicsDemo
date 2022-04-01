@@ -22,6 +22,17 @@ QPainterPath StrokeShapeFromPath(const QPainterPath &path, const QPen &pen)
 	return ps.createStroke(path);
 }
 
+double DistancePoint2Line(const QPointF &p, const QLineF &line)
+{
+	const auto v1 = p - line.p1();
+	const auto v2 = line.p2() - line.p1();
+	const double S = v1.x() * v2.y() - v1.y() * v2.x();
+	const double l = line.length();
+	if (l > 0.000001)
+		return fabs(S / l);
+	return -1.0;
+}
+
 xCircleData::xCircleData(const QPointF &c, qreal r)
 	: c(c)
 	, r(r)

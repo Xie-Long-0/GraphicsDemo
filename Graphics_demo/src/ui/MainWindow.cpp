@@ -105,9 +105,6 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *e)
 		{
 			// 窗口大小改变时调整视图场景大小
 			m_scene->setSceneRect(ui.view_widget->rect());
-			QImage img(ui.view_widget->rect().size(), QImage::Format_RGB888);
-			img.fill(Qt::black);
-			m_view->setImage(img);
 			return true;
 		}
 		return false;

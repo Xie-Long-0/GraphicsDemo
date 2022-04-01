@@ -23,7 +23,7 @@ public:
 	virtual void mouseReleaseEvent(QMouseEvent *e) = 0;
 
 protected:
-	QPointF pointMapToScene(QMouseEvent *e) const;
+	QPointF viewMapToScene(QMouseEvent *e) const;
 
 	QGraphicsScene *m_scene = nullptr;
 	xGraphicView *m_view = nullptr;

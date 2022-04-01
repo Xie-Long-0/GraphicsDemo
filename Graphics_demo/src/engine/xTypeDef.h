@@ -4,8 +4,11 @@
 #include <QGraphicsItem>
 
 constexpr double M_PI = 3.14159265358979323846264;
-constexpr double DELTA_DIST = 5.0;
-constexpr double DELTA_DIST_2 = 8.0;
+constexpr double M_PI2 = 1.57079632679489661923132;	// PI * 0.5
+constexpr double M_2PI = 6.28318530717958647692528;	// PI * 2
+constexpr double ANGLE_15_RAD = 0.261799;	// 15度对应的弧度
+constexpr double DELTA_DIST = 5.0;		// 较小的距离增量，通常用于移动时的判断
+constexpr double DELTA_DIST_2 = 8.0;	// 较大的距离增量，通常用于点击时的判断
 
 class xDef
 {
@@ -14,14 +17,20 @@ class xDef
 public:
 	enum {
 		ET_Unknown = QGraphicsItem::UserType,
+		// 不带范围的图元
+		ET_Entity_Start,
 		ET_Line,
 		ET_Circle,
 		ET_Arc,
 		ET_Point,
+		ET_Entity_End,
+		// 带范围的图元
+		ET_Region_Start,
 		ET_RegLine,
 		ET_RegCircle,
 		ET_RegArc,
 		ET_RegPoint,
+		ET_Region_End
 	};
 
 	enum ActionStatus {
@@ -76,10 +85,15 @@ constexpr inline QPointF PointFromPolar(qreal length, qreal angle)
 /**
  * @brief 计算两点间的距离
 */
-inline qreal Distance(const QPointF &p1, const QPointF &p2)
+inline double Distance(const QPointF &p1, const QPointF &p2)
 {
-	return std::hypot(p2.x() - p1.x(), p2.y() - p1.y());
+	return hypot(p2.x() - p1.x(), p2.y() - p1.y());
 }
+
+/**
+ * @brief 点到直线的距离
+*/
+double DistancePoint2Line(const QPointF &p, const QLineF &line);
 
 /**
  * @brief 由圆心、半径及3个控制点组成的圆
@@ -98,8 +112,9 @@ struct xCircleData
 	constexpr QPointF pt1() const { return p1; }
 	constexpr QPointF pt2() const { return p2; }
 	constexpr QPointF pt3() const { return p3; }
+	inline void translate(const QPointF &p);
 
-	bool isNull() const;
+	inline bool isNull() const;
 	friend constexpr inline bool operator==(const xCircleData &c1, const xCircleData &c2);
 
 private:
@@ -112,6 +127,14 @@ private:
 	qreal r = 0.0;
 	QPointF p1, p2, p3;
 };
+
+inline void xCircleData::translate(const QPointF &p)
+{
+	c += p;
+	p1 += p;
+	p2 += p;
+	p3 += p;
+}
 
 inline bool xCircleData::isNull() const
 {

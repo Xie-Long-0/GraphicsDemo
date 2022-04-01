@@ -73,6 +73,9 @@ void xCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
 QRectF xCircle::boundingRect() const
 {
+	if (m_circle.isNull())
+		return QRectF();
+
 	// 计算图形在视场中的矩形，包括画笔的宽度，否则无法正确显示
 	// Note：画笔宽度设置为2倍以便更容易被选中
 	const qreal pw = m_pen.widthF() * 2;
@@ -168,6 +171,16 @@ void xCircle::setPt3(const QPointF &p)
 	update();
 }
 
+void xCircle::moveBy(const QPointF &delta)
+{
+	if (delta.isNull())
+		return;
+
+	prepareGeometryChange();
+	m_circle.translate(delta);
+	update();
+}
+
 QList<QPointF> xCircle::controlPoints() const
 {
 	return { center(), pt1(), pt2(), pt3() };
@@ -175,9 +188,6 @@ QList<QPointF> xCircle::controlPoints() const
 
 void xCircle::moveCtrlPoint(const QPointF &pt, const QPointF &movedPt)
 {
-	if (!(flags() & ItemIsMovable))
-		return;
-
 	if (Distance(pt, pt1()) < DELTA_DIST / viewScaleFactor())
 	{
 		setPt1(movedPt);
@@ -194,6 +204,8 @@ void xCircle::moveCtrlPoint(const QPointF &pt, const QPointF &movedPt)
 
 bool xCircle::isCtrlPoint(const QPointF &p) const
 {
+	if (!(flags() & ItemIsMovable))
+		return false;
 	return (Distance(pt1(), p) < DELTA_DIST_2 / viewScaleFactor()
 		|| Distance(pt2(), p) < DELTA_DIST_2 / viewScaleFactor()
 		|| Distance(pt3(), p) < DELTA_DIST_2 / viewScaleFactor());

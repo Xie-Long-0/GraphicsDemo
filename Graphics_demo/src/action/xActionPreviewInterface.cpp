@@ -24,7 +24,8 @@ xActionPreviewInterface::~xActionPreviewInterface()
 		// Ìø¹ýÍ¼Æ¬ÊµÌå
 		if (i->type() == QGraphicsPixmapItem::Type)
 			continue;
-		i->setFlag(QGraphicsItem::ItemIsMovable, true);
+		if (i->parentItem() == nullptr)
+			i->setFlag(QGraphicsItem::ItemIsMovable, true);
 		i->setFlag(QGraphicsItem::ItemIsSelectable, true);
 		i->setAcceptHoverEvents(true);
 	}

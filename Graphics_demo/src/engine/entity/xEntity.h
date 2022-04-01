@@ -16,6 +16,8 @@ public:
 	explicit xEntity(xGraphicView *view, QGraphicsItem *parent = nullptr);
 	virtual ~xEntity() = default;
 
+	// 移动图元
+	virtual void moveBy(const QPointF &delta) = 0;
 	// 返回图元的绘画控制点
 	virtual QList<QPointF> controlPoints() const = 0;
 	/**
@@ -33,6 +35,7 @@ public:
 	void setStyle(xStyle::Style style);
 
 protected:
+	void mouseMoveEvent(QGraphicsSceneMouseEvent *e) override;
 	// 获取视图的缩放系数
 	inline qreal viewScaleFactor() const;
 

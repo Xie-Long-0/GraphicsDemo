@@ -119,6 +119,7 @@
     <ClCompile Include="src\engine\entity\xCircle.cpp" />
     <ClCompile Include="src\engine\entity\xEntity.cpp" />
     <ClCompile Include="src\engine\entity\xLine.cpp" />
+    <ClCompile Include="src\engine\entity\xRegCircle.cpp" />
     <ClCompile Include="src\engine\entity\xRegionEntity.cpp" />
     <ClCompile Include="src\engine\entity\xRegLine.cpp" />
     <ClCompile Include="src\engine\xGraphicView.cpp" />
@@ -145,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\action\xActionInterface.h" />
+    <ClInclude Include="src\engine\entity\xRegCircle.h" />
     <ClInclude Include="src\engine\entity\xRegionEntity.h" />
     <ClInclude Include="src\engine\entity\xRegLine.h" />
     <QtMoc Include="src\ui\OperationWidget.h" />

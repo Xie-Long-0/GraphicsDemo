@@ -3,7 +3,7 @@
 #include "xActionPreviewInterface.h"
 #include <QPoint>
 
-class xLine;
+class xRegLine;
 
 class xActionDrawLine : public xActionPreviewInterface
 {
@@ -19,5 +19,5 @@ public:
 
 private:
 	QPointF mp;
-	xLine *m_line = nullptr;
+	xRegLine *m_line = nullptr;
 };
