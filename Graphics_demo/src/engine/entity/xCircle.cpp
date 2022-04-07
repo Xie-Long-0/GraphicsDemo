@@ -92,7 +92,7 @@ QPainterPath xCircle::shape() const
 		return path;
 
 	path.addEllipse(m_circle.center(), m_circle.radius(), m_circle.radius());
-	return StrokeShapeFromPath(path, m_pen);
+	return StrokeShapeFromPath(path, m_pen.widthF() * 2);
 }
 
 void xCircle::setCircle(const QPointF &center, qreal radius)
@@ -183,7 +183,7 @@ void xCircle::moveBy(const QPointF &delta)
 
 QList<QPointF> xCircle::controlPoints() const
 {
-	return { center(), pt1(), pt2(), pt3() };
+	return { pt1(), pt2(), pt3() };
 }
 
 void xCircle::moveCtrlPoint(const QPointF &pt, const QPointF &movedPt)
@@ -206,6 +206,7 @@ bool xCircle::isCtrlPoint(const QPointF &p) const
 {
 	if (!(flags() & ItemIsMovable))
 		return false;
+
 	return (Distance(pt1(), p) < DELTA_DIST_2 / viewScaleFactor()
 		|| Distance(pt2(), p) < DELTA_DIST_2 / viewScaleFactor()
 		|| Distance(pt3(), p) < DELTA_DIST_2 / viewScaleFactor());

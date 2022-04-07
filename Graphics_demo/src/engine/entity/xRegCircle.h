@@ -24,10 +24,18 @@ public:
 	QRectF boundingRect() const override;
 	QPainterPath shape() const override;
 
+	// 额外生成的无范围的圆
+	xCircleData subCircleData() const { return m_subCircle->circleData(); }
+	// 设置额外生成的圆
+	void setSubCircle(const xCircleData &circle);
+	// 设置额外生成的圆
+	void setSubCircle(const QPointF &center, qreal radius);
+	void hideSubCircle(bool hide = true) { m_subCircle->setVisible(!hide); }
+
 	xCircleData circleData() const { return xCircleData(pt1(), pt2(), pt3()); }
-	void setCircle(const xCircleData &circle) { setCircle(circle.center(), circle.radius()); }
-	void setCircle(const QPointF &center, qreal radius);
-	void setCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3);
+	void setCircle(const xCircleData &circle, qreal width) { setCircle(circle.center(), circle.radius(), width); }
+	void setCircle(const QPointF &center, qreal radius, qreal width);
+	void setCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, qreal width);
 
 	QPointF center() const { return mapToScene(m_regCircle.center()); }
 	void setCenter(const QPointF &center);

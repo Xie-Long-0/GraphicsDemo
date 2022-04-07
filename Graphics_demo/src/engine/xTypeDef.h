@@ -64,12 +64,12 @@ public:
 };
 
 /**
- * @brief 根据基础Path创建具有画笔宽度的空心Path
+ * @brief 根据基础Path创建具有宽度的空心Path
  * @param path 传入的绘画路径
- * @param pen 传入的画笔
- * @return 根据pen的宽度创建的路径
+ * @param width 传入的宽度
+ * @return 创建具有宽度的路径
 */
-QPainterPath StrokeShapeFromPath(const QPainterPath &path, const QPen &pen);
+QPainterPath StrokeShapeFromPath(const QPainterPath &path, qreal width);
 
 /**
  * @brief 通过极坐标生成点

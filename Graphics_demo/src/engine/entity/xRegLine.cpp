@@ -48,7 +48,7 @@ void xRegLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 	Q_UNUSED(widget);
 
 	const qreal angle = m_regLine.angle() * M_PI / 180.0;
-	// 矩形4个顶点，line.p1点左边的点开始，顺时针
+	// 矩形4个顶点，line.p1左边的点开始，顺时针
 	const auto p1 = PointFromPolar(m_width, angle + M_PI * 0.5) + m_regLine.p1();
 	const auto p2 = PointFromPolar(m_width, angle + M_PI * 0.5) + m_regLine.p2();
 	const auto p3 = PointFromPolar(m_width, angle - M_PI * 0.5) + m_regLine.p2();
@@ -137,24 +137,24 @@ QPainterPath xRegLine::shape() const
 	if (m_regLine.isNull())
 		return path;
 
-	const qreal angle = m_regLine.angle() * M_PI / 180.0;
-	// 矩形4个顶点，line.p1点左边的点开始，顺时针
-	const auto p1 = PointFromPolar(m_width, angle + M_PI * 0.5) + m_regLine.p1();
-	const auto p2 = PointFromPolar(m_width, angle + M_PI * 0.5) + m_regLine.p2();
-	const auto p3 = PointFromPolar(m_width, angle - M_PI * 0.5) + m_regLine.p2();
-	const auto p4 = PointFromPolar(m_width, angle - M_PI * 0.5) + m_regLine.p1();
+	//const qreal angle = m_regLine.angle() * M_PI / 180.0;
+	//// 矩形4个顶点，line.p1点左边的点开始，顺时针
+	//const auto p1 = PointFromPolar(m_width, angle + M_PI * 0.5) + m_regLine.p1();
+	//const auto p2 = PointFromPolar(m_width, angle + M_PI * 0.5) + m_regLine.p2();
+	//const auto p3 = PointFromPolar(m_width, angle - M_PI * 0.5) + m_regLine.p2();
+	//const auto p4 = PointFromPolar(m_width, angle - M_PI * 0.5) + m_regLine.p1();
 
-	path.moveTo(p1);
-	path.lineTo(p2);
-	path.lineTo(p3);
-	path.lineTo(p4);
-	path.closeSubpath();
+	//path.moveTo(p1);
+	//path.lineTo(p2);
+	//path.lineTo(p3);
+	//path.lineTo(p4);
+	//path.closeSubpath();
 
-	if (m_pen.widthF() < 0.001)
-		return path;
+	path.moveTo(m_regLine.p1());
+	path.lineTo(m_regLine.p2());
 
-	auto ps = StrokeShapeFromPath(path, m_pen);
-	ps.addPath(path);
+	auto ps = StrokeShapeFromPath(path, (m_width + m_pen.widthF()) * 2);
+	//ps.addPath(path);
 	return ps;
 }
 
@@ -172,20 +172,16 @@ void xRegLine::setSubLine(const QPointF &p1, const QPointF &p2)
 	m_subLine->show();
 }
 
-void xRegLine::hideSubLine(bool hide)
-{
-	m_subLine->setVisible(hide);
-}
-
-void xRegLine::setLine(const QPointF &p1, const QPointF &p2)
+void xRegLine::setLine(const QPointF &p1, const QPointF &p2, qreal width)
 {
 	auto sp1 = mapFromScene(p1);
 	auto sp2 = mapFromScene(p2);
-	if (m_regLine.p1() == sp1 && m_regLine.p2() == sp2)
+	if (m_regLine.p1() == sp1 && m_regLine.p2() == sp2 && qFuzzyCompare(width, m_width))
 		return;
 
 	prepareGeometryChange();
 	m_regLine.setPoints(sp1, sp2);
+	m_width = width;
 	update();
 }
 
@@ -242,6 +238,7 @@ bool xRegLine::isCtrlPoint(const QPointF &p) const
 {
 	if (!(flags() & ItemIsMovable))
 		return false;
+
 	return (Distance(pt1(), p) < DELTA_DIST_2 / viewScaleFactor()
 		|| Distance(pt2(), p) < DELTA_DIST_2 / viewScaleFactor());
 }

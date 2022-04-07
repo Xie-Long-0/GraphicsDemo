@@ -3,22 +3,15 @@
 #include <QPainterPath>
 #include <QDebug>
 
-QPainterPath StrokeShapeFromPath(const QPainterPath &path, const QPen &pen)
+QPainterPath StrokeShapeFromPath(const QPainterPath &path, qreal width)
 {
-	// We unfortunately need this hack as QPainterPathStroker will set a width of 1.0
-	// if we pass a value of 0.0 to QPainterPathStroker::setWidth()
-	constexpr qreal penWidthZero = 0.001;
-
-	if (path == QPainterPath() || pen == Qt::NoPen)
+	if (path.isEmpty() || width < 0.0001)
 		return path;
+
 	QPainterPathStroker ps;
-	ps.setCapStyle(pen.capStyle());
-	if (pen.widthF() <= 0.0)
-		ps.setWidth(penWidthZero);
-	else
-		ps.setWidth(pen.widthF() * 2);
-	ps.setJoinStyle(pen.joinStyle());
-	ps.setMiterLimit(pen.miterLimit());
+	ps.setCapStyle(Qt::FlatCap);
+	ps.setJoinStyle(Qt::BevelJoin);
+	ps.setWidth(width);
 	return ps.createStroke(path);
 }
 

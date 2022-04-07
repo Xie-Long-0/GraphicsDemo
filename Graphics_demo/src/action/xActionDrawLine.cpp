@@ -32,7 +32,7 @@ void xActionDrawLine::mousePressEvent(QMouseEvent *e)
 		case xDef::S_DrawEntity1_P1:
 			if (Distance(mp, spos) > DELTA_DIST_2)
 			{
-				m_line->setLine(mp, spos);
+				m_line->setLine(mp, spos, 30);
 				m_line->setStyle(xStyle::RegDrawn);
 				// TEST
 				m_line->setSubLine(mp, spos);
@@ -51,11 +51,10 @@ void xActionDrawLine::mousePressEvent(QMouseEvent *e)
 
 void xActionDrawLine::mouseMoveEvent(QMouseEvent *e)
 {
-	auto spos = viewMapToScene(e);
 	switch (m_status)
 	{
 	case xDef::S_DrawEntity1_P1:
-		if (Distance(mp, spos) > DELTA_DIST_2)
+		if (Distance(mp, viewMapToScene(e)) > DELTA_DIST_2)
 		{
 			if (m_line == nullptr)
 			{
@@ -64,7 +63,7 @@ void xActionDrawLine::mouseMoveEvent(QMouseEvent *e)
 				m_line->setStyle(xStyle::RegDrawing);
 				m_scene->addItem(m_line);
 			}
-			m_line->setLine(mp, viewMapToScene(e));
+			m_line->setLine(mp, viewMapToScene(e), 30);
 			e->accept();
 		}
 		break;

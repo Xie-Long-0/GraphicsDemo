@@ -89,7 +89,7 @@ QPainterPath xLine::shape() const
 
 	path.moveTo(m_line.p1());
 	path.lineTo(m_line.p2());
-	return StrokeShapeFromPath(path, m_pen);
+	return StrokeShapeFromPath(path, m_pen.widthF() * 2);
 }
 
 void xLine::setLine(const QPointF &p1, const QPointF &p2)
@@ -157,6 +157,7 @@ bool xLine::isCtrlPoint(const QPointF &p) const
 {
 	if (!(flags() & ItemIsMovable))
 		return false;
+
 	return (Distance(pt1(), p) < DELTA_DIST_2 / viewScaleFactor()
 		|| Distance(pt2(), p) < DELTA_DIST_2 / viewScaleFactor());
 }
