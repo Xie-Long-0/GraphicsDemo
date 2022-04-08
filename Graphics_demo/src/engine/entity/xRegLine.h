@@ -16,7 +16,7 @@ public:
 	~xRegLine();
 
 	// 自定义实体类型枚举
-	enum { Type = xDef::ET_RegLine };
+	enum { Type = ET_RegLine };
 	// 重写函数，返回当前的类型值
 	int type() const override;
 

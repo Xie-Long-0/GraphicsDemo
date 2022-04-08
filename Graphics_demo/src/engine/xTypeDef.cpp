@@ -1,6 +1,5 @@
 #include "xTypeDef.h"
 #include <QPen>
-#include <QPainterPath>
 #include <QDebug>
 
 QPainterPath StrokeShapeFromPath(const QPainterPath &path, qreal width)

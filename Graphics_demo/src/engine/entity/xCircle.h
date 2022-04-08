@@ -15,7 +15,7 @@ public:
 	xCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, xGraphicView *view, QGraphicsItem *parent = nullptr);
 
 	// 自定义实体类型枚举
-	enum { Type = xDef::ET_Circle };
+	enum { Type = ET_Circle };
 	// 重写函数，返回当前的类型值
 	int type() const override;
 

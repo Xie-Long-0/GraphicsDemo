@@ -15,7 +15,7 @@ public:
 	xLine(const QPointF &p1, const QPointF &p2, xGraphicView *view, QGraphicsItem *parent = nullptr);
 	
 	// 自定义实体类型枚举
-	enum { Type = xDef::ET_Line };
+	enum { Type = ET_Line };
 	// 重写函数，返回当前的类型值
 	int type() const override;
 

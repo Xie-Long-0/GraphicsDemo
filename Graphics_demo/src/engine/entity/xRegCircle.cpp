@@ -88,7 +88,7 @@ void xRegCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 	painter->drawEllipse(m_regCircle.center(), r, r);
 
 	// 选中时绘画控制点
-	if (option->state & QStyle::State_Selected)
+	if ((option->state & QStyle::State_Selected) && (flags() & ItemIsMovable))
 	{
 		const qreal w = m_pen.widthF();
 		painter->fillRect(QRectF(m_regCircle.center().x() - w, m_regCircle.center().y() - w, w + w, w + w), Qt::yellow);

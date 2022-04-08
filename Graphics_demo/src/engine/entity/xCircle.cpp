@@ -61,7 +61,7 @@ void xCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	painter->setPen(m_pen);
 	painter->drawEllipse(m_circle.center(), m_circle.radius(), m_circle.radius());
 
-	if (option->state & QStyle::State_Selected)
+	if ((option->state & QStyle::State_Selected) && (flags() & ItemIsMovable))
 	{
 		const qreal w = m_pen.widthF();
 		painter->fillRect(QRectF(m_circle.center().x() - w, m_circle.center().y() - w, w + w, w + w), Qt::yellow);

@@ -18,7 +18,7 @@ void xActionDefault::mousePressEvent(QMouseEvent *e)
 	if (e->button() == Qt::LeftButton)
 	{
 		auto gi = m_view->itemAt(e->pos());
-		if (gi == nullptr || gi->type() <= xDef::ET_Unknown)
+		if (gi == nullptr || gi->type() <= xEntity::ET_Unknown)
 			return;
 
 		auto item = static_cast<xEntity *>(gi);
@@ -40,7 +40,7 @@ void xActionDefault::mousePressEvent(QMouseEvent *e)
 			return;
 		}
 		// ÅÐ¶ÏÊÇ·ñÊôÓÚRegionÀàÐÍ
-		if (item->type() > xDef::ET_Region_Start && item->type() < xDef::ET_Region_End)
+		if (item->type() > xEntity::ET_Region_Start && item->type() < xEntity::ET_Region_End)
 		{
 			// ÅÐ¶ÏÊÇ·ñÑ¡ÖÐ·¶Î§±ßÔµ
 			auto ri = static_cast<xRegionEntity *>(gi);

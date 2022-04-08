@@ -12,6 +12,24 @@
 class xEntity : public QGraphicsItem
 {
 public:
+	enum {
+		ET_Unknown = UserType,
+		// 不带范围的图元
+		ET_Entity_Start,
+		ET_Line,
+		ET_Circle,
+		ET_Arc,
+		ET_Point,
+		ET_Entity_End,
+		// 带范围的图元
+		ET_Region_Start,
+		ET_RegLine,
+		ET_RegCircle,
+		ET_RegArc,
+		ET_RegPoint,
+		ET_Region_End
+	};
+
 	Q_DISABLE_COPY(xEntity)
 	explicit xEntity(xGraphicView *view, QGraphicsItem *parent = nullptr);
 	virtual ~xEntity() = default;

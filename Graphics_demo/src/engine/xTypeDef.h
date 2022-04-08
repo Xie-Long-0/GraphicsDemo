@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cmath>
 #include <qobjectdefs.h>
-#include <QGraphicsItem>
+#include <QLine>
+#include <QPainterPath>
 
 constexpr double M_PI = 3.14159265358979323846264;
 constexpr double M_PI2 = 1.57079632679489661923132;	// PI * 0.5
@@ -15,24 +17,6 @@ class xDef
 	Q_GADGET
 
 public:
-	enum {
-		ET_Unknown = QGraphicsItem::UserType,
-		// 不带范围的图元
-		ET_Entity_Start,
-		ET_Line,
-		ET_Circle,
-		ET_Arc,
-		ET_Point,
-		ET_Entity_End,
-		// 带范围的图元
-		ET_Region_Start,
-		ET_RegLine,
-		ET_RegCircle,
-		ET_RegArc,
-		ET_RegPoint,
-		ET_Region_End
-	};
-
 	enum ActionStatus {
 		S_Unknown = -1,
 		S_Default = 0,
@@ -46,7 +30,7 @@ public:
 		S_Measured,
 		S_ActionFinished
 	};
-	Q_ENUM(ActionStatus);
+	Q_ENUM(ActionStatus)
 	
 	enum ActionType {
 		AT_Unknown = -1,
@@ -56,7 +40,7 @@ public:
 		AT_DrawArc,
 		AT_DrawPoint,
 	};
-	Q_ENUM(ActionType);
+	Q_ENUM(ActionType)
 
 	xDef() = delete;
 	~xDef() = delete;

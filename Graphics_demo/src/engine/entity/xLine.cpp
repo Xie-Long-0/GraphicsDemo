@@ -58,7 +58,7 @@ void xLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 	painter->drawLine(m_line);
 
 	// 选中时绘画控制点
-	if (option->state & QStyle::State_Selected)
+	if ((option->state & QStyle::State_Selected) && (flags() & ItemIsMovable))
 	{
 		const qreal w = m_pen.widthF();
 		painter->fillRect(QRectF(m_line.x1() - w, m_line.y1() - w, w + w, w + w), Qt::yellow);

@@ -102,7 +102,7 @@ void xRegLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 	painter->fillPath(ap, m_pen.color());
 
 	// 选中时绘画控制点
-	if (option->state & QStyle::State_Selected)
+	if ((option->state & QStyle::State_Selected) && (flags() & ItemIsMovable))
 	{
 		const qreal w = m_pen.widthF();
 		painter->fillRect(QRectF(m_regLine.x1() - w, m_regLine.y1() - w, w + w, w + w), Qt::yellow);
@@ -137,25 +137,10 @@ QPainterPath xRegLine::shape() const
 	if (m_regLine.isNull())
 		return path;
 
-	//const qreal angle = m_regLine.angle() * M_PI / 180.0;
-	//// 矩形4个顶点，line.p1点左边的点开始，顺时针
-	//const auto p1 = PointFromPolar(m_width, angle + M_PI * 0.5) + m_regLine.p1();
-	//const auto p2 = PointFromPolar(m_width, angle + M_PI * 0.5) + m_regLine.p2();
-	//const auto p3 = PointFromPolar(m_width, angle - M_PI * 0.5) + m_regLine.p2();
-	//const auto p4 = PointFromPolar(m_width, angle - M_PI * 0.5) + m_regLine.p1();
-
-	//path.moveTo(p1);
-	//path.lineTo(p2);
-	//path.lineTo(p3);
-	//path.lineTo(p4);
-	//path.closeSubpath();
-
 	path.moveTo(m_regLine.p1());
 	path.lineTo(m_regLine.p2());
 
-	auto ps = StrokeShapeFromPath(path, (m_width + m_pen.widthF()) * 2);
-	//ps.addPath(path);
-	return ps;
+	return StrokeShapeFromPath(path, (m_width + m_pen.widthF()) * 2);
 }
 
 void xRegLine::setSubLine(const QLineF &line)
