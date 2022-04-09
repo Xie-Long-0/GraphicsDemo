@@ -29,7 +29,25 @@ public:
 		ET_RegCircle,
 		ET_RegArc,
 		ET_RegPoint,
-		ET_Region_End
+		ET_Region_End,
+		// 绑定单个图元
+		ET_InterSingle_Start,
+		ET_InterLine,
+		ET_InterCircle,
+		ET_InterArc,
+		ET_InterPoint,
+		ET_InterSingle_End,
+		// 绑定两个图元
+		ET_InterCouple_Start,
+		ET_InterLineAndLine,
+		ET_InterLineAndCircle,
+		ET_InterLineAndArc,
+		ET_InterLineAndPoint,
+		ET_InterCircleAndCircle,
+		ET_InterCircleAndArc,
+		ET_InterCircleAndPoint,
+		ET_InterPointAndPoint,
+		ET_InterCouple_End
 	};
 
 	Q_DISABLE_COPY(xEntity)
@@ -66,7 +84,6 @@ signals:
 protected:
 	// 用于处理基类QGraphicsItem传递的改变，发送相应信号
 	QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
-	void mouseMoveEvent(QGraphicsSceneMouseEvent *e) override;
 	// 获取视图的缩放系数
 	inline qreal viewScaleFactor() const;
 

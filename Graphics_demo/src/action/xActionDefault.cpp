@@ -84,11 +84,8 @@ void xActionDefault::mouseMoveEvent(QMouseEvent *e)
 	if (m_willMoveItem && m_item)
 	{
 		auto p = viewMapToScene(e);
-		if (Distance(p, m_p) > DELTA_DIST)
-		{
-			m_item->moveBy(p - m_p);
-			m_p = p;
-		}
+		m_item->moveBy(p - m_p);
+		m_p = p;
 		e->accept();
 		return;
 	}

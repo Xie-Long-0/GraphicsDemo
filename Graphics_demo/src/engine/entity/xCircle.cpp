@@ -97,19 +97,18 @@ QPainterPath xCircle::shape() const
 
 void xCircle::setCircle(const QPointF &center, qreal radius)
 {
-	auto sc = mapFromScene(center);
-	if (sc == m_circle.center() && qFuzzyCompare(radius, m_circle.radius()))
+	if (center == m_circle.center() && qFuzzyCompare(radius, m_circle.radius()))
 		return;
 
 	prepareGeometryChange();
-	m_circle = xCircleData(sc, radius);
+	m_circle = xCircleData(center, radius);
 	update();
 	emit shapeChanged();
 }
 
 void xCircle::setCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3)
 {
-	auto c = xCircleData(mapFromScene(p1), mapFromScene(p2), mapFromScene(p3));
+	auto c = xCircleData(p1, p2, p3);
 	if (c.center() == m_circle.center() && qFuzzyCompare(c.radius(), m_circle.radius()))
 		return;
 
@@ -132,36 +131,33 @@ void xCircle::setRadius(qreal radius)
 
 void xCircle::setPt1(const QPointF &p)
 {
-	auto sp = mapFromScene(p);
-	if (sp == m_circle.pt1())
+	if (p == m_circle.pt1())
 		return;
 
 	prepareGeometryChange();
-	m_circle = xCircleData(sp, m_circle.pt2(), m_circle.pt3());
+	m_circle = xCircleData(p, m_circle.pt2(), m_circle.pt3());
 	update();
 	emit shapeChanged();
 }
 
 void xCircle::setPt2(const QPointF &p)
 {
-	auto sp = mapFromScene(p);
-	if (sp == m_circle.pt2())
+	if (p == m_circle.pt2())
 		return;
 
 	prepareGeometryChange();
-	m_circle = xCircleData(m_circle.pt1(), sp, m_circle.pt3());
+	m_circle = xCircleData(m_circle.pt1(), p, m_circle.pt3());
 	update();
 	emit shapeChanged();
 }
 
 void xCircle::setPt3(const QPointF &p)
 {
-	auto sp = mapFromScene(p);
-	if (sp == m_circle.pt3())
+	if (p == m_circle.pt3())
 		return;
 
 	prepareGeometryChange();
-	m_circle = xCircleData(m_circle.pt1(), m_circle.pt2(), sp);
+	m_circle = xCircleData(m_circle.pt1(), m_circle.pt2(), p);
 	update();
 	emit shapeChanged();
 }

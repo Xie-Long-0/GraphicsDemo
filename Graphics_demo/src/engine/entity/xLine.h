@@ -25,12 +25,12 @@ public:
 	QRectF boundingRect() const override;
 	QPainterPath shape() const override;
 
-	QLineF lineData() const { return QLineF(pt1(), pt2()); }
+	QLineF lineData() const { return m_line; }
 	void setLine(const QLineF &line) { setLine(line.p1(), line.p2()); }
 	void setLine(const QPointF &p1, const QPointF &p2);
 
-	QPointF pt1() const { return mapToScene(m_line.p1()); }
-	QPointF pt2() const { return mapToScene(m_line.p2()); }
+	QPointF pt1() const { return m_line.p1(); }
+	QPointF pt2() const { return m_line.p2(); }
 	void setPt1(const QPointF &p);
 	void setPt2(const QPointF &p);
 	QPointF middlePoint() const { return (pt1() + pt2()) * 0.5; }

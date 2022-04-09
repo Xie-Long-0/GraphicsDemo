@@ -34,19 +34,19 @@ public:
 	void setSubCircle(const QPointF &center, qreal radius);
 	void hideSubCircle(bool hide = true) { m_subCircle->setVisible(!hide); }
 
-	xCircleData circleData() const { return xCircleData(pt1(), pt2(), pt3()); }
+	xCircleData circleData() const { return m_regCircle; }
 	void setCircle(const xCircleData &circle, qreal width) { setCircle(circle.center(), circle.radius(), width); }
 	void setCircle(const QPointF &center, qreal radius, qreal width);
 	void setCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, qreal width);
 
-	QPointF center() const { return mapToScene(m_regCircle.center()); }
+	QPointF center() const { return m_regCircle.center(); }
 	void setCenter(const QPointF &center) { moveBy(center - this->center()); }
 	qreal radius() const { return m_regCircle.radius(); }
 	void setRadius(qreal radius);
 
-	QPointF pt1() const { return mapToScene(m_regCircle.pt1()); }
-	QPointF pt2() const { return mapToScene(m_regCircle.pt2()); }
-	QPointF pt3() const { return mapToScene(m_regCircle.pt3()); }
+	QPointF pt1() const { return m_regCircle.pt1(); }
+	QPointF pt2() const { return m_regCircle.pt2(); }
+	QPointF pt3() const { return m_regCircle.pt3(); }
 	void setPt1(const QPointF &p);
 	void setPt2(const QPointF &p);
 	void setPt3(const QPointF &p);

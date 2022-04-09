@@ -118,8 +118,10 @@
     <ClCompile Include="src\action\xActionPreviewInterface.cpp" />
     <ClCompile Include="src\engine\entity\xCircle.cpp" />
     <ClCompile Include="src\engine\entity\xEntity.cpp" />
-    <ClCompile Include="src\engine\entity\xInterEntity.cpp" />
+    <ClCompile Include="src\engine\entity\xInterCircle.cpp" />
+    <ClCompile Include="src\engine\entity\xInterCoupleEntity.cpp" />
     <ClCompile Include="src\engine\entity\xInterLineAndLine.cpp" />
+    <ClCompile Include="src\engine\entity\xInterSingleEntity.cpp" />
     <ClCompile Include="src\engine\entity\xLine.cpp" />
     <ClCompile Include="src\engine\entity\xRegCircle.cpp" />
     <ClCompile Include="src\engine\entity\xRegionEntity.cpp" />
@@ -148,7 +150,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\action\xActionInterface.h" />
-    <QtMoc Include="src\engine\entity\xInterEntity.h" />
+    <QtMoc Include="src\engine\entity\xInterCircle.h" />
+    <QtMoc Include="src\engine\entity\xInterSingleEntity.h" />
+    <QtMoc Include="src\engine\entity\xInterCoupleEntity.h" />
     <QtMoc Include="src\engine\entity\xInterLineAndLine.h" />
     <QtMoc Include="src\engine\entity\xRegCircle.h" />
     <QtMoc Include="src\engine\entity\xRegionEntity.h" />

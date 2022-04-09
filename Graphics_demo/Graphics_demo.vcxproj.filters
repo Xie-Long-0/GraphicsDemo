@@ -89,10 +89,16 @@
     <ClCompile Include="src\engine\entity\xRegCircle.cpp">
       <Filter>engine\entity</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\entity\xInterEntity.cpp">
+    <ClCompile Include="src\engine\entity\xInterCoupleEntity.cpp">
       <Filter>engine\entity</Filter>
     </ClCompile>
     <ClCompile Include="src\engine\entity\xInterLineAndLine.cpp">
+      <Filter>engine\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\entity\xInterSingleEntity.cpp">
+      <Filter>engine\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\entity\xInterCircle.cpp">
       <Filter>engine\entity</Filter>
     </ClCompile>
   </ItemGroup>
@@ -136,10 +142,16 @@
     <QtMoc Include="src\engine\entity\xRegCircle.h">
       <Filter>engine\entity</Filter>
     </QtMoc>
-    <QtMoc Include="src\engine\entity\xInterEntity.h">
+    <QtMoc Include="src\engine\entity\xInterCoupleEntity.h">
       <Filter>engine\entity</Filter>
     </QtMoc>
     <QtMoc Include="src\engine\entity\xInterLineAndLine.h">
+      <Filter>engine\entity</Filter>
+    </QtMoc>
+    <QtMoc Include="src\engine\entity\xInterSingleEntity.h">
+      <Filter>engine\entity</Filter>
+    </QtMoc>
+    <QtMoc Include="src\engine\entity\xInterCircle.h">
       <Filter>engine\entity</Filter>
     </QtMoc>
   </ItemGroup>

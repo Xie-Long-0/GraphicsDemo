@@ -159,13 +159,11 @@ void xRegLine::setSubLine(const QPointF &p1, const QPointF &p2)
 
 void xRegLine::setLine(const QPointF &p1, const QPointF &p2, qreal width)
 {
-	auto sp1 = mapFromScene(p1);
-	auto sp2 = mapFromScene(p2);
-	if (m_regLine.p1() == sp1 && m_regLine.p2() == sp2 && qFuzzyCompare(width, m_width))
+	if (m_regLine.p1() == p1 && m_regLine.p2() == p2 && qFuzzyCompare(width, m_width))
 		return;
 
 	prepareGeometryChange();
-	m_regLine.setPoints(sp1, sp2);
+	m_regLine.setPoints(p1, p2);
 	m_width = width;
 	update();
 	emit shapeChanged();
@@ -173,24 +171,22 @@ void xRegLine::setLine(const QPointF &p1, const QPointF &p2, qreal width)
 
 void xRegLine::setPt1(const QPointF &p)
 {
-	auto sp = mapFromScene(p);
-	if (m_regLine.p1() == sp)
+	if (m_regLine.p1() == p)
 		return;
 
 	prepareGeometryChange();
-	m_regLine.setP1(sp);
+	m_regLine.setP1(p);
 	update();
 	emit shapeChanged();
 }
 
 void xRegLine::setPt2(const QPointF &p)
 {
-	auto sp = mapFromScene(p);
-	if (m_regLine.p2() == sp)
+	if (m_regLine.p2() == p)
 		return;
 
 	prepareGeometryChange();
-	m_regLine.setP2(sp);
+	m_regLine.setP2(p);
 	update();
 	emit shapeChanged();
 }
@@ -234,8 +230,7 @@ bool xRegLine::isCtrlPoint(const QPointF &p) const
 
 void xRegLine::changeEdgeByPoint(const QPointF &p)
 {
-	auto sp = mapFromScene(p);
-	setRegWidth(DistancePoint2Line(sp, m_regLine));
+	setRegWidth(DistancePoint2Line(p, m_regLine));
 }
 
 bool xRegLine::isRegionEdge(const QPointF &p) const
@@ -243,8 +238,7 @@ bool xRegLine::isRegionEdge(const QPointF &p) const
 	if (!(flags() & ItemIsMovable))
 		return false;
 
-	auto sp = mapFromScene(p);
-	if (fabs(DistancePoint2Line(sp, m_regLine) - m_width) < DELTA_DIST_2 / viewScaleFactor())
+	if (fabs(DistancePoint2Line(p, m_regLine) - m_width) < DELTA_DIST_2 / viewScaleFactor())
 		return true;
 	return false;
 }

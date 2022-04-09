@@ -53,9 +53,3 @@ QVariant xEntity::itemChange(GraphicsItemChange change, const QVariant &value)
 	}
 	return value;
 }
-
-void xEntity::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
-{
-	if ((e->buttons() & Qt::LeftButton) && (flags() & ItemIsMovable))
-		moveBy(e->scenePos());
-}

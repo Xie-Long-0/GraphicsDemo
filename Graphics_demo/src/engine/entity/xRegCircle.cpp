@@ -142,12 +142,11 @@ void xRegCircle::setSubCircle(const QPointF &center, qreal radius)
 
 void xRegCircle::setCircle(const QPointF &center, qreal radius, qreal width)
 {
-	auto sc = mapFromScene(center);
-	if (sc == m_regCircle.center() && qFuzzyCompare(radius, m_regCircle.radius()) && qFuzzyCompare(width, m_width))
+	if (center == m_regCircle.center() && qFuzzyCompare(radius, m_regCircle.radius()) && qFuzzyCompare(width, m_width))
 		return;
 
 	prepareGeometryChange();
-	m_regCircle = xCircleData(sc, radius);
+	m_regCircle = xCircleData(center, radius);
 	m_width = width;
 	update();
 	emit shapeChanged();
@@ -155,7 +154,7 @@ void xRegCircle::setCircle(const QPointF &center, qreal radius, qreal width)
 
 void xRegCircle::setCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, qreal width)
 {
-	auto c = xCircleData(mapFromScene(p1), mapFromScene(p2), mapFromScene(p3));
+	auto c = xCircleData(p1, p2, p3);
 	if (c.center() == m_regCircle.center() && qFuzzyCompare(c.radius(), m_regCircle.radius()) && qFuzzyCompare(width, m_width))
 		return;
 
@@ -179,36 +178,33 @@ void xRegCircle::setRadius(qreal radius)
 
 void xRegCircle::setPt1(const QPointF &p)
 {
-	auto sp = mapFromScene(p);
-	if (sp == m_regCircle.pt1())
+	if (p == m_regCircle.pt1())
 		return;
 
 	prepareGeometryChange();
-	m_regCircle = xCircleData(sp, m_regCircle.pt2(), m_regCircle.pt3());
+	m_regCircle = xCircleData(p, m_regCircle.pt2(), m_regCircle.pt3());
 	update();
 	emit shapeChanged();
 }
 
 void xRegCircle::setPt2(const QPointF &p)
 {
-	auto sp = mapFromScene(p);
-	if (sp == m_regCircle.pt2())
+	if (p == m_regCircle.pt2())
 		return;
 
 	prepareGeometryChange();
-	m_regCircle = xCircleData(m_regCircle.pt1(), sp, m_regCircle.pt3());
+	m_regCircle = xCircleData(m_regCircle.pt1(), p, m_regCircle.pt3());
 	update();
 	emit shapeChanged();
 }
 
 void xRegCircle::setPt3(const QPointF &p)
 {
-	auto sp = mapFromScene(p);
-	if (sp == m_regCircle.pt3())
+	if (p == m_regCircle.pt3())
 		return;
 
 	prepareGeometryChange();
-	m_regCircle = xCircleData(m_regCircle.pt1(), m_regCircle.pt2(), sp);
+	m_regCircle = xCircleData(m_regCircle.pt1(), m_regCircle.pt2(), p);
 	update();
 	emit shapeChanged();
 }
@@ -257,8 +253,7 @@ bool xRegCircle::isCtrlPoint(const QPointF &p) const
 
 void xRegCircle::changeEdgeByPoint(const QPointF &p)
 {
-	auto sp = mapFromScene(p);
-	const qreal dw = fabs(Distance(sp, m_regCircle.center()) - m_regCircle.radius());
+	const qreal dw = fabs(Distance(p, m_regCircle.center()) - m_regCircle.radius());
 	setRegWidth(dw);
 }
 
@@ -267,8 +262,7 @@ bool xRegCircle::isRegionEdge(const QPointF &p) const
 	if (!(flags() & ItemIsMovable))
 		return false;
 
-	auto sp = mapFromScene(p);
-	const qreal dw = fabs(Distance(sp, m_regCircle.center()) - m_regCircle.radius());
+	const qreal dw = fabs(Distance(p, m_regCircle.center()) - m_regCircle.radius());
 	if (fabs(dw - m_width) < DELTA_DIST_2 / viewScaleFactor())
 		return true;
 	return false;

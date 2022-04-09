@@ -94,37 +94,33 @@ QPainterPath xLine::shape() const
 
 void xLine::setLine(const QPointF &p1, const QPointF &p2)
 {
-	auto sp1 = mapFromScene(p1);
-	auto sp2 = mapFromScene(p2);
-	if (m_line.p1() == sp1 && m_line.p2() == sp2)
+	if (m_line.p1() == p1 && m_line.p2() == p2)
 		return;
 
 	prepareGeometryChange();
-	m_line.setPoints(sp1, sp2);
+	m_line.setPoints(p1, p2);
 	update();
 	emit shapeChanged();
 }
 
 void xLine::setPt1(const QPointF &p)
 {
-	auto sp = mapFromScene(p);
-	if (m_line.p1() == sp)
+	if (m_line.p1() == p)
 		return;
 
 	prepareGeometryChange();
-	m_line.setP1(sp);
+	m_line.setP1(p);
 	update();
 	emit shapeChanged();
 }
 
 void xLine::setPt2(const QPointF &p)
 {
-	auto sp = mapFromScene(p);
-	if (m_line.p2() == sp)
+	if (m_line.p2() == p)
 		return;
 
 	prepareGeometryChange();
-	m_line.setP2(sp);
+	m_line.setP2(p);
 	update();
 	emit shapeChanged();
 }

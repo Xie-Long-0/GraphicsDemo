@@ -1,8 +1,8 @@
 #pragma once
 
-#include "xInterEntity.h"
+#include "xInterCoupleEntity.h"
 
-class xInterLineAndLine : public xInterEntity
+class xInterLineAndLine : public xInterCoupleEntity
 {
 	Q_OBJECT
 

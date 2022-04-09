@@ -34,12 +34,14 @@ public:
 	void setSubLine(const QPointF &p1, const QPointF &p2);
 	void hideSubLine(bool hide = true) { m_subLine->setVisible(!hide); }
 
-	QLineF lineData() const { return QLineF(pt1(), pt2()); }
+	QLineF lineData() const { return m_regLine; }
 	void setLine(const QLineF &line, qreal width) { setLine(line.p1(), line.p2(), width); }
 	void setLine(const QPointF &p1, const QPointF &p2, qreal width);
 
-	QPointF pt1() const { return mapToScene(m_regLine.p1()); }
-	QPointF pt2() const { return mapToScene(m_regLine.p2()); }
+	QPointF pt1() const { return m_regLine.p1(); }
+	QPointF pt2() const { return m_regLine.p2(); }
+	//QPointF pt1() const { return mapToScene(m_regLine.p1()); }
+	//QPointF pt2() const { return mapToScene(m_regLine.p2()); }
 	void setPt1(const QPointF &p);
 	void setPt2(const QPointF &p);
 	QPointF middlePoint() const { return (pt1() + pt2()) * 0.5; }
