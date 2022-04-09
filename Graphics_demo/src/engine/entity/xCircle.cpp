@@ -104,6 +104,7 @@ void xCircle::setCircle(const QPointF &center, qreal radius)
 	prepareGeometryChange();
 	m_circle = xCircleData(sc, radius);
 	update();
+	emit shapeChanged();
 }
 
 void xCircle::setCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3)
@@ -115,17 +116,7 @@ void xCircle::setCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3)
 	prepareGeometryChange();
 	m_circle = c;
 	update();
-}
-
-void xCircle::setCenter(const QPointF &center)
-{
-	auto sc = mapFromScene(center);
-	if (sc == m_circle.center())
-		return;
-
-	prepareGeometryChange();
-	m_circle.setCenter(sc);
-	update();
+	emit shapeChanged();
 }
 
 void xCircle::setRadius(qreal radius)
@@ -136,6 +127,7 @@ void xCircle::setRadius(qreal radius)
 	prepareGeometryChange();
 	m_circle.setRadius(radius);
 	update();
+	emit shapeChanged();
 }
 
 void xCircle::setPt1(const QPointF &p)
@@ -147,6 +139,7 @@ void xCircle::setPt1(const QPointF &p)
 	prepareGeometryChange();
 	m_circle = xCircleData(sp, m_circle.pt2(), m_circle.pt3());
 	update();
+	emit shapeChanged();
 }
 
 void xCircle::setPt2(const QPointF &p)
@@ -158,6 +151,7 @@ void xCircle::setPt2(const QPointF &p)
 	prepareGeometryChange();
 	m_circle = xCircleData(m_circle.pt1(), sp, m_circle.pt3());
 	update();
+	emit shapeChanged();
 }
 
 void xCircle::setPt3(const QPointF &p)
@@ -169,6 +163,7 @@ void xCircle::setPt3(const QPointF &p)
 	prepareGeometryChange();
 	m_circle = xCircleData(m_circle.pt1(), m_circle.pt2(), sp);
 	update();
+	emit shapeChanged();
 }
 
 void xCircle::moveBy(const QPointF &delta)
@@ -179,6 +174,7 @@ void xCircle::moveBy(const QPointF &delta)
 	prepareGeometryChange();
 	m_circle.translate(delta);
 	update();
+	emit posChanged(delta);
 }
 
 QList<QPointF> xCircle::controlPoints() const

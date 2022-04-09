@@ -102,6 +102,7 @@ void xLine::setLine(const QPointF &p1, const QPointF &p2)
 	prepareGeometryChange();
 	m_line.setPoints(sp1, sp2);
 	update();
+	emit shapeChanged();
 }
 
 void xLine::setPt1(const QPointF &p)
@@ -113,6 +114,7 @@ void xLine::setPt1(const QPointF &p)
 	prepareGeometryChange();
 	m_line.setP1(sp);
 	update();
+	emit shapeChanged();
 }
 
 void xLine::setPt2(const QPointF &p)
@@ -124,6 +126,7 @@ void xLine::setPt2(const QPointF &p)
 	prepareGeometryChange();
 	m_line.setP2(sp);
 	update();
+	emit shapeChanged();
 }
 
 void xLine::moveBy(const QPointF &delta)
@@ -134,6 +137,7 @@ void xLine::moveBy(const QPointF &delta)
 	prepareGeometryChange();
 	m_line.translate(delta);
 	update();
+	emit posChanged(delta);
 }
 
 QList<QPointF> xLine::controlPoints() const

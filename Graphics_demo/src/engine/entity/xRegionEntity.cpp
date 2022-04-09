@@ -11,10 +11,6 @@ xRegionEntity::xRegionEntity(qreal width, xGraphicView *view, QGraphicsItem *par
 {
 }
 
-xRegionEntity::~xRegionEntity()
-{
-}
-
 void xRegionEntity::setRegWidth(qreal w)
 {
 	if (qFuzzyCompare(w, m_width))
@@ -23,6 +19,7 @@ void xRegionEntity::setRegWidth(qreal w)
 	prepareGeometryChange();
 	m_width = w;
 	update();
+	emit regWidthChanged(w);
 }
 
 void xRegionEntity::setBrush(const QBrush &brush)

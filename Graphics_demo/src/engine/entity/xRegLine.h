@@ -8,6 +8,8 @@
 */
 class xRegLine : public xRegionEntity
 {
+	Q_OBJECT
+
 public:
 	Q_DISABLE_COPY(xRegLine)
 	explicit xRegLine(xGraphicView *view, QGraphicsItem *parent = nullptr);
@@ -40,6 +42,7 @@ public:
 	QPointF pt2() const { return mapToScene(m_regLine.p2()); }
 	void setPt1(const QPointF &p);
 	void setPt2(const QPointF &p);
+	QPointF middlePoint() const { return (pt1() + pt2()) * 0.5; }
 
 	void moveBy(const QPointF &delta) override;
 	QList<QPointF> controlPoints() const override;

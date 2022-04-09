@@ -8,6 +8,8 @@
 */
 class xRegCircle : public xRegionEntity
 {
+	Q_OBJECT
+
 public:
 	Q_DISABLE_COPY(xRegCircle)
 	explicit xRegCircle(xGraphicView *view, QGraphicsItem *parent = nullptr);
@@ -38,7 +40,7 @@ public:
 	void setCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, qreal width);
 
 	QPointF center() const { return mapToScene(m_regCircle.center()); }
-	void setCenter(const QPointF &center);
+	void setCenter(const QPointF &center) { moveBy(center - this->center()); }
 	qreal radius() const { return m_regCircle.radius(); }
 	void setRadius(qreal radius);
 

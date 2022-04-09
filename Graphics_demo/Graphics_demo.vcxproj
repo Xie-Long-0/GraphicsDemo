@@ -118,6 +118,8 @@
     <ClCompile Include="src\action\xActionPreviewInterface.cpp" />
     <ClCompile Include="src\engine\entity\xCircle.cpp" />
     <ClCompile Include="src\engine\entity\xEntity.cpp" />
+    <ClCompile Include="src\engine\entity\xInterEntity.cpp" />
+    <ClCompile Include="src\engine\entity\xInterLineAndLine.cpp" />
     <ClCompile Include="src\engine\entity\xLine.cpp" />
     <ClCompile Include="src\engine\entity\xRegCircle.cpp" />
     <ClCompile Include="src\engine\entity\xRegionEntity.cpp" />
@@ -146,9 +148,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\action\xActionInterface.h" />
-    <ClInclude Include="src\engine\entity\xRegCircle.h" />
-    <ClInclude Include="src\engine\entity\xRegionEntity.h" />
-    <ClInclude Include="src\engine\entity\xRegLine.h" />
+    <QtMoc Include="src\engine\entity\xInterEntity.h" />
+    <QtMoc Include="src\engine\entity\xInterLineAndLine.h" />
+    <QtMoc Include="src\engine\entity\xRegCircle.h" />
+    <QtMoc Include="src\engine\entity\xRegionEntity.h" />
+    <QtMoc Include="src\engine\entity\xRegLine.h" />
     <QtMoc Include="src\ui\OperationWidget.h" />
   </ItemGroup>
   <ItemGroup>
@@ -160,12 +164,12 @@
   <ItemGroup>
     <ClInclude Include="src\action\xActionDrawCircle.h" />
     <ClInclude Include="src\action\xActionPreviewInterface.h" />
-    <ClInclude Include="src\engine\entity\xCircle.h" />
+    <QtMoc Include="src\engine\entity\xCircle.h" />
     <QtMoc Include="src\engine\xStyle.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\engine\entity\xEntity.h" />
-    <ClInclude Include="src\engine\entity\xLine.h" />
+    <QtMoc Include="src\engine\entity\xEntity.h" />
+    <QtMoc Include="src\engine\entity\xLine.h" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\ui\FunctionsTabWidget.h" />

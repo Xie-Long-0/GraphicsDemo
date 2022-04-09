@@ -168,6 +168,7 @@ void xRegLine::setLine(const QPointF &p1, const QPointF &p2, qreal width)
 	m_regLine.setPoints(sp1, sp2);
 	m_width = width;
 	update();
+	emit shapeChanged();
 }
 
 void xRegLine::setPt1(const QPointF &p)
@@ -179,6 +180,7 @@ void xRegLine::setPt1(const QPointF &p)
 	prepareGeometryChange();
 	m_regLine.setP1(sp);
 	update();
+	emit shapeChanged();
 }
 
 void xRegLine::setPt2(const QPointF &p)
@@ -190,6 +192,7 @@ void xRegLine::setPt2(const QPointF &p)
 	prepareGeometryChange();
 	m_regLine.setP2(sp);
 	update();
+	emit shapeChanged();
 }
 
 void xRegLine::moveBy(const QPointF &delta)
@@ -200,6 +203,7 @@ void xRegLine::moveBy(const QPointF &delta)
 	prepareGeometryChange();
 	m_regLine.translate(delta);
 	update();
+	emit posChanged(delta);
 }
 
 QList<QPointF> xRegLine::controlPoints() const

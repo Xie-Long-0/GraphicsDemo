@@ -2,7 +2,7 @@
 #include <QGraphicsSceneMouseEvent>
 
 xEntity::xEntity(xGraphicView *view, QGraphicsItem *parent)
-	: QGraphicsItem(parent)
+	: QGraphicsObject(parent)
 	, m_view(view)
 {
 	init();
@@ -27,6 +27,31 @@ void xEntity::setStyle(xStyle::Style style)
 	prepareGeometryChange();
 	m_style = style;
 	update();
+}
+
+QVariant xEntity::itemChange(GraphicsItemChange change, const QVariant &value)
+{
+	switch (change)
+	{
+	case QGraphicsItem::ItemSelectedChange:
+		break;
+	case QGraphicsItem::ItemSelectedHasChanged:
+		emit selectedChanged(value.toBool());
+		break;
+	case QGraphicsItem::ItemCursorChange:
+		break;
+	case QGraphicsItem::ItemCursorHasChanged:
+		emit cursorChanged(value.value<QCursor>());
+		break;
+	case QGraphicsItem::ItemFlagsChange:
+		break;
+	case QGraphicsItem::ItemFlagsHaveChanged:
+		emit flagsChanged(GraphicsItemFlags(value.value<quint32>()));
+		break;
+	default:
+		break;
+	}
+	return value;
 }
 
 void xEntity::mouseMoveEvent(QGraphicsSceneMouseEvent *e)

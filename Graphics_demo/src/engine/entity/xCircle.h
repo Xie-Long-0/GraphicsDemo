@@ -7,6 +7,8 @@
 */
 class xCircle : public xEntity
 {
+	Q_OBJECT
+
 public:
 	Q_DISABLE_COPY(xCircle)
 	explicit xCircle(xGraphicView *view, QGraphicsItem *parent = nullptr);
@@ -29,7 +31,7 @@ public:
 	void setCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3);
 
 	QPointF center() const { return mapToScene(m_circle.center()); }
-	void setCenter(const QPointF &center);
+	void setCenter(const QPointF &center) { moveBy(center - this->center()); }
 	qreal radius() const { return m_circle.radius(); }
 	void setRadius(qreal radius);
 

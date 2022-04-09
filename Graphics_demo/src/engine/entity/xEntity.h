@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QList>
-#include <QGraphicsItem>
+#include <QGraphicsObject>
 #include "xTypeDef.h"
 #include "xStyle.h"
 #include "xGraphicView.h"
@@ -9,8 +9,10 @@
 /**
  * @brief 基于QGraphicsItem的带有画笔和样式的图元虚基类
 */
-class xEntity : public QGraphicsItem
+class xEntity : public QGraphicsObject
 {
+	Q_OBJECT
+
 public:
 	enum {
 		ET_Unknown = UserType,
@@ -34,7 +36,7 @@ public:
 	explicit xEntity(xGraphicView *view, QGraphicsItem *parent = nullptr);
 	virtual ~xEntity() = default;
 
-	// 移动图元
+	// 移动图元，delta为移动增量
 	virtual void moveBy(const QPointF &delta) = 0;
 	// 返回图元的绘画控制点
 	virtual QList<QPointF> controlPoints() const = 0;
@@ -52,7 +54,18 @@ public:
 	xStyle::Style style() const { return m_style; }
 	void setStyle(xStyle::Style style);
 
+signals:
+	// 位置改变信号，由moveBy函数发送
+	void posChanged(const QPointF &delta);
+	// 形状改变信号
+	void shapeChanged();
+	void selectedChanged(bool selected);
+	void cursorChanged(const QCursor &newCursor);
+	void flagsChanged(const GraphicsItemFlags &newFlags);
+
 protected:
+	// 用于处理基类QGraphicsItem传递的改变，发送相应信号
+	QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 	void mouseMoveEvent(QGraphicsSceneMouseEvent *e) override;
 	// 获取视图的缩放系数
 	inline qreal viewScaleFactor() const;

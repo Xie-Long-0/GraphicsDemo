@@ -89,6 +89,12 @@
     <ClCompile Include="src\engine\entity\xRegCircle.cpp">
       <Filter>engine\entity</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\entity\xInterEntity.cpp">
+      <Filter>engine\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\entity\xInterLineAndLine.cpp">
+      <Filter>engine\entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
@@ -112,6 +118,30 @@
     <QtMoc Include="src\ui\OperationWidget.h">
       <Filter>ui</Filter>
     </QtMoc>
+    <QtMoc Include="src\engine\entity\xEntity.h">
+      <Filter>engine\entity</Filter>
+    </QtMoc>
+    <QtMoc Include="src\engine\entity\xLine.h">
+      <Filter>engine\entity</Filter>
+    </QtMoc>
+    <QtMoc Include="src\engine\entity\xCircle.h">
+      <Filter>engine\entity</Filter>
+    </QtMoc>
+    <QtMoc Include="src\engine\entity\xRegLine.h">
+      <Filter>engine\entity</Filter>
+    </QtMoc>
+    <QtMoc Include="src\engine\entity\xRegionEntity.h">
+      <Filter>engine\entity</Filter>
+    </QtMoc>
+    <QtMoc Include="src\engine\entity\xRegCircle.h">
+      <Filter>engine\entity</Filter>
+    </QtMoc>
+    <QtMoc Include="src\engine\entity\xInterEntity.h">
+      <Filter>engine\entity</Filter>
+    </QtMoc>
+    <QtMoc Include="src\engine\entity\xInterLineAndLine.h">
+      <Filter>engine\entity</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\ui\MainWindow.ui">
@@ -125,15 +155,6 @@
     </QtUic>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\engine\entity\xLine.h">
-      <Filter>engine\entity</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\entity\xCircle.h">
-      <Filter>engine\entity</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\entity\xEntity.h">
-      <Filter>engine\entity</Filter>
-    </ClInclude>
     <ClInclude Include="src\action\xActionInterface.h">
       <Filter>action</Filter>
     </ClInclude>
@@ -148,15 +169,6 @@
     </ClInclude>
     <ClInclude Include="src\action\xActionPreviewInterface.h">
       <Filter>action</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\entity\xRegLine.h">
-      <Filter>engine\entity</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\entity\xRegionEntity.h">
-      <Filter>engine\entity</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\entity\xRegCircle.h">
-      <Filter>engine\entity</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

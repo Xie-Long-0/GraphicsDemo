@@ -8,6 +8,8 @@
 */
 class xLine : public xEntity
 {
+	Q_OBJECT
+
 public:
 	Q_DISABLE_COPY(xLine)
 	explicit xLine(xGraphicView *view, QGraphicsItem *parent = nullptr);
@@ -31,6 +33,7 @@ public:
 	QPointF pt2() const { return mapToScene(m_line.p2()); }
 	void setPt1(const QPointF &p);
 	void setPt2(const QPointF &p);
+	QPointF middlePoint() const { return (pt1() + pt2()) * 0.5; }
 
 	void moveBy(const QPointF &delta) override;
 	QList<QPointF> controlPoints() const override;
