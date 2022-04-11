@@ -32,3 +32,7 @@ QPainterPath xInterCircle::shape() const
 {
 	return QPainterPath();
 }
+
+void xInterCircle::onEntityChanged()
+{
+}

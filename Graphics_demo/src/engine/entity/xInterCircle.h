@@ -19,5 +19,9 @@ public:
 	QRectF boundingRect() const override;
 	QPainterPath shape() const override;
 
+protected slots:
+	void onEntityChanged() override;
 
+protected:
+	bool m_use2Line = false;
 };

@@ -72,14 +72,22 @@ public:
 	xStyle::Style style() const { return m_style; }
 	void setStyle(xStyle::Style style);
 
+	bool isThisVisible() const { return isVisible() && opacity() > 0; }
+
+public slots:
+	// 仅设置此图元的可见性，不影响孩子的可见性
+	void setThisVisible(bool visible);
+	void showThis() { setThisVisible(true); }
+	void hideThis() { setThisVisible(false); }
+
 signals:
+	void selectedChanged(bool selected);
+	void cursorChanged(const QCursor &newCursor);
+	void flagsChanged(const GraphicsItemFlags &newFlags);
 	// 位置改变信号，由moveBy函数发送
 	void posChanged(const QPointF &delta);
 	// 形状改变信号
 	void shapeChanged();
-	void selectedChanged(bool selected);
-	void cursorChanged(const QCursor &newCursor);
-	void flagsChanged(const GraphicsItemFlags &newFlags);
 
 protected:
 	// 用于处理基类QGraphicsItem传递的改变，发送相应信号
@@ -97,8 +105,10 @@ private:
 
 inline void xEntity::init()
 {
-	setFlag(QGraphicsItem::ItemIsMovable);
-	setFlag(QGraphicsItem::ItemIsSelectable);
+	setFlag(ItemIsMovable);
+	setFlag(ItemIsSelectable);
+	// 忽略父母的透明度，以实现父母不可见而孩子可见
+	setFlag(ItemIgnoresParentOpacity);
 	setAcceptHoverEvents(true);
 }
 

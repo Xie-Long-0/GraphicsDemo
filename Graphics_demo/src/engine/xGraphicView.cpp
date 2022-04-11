@@ -52,7 +52,9 @@ void xGraphicView::finishAction()
 {
 	if (m_action)
 	{
-		if (!m_action->isFinished())
+		if (m_action->isFinished())
+			m_action->confirm();
+		else
 			m_action->cancel();
 		delete m_action;
 		m_action = nullptr;

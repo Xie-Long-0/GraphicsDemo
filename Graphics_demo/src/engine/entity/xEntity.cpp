@@ -29,6 +29,14 @@ void xEntity::setStyle(xStyle::Style style)
 	update();
 }
 
+void xEntity::setThisVisible(bool visible)
+{
+	if (visible)
+		setOpacity(1.0);
+	else
+		setOpacity(0);
+}
+
 QVariant xEntity::itemChange(GraphicsItemChange change, const QVariant &value)
 {
 	switch (change)

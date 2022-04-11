@@ -18,7 +18,13 @@ public:
 	QString text() const { return m_text; }
 	void setText(const QString &text);
 	QPointF bindPoint() const { return m_bindPoint; }
+	void setBindPoint(const QPointF &p);
+	QPointF anchorPoint() const { return m_anchorPoint; }
+	void setAnchorPoint(const QPointF &p);
+	qreal shiftDistance() const { return m_shiftDist; }
+	void setShiftDistance(qreal dist);
 
+	xEntity *getBindEntity() const { return m_entity; }
 	virtual void bindEntity(xEntity *e);
 
 	QList<QPointF> controlPoints() const override;
@@ -27,6 +33,7 @@ public:
 
 protected slots:
 	virtual void onEntityChanged() = 0;
+	virtual void onEntityMoved(const QPointF &delta);
 
 protected:
 	QString m_text;
