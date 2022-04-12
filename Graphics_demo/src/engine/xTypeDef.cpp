@@ -4,7 +4,7 @@
 
 QPainterPath StrokeShapeFromPath(const QPainterPath &path, qreal width)
 {
-	if (path.isEmpty() || width < 0.0001)
+	if (path.isEmpty() || width < 0.001)
 		return path;
 
 	QPainterPathStroker ps;
@@ -71,7 +71,7 @@ void xCircleData::createFrom3P()
 {
 	if (p1 == p2 || p2 == p3 || p3 == p1)
 	{
-		qWarning() << __FUNCTION__": There are some points invalid";
+		qWarning() << __FUNCTION__ << ": There are some points invalid";
 		return;
 	}
 
@@ -83,7 +83,7 @@ void xCircleData::createFrom3P()
 	// crossp为0则3点在同一直线上
 	if (qFuzzyCompare(crossp, 0.0))
 	{
-		qWarning() << __FUNCTION__": Three points in a line";
+		qWarning() << __FUNCTION__ << ": Three points in a line";
 		c = QPointF();
 		r = 0;
 		return;
@@ -99,7 +99,7 @@ void xCircleData::generate3P()
 {
 	if (qFuzzyCompare(r, 0.0))
 	{
-		qWarning() << __FUNCTION__": The radius is invalid";
+		qWarning() << __FUNCTION__ << ": The radius is invalid";
 		return;
 	}
 

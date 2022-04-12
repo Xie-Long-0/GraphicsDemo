@@ -15,7 +15,8 @@ xRegCircle::xRegCircle(xGraphicView *view, QGraphicsItem *parent)
 }
 
 xRegCircle::xRegCircle(const xCircleData &circle, qreal width, xGraphicView *view, QGraphicsItem *parent)
-	: xRegionEntity(view, parent)
+	: xRegionEntity(width, view, parent)
+	, m_regCircle(circle)
 {
 	m_subCircle = new xCircle(view, this);
 	m_subCircle->setFlag(ItemIsMovable, false);
@@ -24,7 +25,8 @@ xRegCircle::xRegCircle(const xCircleData &circle, qreal width, xGraphicView *vie
 }
 
 xRegCircle::xRegCircle(const QPointF &center, qreal radius, qreal width, xGraphicView *view, QGraphicsItem *parent)
-	: xRegionEntity(view, parent)
+	: xRegionEntity(width, view, parent)
+	, m_regCircle(center, radius)
 {
 	m_subCircle = new xCircle(view, this);
 	m_subCircle->setFlag(ItemIsMovable, false);
@@ -33,7 +35,8 @@ xRegCircle::xRegCircle(const QPointF &center, qreal radius, qreal width, xGraphi
 }
 
 xRegCircle::xRegCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, qreal width, xGraphicView *view, QGraphicsItem *parent)
-	: xRegionEntity(view, parent)
+	: xRegionEntity(width, view, parent)
+	, m_regCircle(p1, p2, p3)
 {
 	m_subCircle = new xCircle(view, this);
 	m_subCircle->setFlag(ItemIsMovable, false);

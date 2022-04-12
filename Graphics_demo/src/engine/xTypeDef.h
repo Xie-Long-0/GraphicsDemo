@@ -5,8 +5,12 @@
 #include <QLine>
 #include <QPainterPath>
 
+#ifndef M_PI
 constexpr double M_PI = 3.14159265358979323846264;
-constexpr double M_PI2 = 1.57079632679489661923132;	// PI * 0.5
+#endif
+#ifndef M_PI_2
+constexpr double M_PI_2 = 1.57079632679489661923132;	// PI * 0.5
+#endif
 constexpr double M_2PI = 6.28318530717958647692528;	// PI * 2
 constexpr double ANGLE_15_RAD = 0.261799;	// 15度对应的弧度
 constexpr double DELTA_DIST = 5.0;		// 较小的距离增量，通常用于移动时的判断

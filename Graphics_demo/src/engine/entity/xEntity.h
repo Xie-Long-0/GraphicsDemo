@@ -14,7 +14,7 @@ class xEntity : public QGraphicsObject
 	Q_OBJECT
 
 public:
-	enum {
+	enum E_Type {
 		ET_Unknown = UserType,
 		// 不带范围的图元
 		ET_Entity_Start,
@@ -49,6 +49,7 @@ public:
 		ET_InterPointAndPoint,
 		ET_InterCouple_End
 	};
+	Q_ENUM(E_Type)
 
 	Q_DISABLE_COPY(xEntity)
 	explicit xEntity(xGraphicView *view, QGraphicsItem *parent = nullptr);

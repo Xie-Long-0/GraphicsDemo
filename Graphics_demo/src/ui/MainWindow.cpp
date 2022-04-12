@@ -91,8 +91,9 @@ void MainWindow::onDrawCircle()
 
 void MainWindow::paintEvent(QPaintEvent *e)
 {
+	Q_UNUSED(e)
 	QStyleOption op;
-	op.init(this);
+	op.initFrom(this);
 	QPainter p(this);
 	style()->drawPrimitive(QStyle::PE_Widget, &op, &p, this);
 }
