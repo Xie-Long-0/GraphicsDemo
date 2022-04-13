@@ -9,10 +9,9 @@
 xGraphicView::xGraphicView(QGraphicsScene *scene, QWidget *parent)
 	: QGraphicsView(scene, parent)
 {
+	setFrameShape(QFrame::NoFrame);
 	setMouseTracking(true);
 	setRenderHint(QPainter::Antialiasing);
-	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);	// 隐藏水平滚动条
-	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);		// 隐藏垂直滚动条
 	
 	// 添加背景图片实体，并禁止选中和移动
 	m_pixmap = new QGraphicsPixmapItem();
@@ -21,11 +20,6 @@ xGraphicView::xGraphicView(QGraphicsScene *scene, QWidget *parent)
 	m_pixmap->setFlag(QGraphicsItem::ItemIsFocusable, false);
 	m_pixmap->setFlag(QGraphicsItem::ItemIsMovable, false);
 	m_pixmap->setFlag(QGraphicsItem::ItemIsSelectable, false);
-
-	QImage img(2048, 2048, QImage::Format_RGB888);
-	img.fill(Qt::black);
-	m_pixmap->setPixmap(QPixmap::fromImage(img));
-
 	scene->addItem(m_pixmap);
 
 	m_default = new xActionDefault(this);
@@ -73,12 +67,14 @@ void xGraphicView::cancelAction()
 
 void xGraphicView::setPixmap(const QPixmap &pixmap)
 {
+	if (sceneRect().size() != pixmap.size())
+	{
+		setSceneRect(pixmap.rect());
+		const qreal fw = width() / scene()->width();
+		const qreal fh = height() / scene()->height();
+		m_initFactor = std::max(fw, fh);
+	}
 	m_pixmap->setPixmap(pixmap);
-}
-
-void xGraphicView::setImage(const QImage &image)
-{
-	m_pixmap->setPixmap(QPixmap::fromImage(image));
 }
 
 void xGraphicView::zoomIn()
@@ -91,6 +87,17 @@ void xGraphicView::zoomOut()
 
 void xGraphicView::zoomByFactor(qreal factor)
 {
+}
+
+void xGraphicView::resizeScene()
+{
+	const qreal fw = width() / scene()->width();
+	const qreal fh = height() / scene()->height();
+	m_initFactor = std::max(fw, fh);
+	scale(m_initFactor, m_initFactor);
+	
+	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);	// 隐藏水平滚动条
+	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);		// 隐藏垂直滚动条
 }
 
 void xGraphicView::mousePressEvent(QMouseEvent *e)
@@ -106,6 +113,9 @@ void xGraphicView::mousePressEvent(QMouseEvent *e)
 	}
 	if (e->isAccepted())
 		return;
+	// 去除Ctrl修饰键的多选操作
+	if (e->modifiers() & Qt::ControlModifier)
+		e->setModifiers(e->modifiers() & ~Qt::ControlModifier);
 	QGraphicsView::mousePressEvent(e);
 }
 
@@ -138,6 +148,9 @@ void xGraphicView::mouseReleaseEvent(QMouseEvent *e)
 	}
 	if (e->isAccepted())
 		return;
+	// 去除Ctrl修饰键的多选操作
+	if (e->modifiers() & Qt::ControlModifier)
+		e->setModifiers(e->modifiers() & ~Qt::ControlModifier);
 	QGraphicsView::mouseReleaseEvent(e);
 }
 
@@ -167,10 +180,12 @@ void xGraphicView::wheelEvent(QWheelEvent *e)
 	else if (delta > 0)
 	{
 		scale(1.25, 1.25);
+		onScaleChanged();
 	}
 	else if (delta < 0)
 	{
 		scale(0.8, 0.8);
+		onScaleChanged();
 	}
 	else
 	{
@@ -202,5 +217,18 @@ void xGraphicView::keyPressEvent(QKeyEvent *e)
 
 void xGraphicView::mouseDoubleClickEvent(QMouseEvent *e)
 {
-	finishAction();
+}
+
+void xGraphicView::onScaleChanged()
+{
+	if (scaleFactor() <= m_initFactor)
+	{
+		setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);	// 隐藏水平滚动条
+		setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);		// 隐藏垂直滚动条
+	}
+	else
+	{
+		setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+		setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	}
 }

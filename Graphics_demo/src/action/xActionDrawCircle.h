@@ -3,7 +3,7 @@
 #include "xActionPreviewInterface.h"
 #include <QPoint>
 
-class xRegCircle;
+class xCircle;
 class xLine;
 
 class xActionDrawCircle : public xActionPreviewInterface
@@ -20,6 +20,6 @@ public:
 
 private:
 	QPointF mp1, mp2;
-	xRegCircle *m_circle = nullptr;
+	xCircle *m_circle = nullptr;
 	xLine *m_line = nullptr;
 };

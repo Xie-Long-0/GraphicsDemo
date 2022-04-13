@@ -1,22 +1,22 @@
-#include "xActionDrawLine.h"
+#include "xActionDrawRegLine.h"
 #include <QGraphicsScene>
 #include <QMouseEvent>
 #include <QDebug>
 #include "engine/xGraphicView.h"
-#include "entity/xLine.h"
+#include "entity/xRegLine.h"
 
-xActionDrawLine::xActionDrawLine(xGraphicView *view)
+xActionDrawRegLine::xActionDrawRegLine(xGraphicView *view)
 	: xActionPreviewInterface(view, xDef::AT_DrawLine)
 {
 }
 
-xActionDrawLine::~xActionDrawLine()
+xActionDrawRegLine::~xActionDrawRegLine()
 {
 	if (!isFinished())
 		cancel();
 }
 
-void xActionDrawLine::mousePressEvent(QMouseEvent *e)
+void xActionDrawRegLine::mousePressEvent(QMouseEvent *e)
 {
 	auto spos = viewMapToScene(e);
 	if (e->button() == Qt::LeftButton)
@@ -32,8 +32,11 @@ void xActionDrawLine::mousePressEvent(QMouseEvent *e)
 		case xDef::S_DrawEntity1_P1:
 			if (Distance(mp, spos) > DELTA_DIST_2)
 			{
-				m_line->setLine(mp, spos);
+				m_line->setLine(mp, spos, 30);
 				m_line->setStyle(xStyle::RegDrawn);
+				// TEST
+				m_line->setSubLine(mp, spos);
+
 				// 操作完成，设置为S_ActionFinished
 				m_status = xDef::S_ActionFinished;
 				e->accept();
@@ -46,7 +49,7 @@ void xActionDrawLine::mousePressEvent(QMouseEvent *e)
 	}
 }
 
-void xActionDrawLine::mouseMoveEvent(QMouseEvent *e)
+void xActionDrawRegLine::mouseMoveEvent(QMouseEvent *e)
 {
 	switch (m_status)
 	{
@@ -55,11 +58,12 @@ void xActionDrawLine::mouseMoveEvent(QMouseEvent *e)
 		{
 			if (m_line == nullptr)
 			{
-				m_line = new xLine(m_view);
+				m_line = new xRegLine(m_view);
+				m_line->setRegWidth(30);
 				m_line->setStyle(xStyle::RegDrawing);
 				m_scene->addItem(m_line);
 			}
-			m_line->setLine(mp, viewMapToScene(e));
+			m_line->setLine(mp, viewMapToScene(e), 30);
 			e->accept();
 		}
 		break;
@@ -69,11 +73,11 @@ void xActionDrawLine::mouseMoveEvent(QMouseEvent *e)
 	}
 }
 
-void xActionDrawLine::mouseReleaseEvent(QMouseEvent *e)
+void xActionDrawRegLine::mouseReleaseEvent(QMouseEvent *e)
 {
 }
 
-void xActionDrawLine::cancel()
+void xActionDrawRegLine::cancel()
 {
 	if (m_line)
 	{

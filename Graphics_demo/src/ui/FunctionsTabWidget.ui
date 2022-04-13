@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>404</width>
-    <height>563</height>
+    <width>333</width>
+    <height>572</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -87,30 +87,30 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="regLineBtn">
          <property name="text">
-          <string>PushButton</string>
+          <string>范围线</string>
          </property>
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="regCircleBtn">
          <property name="text">
-          <string>PushButton</string>
+          <string>范围圆</string>
          </property>
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QPushButton" name="pushButton_3">
+        <widget class="QPushButton" name="regArcBtn">
          <property name="text">
-          <string>PushButton</string>
+          <string>范围圆弧</string>
          </property>
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QPushButton" name="pushButton_4">
+        <widget class="QPushButton" name="regPointBtn">
          <property name="text">
-          <string>PushButton</string>
+          <string>范围点</string>
          </property>
         </widget>
        </item>

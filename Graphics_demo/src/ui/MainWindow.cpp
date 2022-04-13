@@ -8,8 +8,10 @@
 #include "FunctionsTabWidget.h"
 #include "OperationWidget.h"
 
-#include "action/xActionDrawLine.h"
-#include "action/xActionDrawCircle.h"
+#include "xActionDrawLine.h"
+#include "xActionDrawCircle.h"
+#include "xActionDrawRegLine.h"
+#include "xActionDrawRegCircle.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -20,7 +22,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 	m_scene = new QGraphicsScene(this);
 	m_view = new xGraphicView(m_scene, ui.view_widget);
-	
+
+	QImage img(2048, 2048, QImage::Format_RGB888);
+	img.fill(Qt::black);
+	m_view->setImage(img);
+
 	auto hLayout1 = new QHBoxLayout(ui.view_widget);
 	hLayout1->setContentsMargins(0, 0, 0, 0);
 	hLayout1->setSpacing(0);
@@ -40,6 +46,9 @@ MainWindow::MainWindow(QWidget *parent)
 	connect(tabWidget, &FunctionsTabWidget::drawLineEmit, this, &MainWindow::onDrawLine);
 	connect(tabWidget, &FunctionsTabWidget::drawCircleEmit, this, &MainWindow::onDrawCircle);
 
+	connect(tabWidget, &FunctionsTabWidget::drawRegLineEmit, this, &MainWindow::onDrawRegLine);
+	connect(tabWidget, &FunctionsTabWidget::drawRegCircleEmit, this, &MainWindow::onDrawRegCircle);
+
 	connect(ui.action_quit, &QAction::triggered, this, &QWidget::close);
 }
 
@@ -55,16 +64,16 @@ void MainWindow::onDrawLine()
 	ui.r_main_widget->hide();
 	ui.r_pop_widget->show();
 
-	xActionDrawLine *lineAction = new xActionDrawLine(m_view);
-	m_view->setAction(lineAction);
+	xActionDrawLine *action = new xActionDrawLine(m_view);
+	m_view->setAction(action);
 
 	// 连接确定、取消、下一步信号槽
 	connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
 	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
 	connect(opw, &OperationWidget::nextEmit, this, [=] {
 		m_view->finishAction();
-		xActionDrawLine *lineAction = new xActionDrawLine(m_view);
-		m_view->setAction(lineAction);
+		xActionDrawLine *action = new xActionDrawLine(m_view);
+		m_view->setAction(action);
 		});
 }
 
@@ -76,16 +85,58 @@ void MainWindow::onDrawCircle()
 	ui.r_main_widget->hide();
 	ui.r_pop_widget->show();
 
-	xActionDrawCircle *circleAction = new xActionDrawCircle(m_view);
-	m_view->setAction(circleAction);
+	xActionDrawCircle *action = new xActionDrawCircle(m_view);
+	m_view->setAction(action);
 
 	// 连接确定、取消、下一步信号槽
 	connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
 	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
 	connect(opw, &OperationWidget::nextEmit, this, [=] {
 		m_view->finishAction();
-		xActionDrawCircle *circleAction = new xActionDrawCircle(m_view);
-		m_view->setAction(circleAction);
+		xActionDrawCircle *action = new xActionDrawCircle(m_view);
+		m_view->setAction(action);
+		});
+}
+
+void MainWindow::onDrawRegLine()
+{
+	// 切换操作窗口
+	auto opw = new OperationWidget(ui.r_pop_widget);
+	m_vLayout->addWidget(opw);
+	ui.r_main_widget->hide();
+	ui.r_pop_widget->show();
+
+	xActionDrawRegLine *action = new xActionDrawRegLine(m_view);
+	m_view->setAction(action);
+
+	// 连接确定、取消、下一步信号槽
+	connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
+	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
+	connect(opw, &OperationWidget::nextEmit, this, [=] {
+		m_view->finishAction();
+		xActionDrawRegLine *action = new xActionDrawRegLine(m_view);
+		m_view->setAction(action);
+		});
+}
+
+void MainWindow::onDrawRegCircle()
+{
+	// 切换操作窗口
+	auto opw = new OperationWidget(ui.r_pop_widget);
+	m_vLayout->addWidget(opw);
+	ui.r_main_widget->hide();
+	ui.r_pop_widget->show();
+
+	xActionDrawRegCircle *action = new xActionDrawRegCircle(m_view);
+	m_view->setAction(action);
+
+	// 连接确定、取消、下一步信号槽
+	connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
+	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
+	connect(opw, &OperationWidget::nextEmit, this, [=] {
+		m_view->finishAction();
+		xActionDrawRegCircle *action = new xActionDrawRegCircle(m_view);
+		m_view->setAction(action);
 		});
 }
 
@@ -104,8 +155,11 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *e)
 	{
 		if (e->type() == QEvent::Resize)
 		{
-			// 窗口大小改变时调整视图场景大小
-			m_scene->setSceneRect(ui.view_widget->rect());
+			if (m_firstResize)
+			{
+				m_view->resizeScene();
+				m_firstResize = false;
+			}
 			return true;
 		}
 		return false;

@@ -76,7 +76,7 @@ public:
 	bool isThisVisible() const { return isVisible() && opacity() > 0; }
 
 public slots:
-	// 仅设置此图元的可见性，不影响孩子的可见性
+	// 仅设置此图元的可见性，不影响children的可见性
 	void setThisVisible(bool visible);
 	void showThis() { setThisVisible(true); }
 	void hideThis() { setThisVisible(false); }
@@ -108,13 +108,13 @@ inline void xEntity::init()
 {
 	setFlag(ItemIsMovable);
 	setFlag(ItemIsSelectable);
-	// 忽略父母的透明度，以实现父母不可见而孩子可见
+	// 忽略parent的透明度，以实现parent不可见而children可见
 	setFlag(ItemIgnoresParentOpacity);
 	setAcceptHoverEvents(true);
 }
 
 inline qreal xEntity::viewScaleFactor() const
 {
-	// 通过view的转换矩阵获取缩放系数，m11存放的值表示缩放倍数
-	return m_view->transform().m11();
+	if (m_view == nullptr) return 1.0;
+	return m_view->scaleFactor();
 }

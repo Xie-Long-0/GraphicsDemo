@@ -17,6 +17,9 @@ signals:
 	void drawLineEmit();
 	void drawCircleEmit();
 
+	void drawRegLineEmit();
+	void drawRegCircleEmit();
+
 protected:
 	void paintEvent(QPaintEvent *e) override;
 

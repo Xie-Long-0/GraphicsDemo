@@ -19,6 +19,9 @@ public slots:
 	void onDrawLine();
 	void onDrawCircle();
 
+	void onDrawRegLine();
+	void onDrawRegCircle();
+
 protected:
 	void paintEvent(QPaintEvent *e) override;
 	bool eventFilter(QObject *obj, QEvent *e) override;
@@ -32,4 +35,5 @@ private:
 	xGraphicView *m_view = nullptr;
 	QGraphicsScene *m_scene = nullptr;
 	QVBoxLayout *m_vLayout = nullptr;
+	bool m_firstResize = true;
 };

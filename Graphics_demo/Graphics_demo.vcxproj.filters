@@ -101,6 +101,12 @@
     <ClCompile Include="src\engine\entity\xInterCircle.cpp">
       <Filter>engine\entity</Filter>
     </ClCompile>
+    <ClCompile Include="src\action\xActionDrawRegCircle.cpp">
+      <Filter>action</Filter>
+    </ClCompile>
+    <ClCompile Include="src\action\xActionDrawRegLine.cpp">
+      <Filter>action</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
@@ -180,6 +186,12 @@
       <Filter>action</Filter>
     </ClInclude>
     <ClInclude Include="src\action\xActionPreviewInterface.h">
+      <Filter>action</Filter>
+    </ClInclude>
+    <ClInclude Include="src\action\xActionDrawRegCircle.h">
+      <Filter>action</Filter>
+    </ClInclude>
+    <ClInclude Include="src\action\xActionDrawRegLine.h">
       <Filter>action</Filter>
     </ClInclude>
   </ItemGroup>
