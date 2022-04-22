@@ -9,9 +9,11 @@
 constexpr double M_PI = 3.14159265358979323846264;
 #endif
 #ifndef M_PI_2
-constexpr double M_PI_2 = 1.57079632679489661923132;	// PI * 0.5
+constexpr double M_PI_2 = 1.57079632679489661923132; // PI * 0.5
 #endif
-constexpr double M_2PI = 6.28318530717958647692528;	// PI * 2
+#ifndef M_2PI
+constexpr double M_2PI = 6.28318530717958647692528;  // PI * 2
+#endif
 constexpr double ANGLE_15_RAD = 0.261799;	// 15度对应的弧度
 constexpr double DELTA_DIST = 5.0;		// 较小的距离增量，通常用于移动时的判断
 constexpr double DELTA_DIST_2 = 8.0;	// 较大的距离增量，通常用于点击时的判断
@@ -82,6 +84,11 @@ inline double Distance(const QPointF &p1, const QPointF &p2)
  * @brief 点到直线的距离
 */
 double DistancePoint2Line(const QPointF &p, const QLineF &line);
+
+/**
+ * @brief 计算p1到p2形成的倾斜角（弧度）
+*/
+double AnglePoint2Point(const QPointF &p1, const QPointF &p2);
 
 /**
  * @brief 由圆心、半径及3个控制点组成的圆

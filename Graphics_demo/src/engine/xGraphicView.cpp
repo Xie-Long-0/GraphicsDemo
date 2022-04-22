@@ -217,6 +217,7 @@ void xGraphicView::keyPressEvent(QKeyEvent *e)
 
 void xGraphicView::mouseDoubleClickEvent(QMouseEvent *e)
 {
+	e->accept();
 }
 
 void xGraphicView::onScaleChanged()

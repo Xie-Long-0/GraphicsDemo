@@ -1,5 +1,6 @@
 #include "xActionDefault.h"
 #include <QMouseEvent>
+#include <QDebug>
 #include "xGraphicView.h"
 #include "xRegionEntity.h"
 
@@ -32,6 +33,7 @@ void xActionDefault::mousePressEvent(QMouseEvent *e)
 				i->stackBefore(item);
 			}
 		}
+
 		// 判断是否选中控制点
 		if (item->isCtrlPoint(m_p))
 		{
@@ -58,6 +60,10 @@ void xActionDefault::mousePressEvent(QMouseEvent *e)
 			m_item = item;
 			return;
 		}
+	}
+	else
+	{
+		e->accept();
 	}
 }
 
@@ -93,8 +99,15 @@ void xActionDefault::mouseMoveEvent(QMouseEvent *e)
 
 void xActionDefault::mouseReleaseEvent(QMouseEvent *e)
 {
-	m_willMoveItem = false;
-	m_isGrabCtrlPoint = false;
-	m_isGrabRegionEdge = false;
-	m_item = nullptr;
+	if (e->button() == Qt::LeftButton)
+	{
+		m_willMoveItem = false;
+		m_isGrabCtrlPoint = false;
+		m_isGrabRegionEdge = false;
+		m_item = nullptr;
+	}
+	else
+	{
+		e->accept();
+	}
 }

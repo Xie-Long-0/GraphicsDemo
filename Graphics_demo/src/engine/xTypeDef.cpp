@@ -25,6 +25,22 @@ double DistancePoint2Line(const QPointF &p, const QLineF &line)
 	return -1.0;
 }
 
+double AnglePoint2Point(const QPointF &p1, const QPointF &p2)
+{
+	const qreal dx = p2.x() - p1.x();
+	const qreal dy = p2.y() - p1.y();
+
+	const qreal theta = std::atan2(-dy, dx);
+
+	const qreal theta_normalized = theta < 0 ? theta + M_2PI : theta;
+
+	if (qFuzzyCompare(theta_normalized, M_2PI))
+		return 0.0;
+	else
+		return theta_normalized;
+}
+
+// class xCircleData
 xCircleData::xCircleData(const QPointF &c, qreal r)
 	: c(c)
 	, r(r)
