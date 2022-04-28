@@ -107,6 +107,9 @@
     <ClCompile Include="src\action\xActionDrawRegLine.cpp">
       <Filter>action</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\entity\xRegRect.cpp">
+      <Filter>engine\entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
@@ -158,6 +161,9 @@
       <Filter>engine\entity</Filter>
     </QtMoc>
     <QtMoc Include="src\engine\entity\xInterCircle.h">
+      <Filter>engine\entity</Filter>
+    </QtMoc>
+    <QtMoc Include="src\engine\entity\xRegRect.h">
       <Filter>engine\entity</Filter>
     </QtMoc>
   </ItemGroup>

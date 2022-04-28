@@ -29,6 +29,7 @@ public:
 		ET_RegCircle,
 		ET_RegArc,
 		ET_RegPoint,
+		ET_RegRect,
 		ET_Region_End,
 		// 绑定单个图元
 		ET_InterSingle_Start,

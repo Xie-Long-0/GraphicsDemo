@@ -129,6 +129,7 @@
     <ClCompile Include="src\engine\entity\xRegCircle.cpp" />
     <ClCompile Include="src\engine\entity\xRegionEntity.cpp" />
     <ClCompile Include="src\engine\entity\xRegLine.cpp" />
+    <ClCompile Include="src\engine\entity\xRegRect.cpp" />
     <ClCompile Include="src\engine\xGraphicView.cpp" />
     <ClCompile Include="src\engine\xStyle.cpp" />
     <ClCompile Include="src\engine\xTypeDef.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="src\action\xActionDrawRegCircle.h" />
     <ClInclude Include="src\action\xActionDrawRegLine.h" />
     <ClInclude Include="src\action\xActionInterface.h" />
+    <QtMoc Include="src\engine\entity\xRegRect.h" />
     <QtMoc Include="src\engine\entity\xInterCircle.h" />
     <QtMoc Include="src\engine\entity\xInterSingleEntity.h" />
     <QtMoc Include="src\engine\entity\xInterCoupleEntity.h" />
