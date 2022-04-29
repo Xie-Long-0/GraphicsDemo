@@ -12,6 +12,7 @@
 #include "xActionDrawCircle.h"
 #include "xActionDrawRegLine.h"
 #include "xActionDrawRegCircle.h"
+#include "xActionDrawRegRect.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -48,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 	connect(tabWidget, &FunctionsTabWidget::drawRegLineEmit, this, &MainWindow::onDrawRegLine);
 	connect(tabWidget, &FunctionsTabWidget::drawRegCircleEmit, this, &MainWindow::onDrawRegCircle);
+	connect(tabWidget, &FunctionsTabWidget::drawRegRectEmit, this, &MainWindow::onDrawRegRect);
 
 	connect(ui.action_quit, &QAction::triggered, this, &QWidget::close);
 }
@@ -136,6 +138,27 @@ void MainWindow::onDrawRegCircle()
 	connect(opw, &OperationWidget::nextEmit, this, [=] {
 		m_view->finishAction();
 		xActionDrawRegCircle *action = new xActionDrawRegCircle(m_view);
+		m_view->setAction(action);
+		});
+}
+
+void MainWindow::onDrawRegRect()
+{
+	// 切换操作窗口
+	auto opw = new OperationWidget(ui.r_pop_widget);
+	m_vLayout->addWidget(opw);
+	ui.r_main_widget->hide();
+	ui.r_pop_widget->show();
+
+	auto *action = new xActionDrawRegRect(m_view);
+	m_view->setAction(action);
+
+	// 连接确定、取消、下一步信号槽
+	connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
+	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
+	connect(opw, &OperationWidget::nextEmit, this, [=] {
+		m_view->finishAction();
+		auto *action = new xActionDrawRegRect(m_view);
 		m_view->setAction(action);
 		});
 }

@@ -12,6 +12,7 @@ FunctionsTabWidget::FunctionsTabWidget(QWidget *parent)
 
 	connect(ui.regLineBtn, &QPushButton::clicked, this, &FunctionsTabWidget::drawRegLineEmit);
 	connect(ui.regCircleBtn, &QPushButton::clicked, this, &FunctionsTabWidget::drawRegCircleEmit);
+	connect(ui.regRectBtn, &QPushButton::clicked, this, &FunctionsTabWidget::drawRegRectEmit);
 }
 
 FunctionsTabWidget::~FunctionsTabWidget()

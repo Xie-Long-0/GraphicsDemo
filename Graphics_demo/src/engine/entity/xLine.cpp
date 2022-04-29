@@ -33,25 +33,25 @@ void xLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 
 	auto style = m_style;
 
-	if (style != xStyle::NoStyle)
+	if (style != xDef::S_NoStyle)
 	{
 		// Ñ¡ÖĞ×´Ì¬
 		if (option->state & QStyle::State_Selected)
 		{
-			style = xStyle::Selected;
+			style = xDef::S_Selected;
 		}
 
 		// ĞüÍ£×´Ì¬
 		if (option->state & QStyle::State_MouseOver)
 		{
-			if (style == xStyle::Selected)
-				style = xStyle::HoverSelected;
+			if (style == xDef::S_Selected)
+				style = xDef::S_HoverSelected;
 			else
-				style = xStyle::Hovered;
+				style = xDef::S_Hovered;
 		}
 
 		const qreal f = viewScaleFactor();
-		xStyle::makeStyle(style, &m_pen, nullptr, f);
+		MakeStyle(style, &m_pen, nullptr, f);
 	}
 
 	painter->setPen(m_pen);

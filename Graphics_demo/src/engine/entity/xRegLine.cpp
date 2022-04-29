@@ -65,12 +65,12 @@ void xRegLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 	auto style = m_style;
 	const qreal f = viewScaleFactor();
 
-	if (style != xStyle::NoStyle)
+	if (style != xDef::S_NoStyle)
 	{
 		// Ñ¡ÖÐ×´Ì¬
 		if (option->state & QStyle::State_Selected)
 		{
-			style = xStyle::RegSelected;
+			style = xDef::S_RegSelected;
 			// Ñ¡ÖÐÊ±»æ»­±ß¿ò
 			painter->setPen(QPen(QColor(255, 255, 0, 255), 1.0 / f));
 			painter->drawPath(path);
@@ -79,10 +79,10 @@ void xRegLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 		// ÐüÍ£×´Ì¬
 		if (option->state & QStyle::State_MouseOver)
 		{
-			style = xStyle::RegHovered;
+			style = xDef::S_RegHovered;
 		}
 
-		xStyle::makeStyle(style, &m_pen, &m_brush, f);
+		MakeStyle(style, &m_pen, &m_brush, f);
 	}
 
 	// Ìî³ä·¶Î§
@@ -146,14 +146,14 @@ QPainterPath xRegLine::shape() const
 void xRegLine::setSubLine(const QLineF &line)
 {
 	m_subLine->setLine(line.p1(), line.p2());
-	m_subLine->setStyle(xStyle::Measured);
+	m_subLine->setStyle(xDef::S_Measured);
 	m_subLine->show();
 }
 
 void xRegLine::setSubLine(const QPointF &p1, const QPointF &p2)
 {
 	m_subLine->setLine(p1, p2);
-	m_subLine->setStyle(xStyle::Measured);
+	m_subLine->setStyle(xDef::S_Measured);
 	m_subLine->show();
 }
 

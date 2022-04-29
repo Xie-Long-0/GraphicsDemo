@@ -64,12 +64,12 @@ void xRegCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 	auto style = m_style;
 	const qreal f = viewScaleFactor();
 
-	if (style != xStyle::NoStyle)
+	if (style != xDef::S_NoStyle)
 	{
 		// 选中状态
 		if (option->state & QStyle::State_Selected)
 		{
-			style = xStyle::RegSelected;
+			style = xDef::S_RegSelected;
 			// 选中时绘画边框
 			painter->setPen(QPen(QColor(255, 255, 0, 255), 1.0 / f));
 			painter->drawPath(path);
@@ -78,10 +78,10 @@ void xRegCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 		// 悬停状态
 		if (option->state & QStyle::State_MouseOver)
 		{
-			style = xStyle::RegHovered;
+			style = xDef::S_RegHovered;
 		}
 
-		xStyle::makeStyle(style, &m_pen, &m_brush, f);
+		MakeStyle(style, &m_pen, &m_brush, f);
 	}
 
 	// 填充范围
@@ -103,7 +103,7 @@ void xRegCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 
 QRectF xRegCircle::boundingRect() const
 {
-	if (m_regCircle.isNull())
+	if (!m_regCircle.isValid())
 		return QRectF();
 
 	// 计算图形在视场中的矩形，包括画笔的宽度，否则无法正确显示
@@ -118,7 +118,7 @@ QRectF xRegCircle::boundingRect() const
 QPainterPath xRegCircle::shape() const
 {
 	QPainterPath path;
-	if (m_regCircle.isNull())
+	if (!m_regCircle.isValid())
 		return path;
 
 	const qreal r = m_regCircle.radius();
@@ -132,14 +132,14 @@ QPainterPath xRegCircle::shape() const
 void xRegCircle::setSubCircle(const xCircleData &circle)
 {
 	m_subCircle->setCircle(circle);
-	m_subCircle->setStyle(xStyle::Measured);
+	m_subCircle->setStyle(xDef::S_Measured);
 	m_subCircle->show();
 }
 
 void xRegCircle::setSubCircle(const QPointF &center, qreal radius)
 {
 	m_subCircle->setCircle(center, radius);
-	m_subCircle->setStyle(xStyle::Measured);
+	m_subCircle->setStyle(xDef::S_Measured);
 	m_subCircle->show();
 }
 

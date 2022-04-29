@@ -21,6 +21,7 @@ public slots:
 
 	void onDrawRegLine();
 	void onDrawRegCircle();
+	void onDrawRegRect();
 
 protected:
 	void paintEvent(QPaintEvent *e) override;

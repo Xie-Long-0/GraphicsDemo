@@ -25,7 +25,7 @@ public:
 	void setShiftDistance(qreal dist);
 
 	xEntity *getBindEntity() const { return m_entity; }
-	virtual void bindEntity(xEntity *e);
+	void bindEntity(xEntity *e);
 
 	QList<QPointF> controlPoints() const override;
 	void moveCtrlPoint(const QPointF &pt, const QPointF &movedPt) override;
@@ -42,3 +42,21 @@ protected:
 	qreal m_shiftDist = 0.0;	// 文字偏移距离，往左偏是负数，往右偏是正数
 	xEntity *m_entity = nullptr;
 };
+
+/**
+* 
+*                               ╱╲
+*                    偏移→ ╲╱    ╲xInterSingleEntity
+*                             ╲      ╲
+*                     锚定点→╱╲      ╲
+*                   ┆　　　╱    ╲    ╱
+*                   ┆角度╱        ╲╱
+*                   ┆╮╱
+*              ╱╲ ┆╱
+*            ╱    ╲ ←─ 绑定点
+*          ╱ xEntity╲
+*          ╲        ╱
+*            ╲    ╱
+*              ╲╱
+* 
+*/

@@ -27,7 +27,7 @@ protected:
 
 	QGraphicsScene *m_scene = nullptr;
 	xGraphicView *m_view = nullptr;
-	xDef::ActionStatus m_status = xDef::S_Default;
+	xDef::ActionStatus m_status = xDef::AS_Default;
 
 private:
 	xDef::ActionType m_type = xDef::AT_Unknown;

@@ -35,16 +35,16 @@ void xRegRect::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
 {
 	auto style = m_style;
 
-	if (style != xStyle::NoStyle)
+	if (style != xDef::S_NoStyle)
 	{
 		// ĞüÍ£×´Ì¬
 		if (option->state & QStyle::State_MouseOver)
 		{
-			style = xStyle::RegHovered;
+			style = xDef::S_RegHovered;
 		}
 
 		const qreal f = viewScaleFactor();
-		xStyle::makeStyle(style, &m_pen, &m_brush, f);
+		MakeStyle(style, &m_pen, &m_brush, f);
 	}
 
 	painter->setPen(m_pen);

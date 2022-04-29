@@ -7,7 +7,7 @@
 #include "entity/xLine.h"
 
 xActionDrawRegCircle::xActionDrawRegCircle(xGraphicView *view)
-	: xActionPreviewInterface(view, xDef::AT_DrawCircle)
+	: xActionPreviewInterface(view, xDef::AT_DrawRegCircle)
 {
 }
 
@@ -24,32 +24,32 @@ void xActionDrawRegCircle::mousePressEvent(QMouseEvent *e)
 	{
 		switch (m_status)
 		{
-		case xDef::S_Default:
+		case xDef::AS_Default:
 			mp1 = spos;
-			m_status = xDef::S_DrawEntity1_P1;
+			m_status = xDef::AS_DrawEntity1_P1;
 			e->accept();
 			break;
 
-		case xDef::S_DrawEntity1_P1:
+		case xDef::AS_DrawEntity1_P1:
 			if (Distance(mp1, spos) > DELTA_DIST_2)
 			{
 				mp2 = spos;
 				m_line->setLine(mp1, mp2);
-				m_status = xDef::S_DrawEntity1_P2;
+				m_status = xDef::AS_DrawEntity1_P2;
 				e->accept();
 			}
 			break;
 
-		case xDef::S_DrawEntity1_P2:
+		case xDef::AS_DrawEntity1_P2:
 			if (Distance(mp1, spos) > DELTA_DIST_2 && Distance(mp2, spos) > DELTA_DIST_2)
 			{
 				m_circle->setCircle(mp1, mp2, viewMapToScene(e), 30);
-				m_circle->setStyle(xStyle::RegDrawn);
+				m_circle->setStyle(xDef::S_RegDrawn);
 				// TEST
 				m_circle->setSubCircle(m_circle->center(), m_circle->radius());
 
 				// 操作完成，设置为S_ActionFinished
-				m_status = xDef::S_ActionFinished;
+				m_status = xDef::AS_ActionFinished;
 				e->accept();
 			}
 			break;
@@ -64,19 +64,19 @@ void xActionDrawRegCircle::mouseMoveEvent(QMouseEvent *e)
 {
 	switch (m_status)
 	{
-	case xDef::S_DrawEntity1_P1:
+	case xDef::AS_DrawEntity1_P1:
 		// 画两个点时显示为画直线
 		if (m_line == nullptr)
 		{
 			m_line = new xLine(m_view);
-			m_line->setStyle(xStyle::Drawing);
+			m_line->setStyle(xDef::S_Drawing);
 			m_scene->addItem(m_line);
 		}
 		m_line->setLine(mp1, viewMapToScene(e));
 		e->accept();
 		break;
 
-	case xDef::S_DrawEntity1_P2:
+	case xDef::AS_DrawEntity1_P2:
 		// 画第三个点时删除临时的直线
 		if (m_line)
 		{
@@ -87,7 +87,7 @@ void xActionDrawRegCircle::mouseMoveEvent(QMouseEvent *e)
 		if (m_circle == nullptr)
 		{
 			m_circle = new xRegCircle(m_view);
-			m_circle->setStyle(xStyle::RegDrawing);
+			m_circle->setStyle(xDef::S_RegDrawing);
 			m_scene->addItem(m_circle);
 		}
 		m_circle->setCircle(xCircleData(mp1, mp2, viewMapToScene(e)), 30);
@@ -117,5 +117,5 @@ void xActionDrawRegCircle::cancel()
 		delete m_circle;
 		m_circle = nullptr;
 	}
-	m_status = xDef::S_Default;
+	m_status = xDef::AS_Default;
 }

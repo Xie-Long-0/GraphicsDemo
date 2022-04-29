@@ -34,7 +34,7 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="entityTab">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -75,7 +75,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_2">
+     <widget class="QWidget" name="regEntityTab">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -93,6 +93,13 @@
          </property>
         </widget>
        </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="regPointBtn">
+         <property name="text">
+          <string>范围点</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="1">
         <widget class="QPushButton" name="regCircleBtn">
          <property name="text">
@@ -107,10 +114,10 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="regPointBtn">
+       <item row="2" column="0">
+        <widget class="QPushButton" name="regRectBtn">
          <property name="text">
-          <string>范围点</string>
+          <string>矩形框</string>
          </property>
         </widget>
        </item>

@@ -40,8 +40,6 @@ public:
 
 	QPointF pt1() const { return m_regLine.p1(); }
 	QPointF pt2() const { return m_regLine.p2(); }
-	//QPointF pt1() const { return mapToScene(m_regLine.p1()); }
-	//QPointF pt2() const { return mapToScene(m_regLine.p2()); }
 	void setPt1(const QPointF &p);
 	void setPt2(const QPointF &p);
 	QPointF middlePoint() const { return (pt1() + pt2()) * 0.5; }

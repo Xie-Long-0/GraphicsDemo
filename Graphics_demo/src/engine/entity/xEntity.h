@@ -3,7 +3,6 @@
 #include <QList>
 #include <QGraphicsObject>
 #include "xTypeDef.h"
-#include "xStyle.h"
 #include "xGraphicView.h"
 
 /**
@@ -14,7 +13,7 @@ class xEntity : public QGraphicsObject
 	Q_OBJECT
 
 public:
-	enum E_Type {
+	enum EntityType {
 		ET_Unknown = UserType,
 		// 不带范围的图元
 		ET_Entity_Start,
@@ -50,7 +49,7 @@ public:
 		ET_InterPointAndPoint,
 		ET_InterCouple_End
 	};
-	Q_ENUM(E_Type)
+	Q_ENUM(EntityType)
 
 	Q_DISABLE_COPY(xEntity)
 	explicit xEntity(xGraphicView *view, QGraphicsItem *parent = nullptr);
@@ -69,10 +68,12 @@ public:
 	// 判断是否是控制点
 	virtual bool isCtrlPoint(const QPointF &p) const = 0;
 
+	xDef::EntityStatus status() const { return m_status; }
+	void setStatus(xDef::EntityStatus status) { m_status = status; }
 	QPen pen() const { return m_pen; }
 	void setPen(const QPen &pen);
-	xStyle::Style style() const { return m_style; }
-	void setStyle(xStyle::Style style);
+	xDef::Style style() const { return m_style; }
+	void setStyle(xDef::Style style);
 
 	bool isThisVisible() const { return isVisible() && opacity() > 0; }
 
@@ -98,7 +99,8 @@ protected:
 	inline qreal viewScaleFactor() const;
 
 	QPen m_pen;
-	xStyle::Style m_style = xStyle::NoStyle;
+	xDef::Style m_style = xDef::S_NoStyle;
+	xDef::EntityStatus m_status = xDef::ES_Init;
 	xGraphicView *m_view = nullptr;
 
 private:

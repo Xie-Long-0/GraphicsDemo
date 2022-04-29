@@ -24,29 +24,29 @@ void xActionDrawCircle::mousePressEvent(QMouseEvent *e)
 	{
 		switch (m_status)
 		{
-		case xDef::S_Default:
+		case xDef::AS_Default:
 			mp1 = spos;
-			m_status = xDef::S_DrawEntity1_P1;
+			m_status = xDef::AS_DrawEntity1_P1;
 			e->accept();
 			break;
 
-		case xDef::S_DrawEntity1_P1:
+		case xDef::AS_DrawEntity1_P1:
 			if (Distance(mp1, spos) > DELTA_DIST_2)
 			{
 				mp2 = spos;
 				m_line->setLine(mp1, mp2);
-				m_status = xDef::S_DrawEntity1_P2;
+				m_status = xDef::AS_DrawEntity1_P2;
 				e->accept();
 			}
 			break;
 
-		case xDef::S_DrawEntity1_P2:
+		case xDef::AS_DrawEntity1_P2:
 			if (Distance(mp1, spos) > DELTA_DIST_2 && Distance(mp2, spos) > DELTA_DIST_2)
 			{
 				m_circle->setCircle(mp1, mp2, viewMapToScene(e));
-				m_circle->setStyle(xStyle::RegDrawn);
+				m_circle->setStyle(xDef::S_Drawn);
 				// 操作完成，设置为S_ActionFinished
-				m_status = xDef::S_ActionFinished;
+				m_status = xDef::AS_ActionFinished;
 				e->accept();
 			}
 			break;
@@ -61,19 +61,19 @@ void xActionDrawCircle::mouseMoveEvent(QMouseEvent *e)
 {
 	switch (m_status)
 	{
-	case xDef::S_DrawEntity1_P1:
+	case xDef::AS_DrawEntity1_P1:
 		// 画两个点时显示为画直线
 		if (m_line == nullptr)
 		{
 			m_line = new xLine(m_view);
-			m_line->setStyle(xStyle::Drawing);
+			m_line->setStyle(xDef::S_Drawing);
 			m_scene->addItem(m_line);
 		}
 		m_line->setLine(mp1, viewMapToScene(e));
 		e->accept();
 		break;
 
-	case xDef::S_DrawEntity1_P2:
+	case xDef::AS_DrawEntity1_P2:
 		// 画第三个点时删除临时的直线
 		if (m_line)
 		{
@@ -84,7 +84,7 @@ void xActionDrawCircle::mouseMoveEvent(QMouseEvent *e)
 		if (m_circle == nullptr)
 		{
 			m_circle = new xCircle(m_view);
-			m_circle->setStyle(xStyle::RegDrawing);
+			m_circle->setStyle(xDef::S_Drawing);
 			m_scene->addItem(m_circle);
 		}
 		m_circle->setCircle(xCircleData(mp1, mp2, viewMapToScene(e)));
@@ -114,5 +114,5 @@ void xActionDrawCircle::cancel()
 		delete m_circle;
 		m_circle = nullptr;
 	}
-	m_status = xDef::S_Default;
+	m_status = xDef::AS_Default;
 }

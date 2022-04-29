@@ -2,6 +2,9 @@
 
 #include "xInterSingleEntity.h"
 
+class xCircle;
+class xRegCircle;
+
 class xInterCircle : public xInterSingleEntity
 {
 	Q_OBJECT
@@ -9,7 +12,9 @@ class xInterCircle : public xInterSingleEntity
 public:
 	Q_DISABLE_COPY(xInterCircle)
 	explicit xInterCircle(xGraphicView *view, QGraphicsItem *parent = nullptr);
-	xInterCircle(xEntity *item, xGraphicView *view, QGraphicsItem *parent = nullptr);
+	xInterCircle(xCircle *item, xGraphicView *view, QGraphicsItem *parent = nullptr);
+	xInterCircle(xRegCircle *item, xGraphicView *view, QGraphicsItem *parent = nullptr);
+
 	~xInterCircle();
 
 	enum { Type = ET_InterCircle };

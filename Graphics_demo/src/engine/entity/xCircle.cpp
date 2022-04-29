@@ -39,23 +39,23 @@ void xCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
 	auto style = m_style;
 
-	if (style != xStyle::NoStyle)
+	if (style != xDef::S_NoStyle)
 	{
 		if (option->state & QStyle::State_Selected)
 		{
-			style = xStyle::Selected;
+			style = xDef::S_Selected;
 		}
 
 		if (option->state & QStyle::State_MouseOver)
 		{
-			if (style == xStyle::Selected)
-				style = xStyle::HoverSelected;
+			if (style == xDef::S_Selected)
+				style = xDef::S_HoverSelected;
 			else
-				style = xStyle::Hovered;
+				style = xDef::S_Hovered;
 		}
 
 		const qreal f = viewScaleFactor();
-		xStyle::makeStyle(style, &m_pen, nullptr, f);
+		MakeStyle(style, &m_pen, nullptr, f);
 	}
 
 	painter->setPen(m_pen);
@@ -73,7 +73,7 @@ void xCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
 QRectF xCircle::boundingRect() const
 {
-	if (m_circle.isNull())
+	if (!m_circle.isValid())
 		return QRectF();
 
 	// 计算图形在视场中的矩形，包括画笔的宽度，否则无法正确显示
@@ -88,7 +88,7 @@ QRectF xCircle::boundingRect() const
 QPainterPath xCircle::shape() const
 {
 	QPainterPath path;
-	if (m_circle.isNull())
+	if (!m_circle.isValid())
 		return path;
 
 	path.addEllipse(m_circle.center(), m_circle.radius(), m_circle.radius());

@@ -6,7 +6,7 @@
 #include "entity/xRegLine.h"
 
 xActionDrawRegLine::xActionDrawRegLine(xGraphicView *view)
-	: xActionPreviewInterface(view, xDef::AT_DrawLine)
+	: xActionPreviewInterface(view, xDef::AT_DrawRegLine)
 {
 }
 
@@ -23,22 +23,22 @@ void xActionDrawRegLine::mousePressEvent(QMouseEvent *e)
 	{
 		switch (m_status)
 		{
-		case xDef::S_Default:
+		case xDef::AS_Default:
 			mp = spos;
-			m_status = xDef::S_DrawEntity1_P1;
+			m_status = xDef::AS_DrawEntity1_P1;
 			e->accept();
 			break;
 
-		case xDef::S_DrawEntity1_P1:
+		case xDef::AS_DrawEntity1_P1:
 			if (Distance(mp, spos) > DELTA_DIST_2)
 			{
 				m_line->setLine(mp, spos, 30);
-				m_line->setStyle(xStyle::RegDrawn);
+				m_line->setStyle(xDef::S_RegDrawn);
 				// TEST
 				m_line->setSubLine(mp, spos);
 
 				// 操作完成，设置为S_ActionFinished
-				m_status = xDef::S_ActionFinished;
+				m_status = xDef::AS_ActionFinished;
 				e->accept();
 			}
 			break;
@@ -53,14 +53,14 @@ void xActionDrawRegLine::mouseMoveEvent(QMouseEvent *e)
 {
 	switch (m_status)
 	{
-	case xDef::S_DrawEntity1_P1:
+	case xDef::AS_DrawEntity1_P1:
 		if (Distance(mp, viewMapToScene(e)) > DELTA_DIST_2)
 		{
 			if (m_line == nullptr)
 			{
 				m_line = new xRegLine(m_view);
 				m_line->setRegWidth(30);
-				m_line->setStyle(xStyle::RegDrawing);
+				m_line->setStyle(xDef::S_RegDrawing);
 				m_scene->addItem(m_line);
 			}
 			m_line->setLine(mp, viewMapToScene(e), 30);
@@ -85,5 +85,5 @@ void xActionDrawRegLine::cancel()
 		delete m_line;
 		m_line = nullptr;
 	}
-	m_status = xDef::S_Default;
+	m_status = xDef::AS_Default;
 }

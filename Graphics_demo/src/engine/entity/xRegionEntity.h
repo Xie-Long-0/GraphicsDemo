@@ -2,7 +2,6 @@
 
 #include <QGraphicsItem>
 #include <QBrush>
-#include "xTypeDef.h"
 #include "xEntity.h"
 
 /**

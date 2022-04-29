@@ -29,6 +29,6 @@ void xRegionEntity::setBrush(const QBrush &brush)
 
 	prepareGeometryChange();
 	m_brush = brush;
-	m_style = xStyle::NoStyle;	// 设置无样式以使用自定义笔刷
+	m_style = xDef::S_NoStyle;	// 设置无样式以使用自定义笔刷
 	update();
 }

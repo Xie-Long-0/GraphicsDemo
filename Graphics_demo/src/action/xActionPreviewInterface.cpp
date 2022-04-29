@@ -37,5 +37,5 @@ void xActionPreviewInterface::confirm()
 
 bool xActionPreviewInterface::isFinished() const
 {
-	return (m_status >= xDef::S_ActionFinished);
+	return (m_status >= xDef::AS_ActionFinished);
 }
