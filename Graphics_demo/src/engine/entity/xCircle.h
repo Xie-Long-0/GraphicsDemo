@@ -3,7 +3,7 @@
 #include "xEntity.h"
 
 /**
- * @brief 继承QGraphicsItem与xEntity的无范围圆
+ * @brief 继承于xEntity的无范围圆
 */
 class xCircle : public xEntity
 {

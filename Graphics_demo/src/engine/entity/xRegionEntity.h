@@ -5,7 +5,7 @@
 #include "xEntity.h"
 
 /**
- * @brief 继承QGraphicsItem与xEntity的带范围的图元虚基类
+ * @brief 继承xEntity的带范围的图元虚基类
 */
 class xRegionEntity : public xEntity
 {

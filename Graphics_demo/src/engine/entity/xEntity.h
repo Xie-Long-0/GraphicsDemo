@@ -6,7 +6,7 @@
 #include "xGraphicView.h"
 
 /**
- * @brief 基于QGraphicsItem的带有画笔和样式的图元虚基类
+ * @brief 基于QGraphicsObject，带有画笔、样式和信号槽的图元虚基类
 */
 class xEntity : public QGraphicsObject
 {
