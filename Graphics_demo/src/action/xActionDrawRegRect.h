@@ -2,6 +2,8 @@
 
 #include "xActionPreviewInterface.h"
 
+class xRegRect;
+
 class xActionDrawRegRect : public xActionPreviewInterface
 {
 public:
@@ -14,4 +16,7 @@ public:
 
 	void cancel() override;
 
+private:
+	QPointF mp;
+	xRegRect *m_rect = nullptr;
 };

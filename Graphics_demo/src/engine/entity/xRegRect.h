@@ -24,6 +24,8 @@ public:
 
 	QRectF rect() const { return m_rect; }
 	void setRect(const QRectF& rect);
+	// 通过任意两点设置矩形
+	void setRect(const QPointF &p1, const QPointF &p2) { setRect(QRectF(p1, p2)); }
 
 	void moveBy(const QPointF& delta) override;
 	QList<QPointF> controlPoints() const override;

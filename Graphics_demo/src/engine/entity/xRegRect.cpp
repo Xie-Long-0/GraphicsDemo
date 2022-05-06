@@ -12,14 +12,28 @@ xRegRect::xRegRect(xGraphicView* view, QGraphicsItem* parent)
 
 xRegRect::xRegRect(const QRectF& rect, xGraphicView* view, QGraphicsItem* parent)
 	: xRegionEntity(view, parent)
-	, m_rect(rect)
 {
+	// 令矩形的宽与高大于0
+	auto nrect = rect.normalized();
+	if (nrect.width() < 0.001)
+		nrect.setWidth(0.001);
+	if (nrect.height() < 0.001)
+		nrect.setHeight(0.001);
+
+	m_rect = nrect;
 }
 
 xRegRect::xRegRect(const QPointF& topleft, const QPointF& botright, xGraphicView* view, QGraphicsItem* parent)
 	: xRegionEntity(view, parent)
-	, m_rect(topleft, botright)
 {
+	// 令矩形的宽与高大于0
+	auto nrect = QRectF(topleft, botright).normalized();
+	if (nrect.width() < 0.001)
+		nrect.setWidth(0.001);
+	if (nrect.height() < 0.001)
+		nrect.setHeight(0.001);
+
+	m_rect = nrect;
 }
 
 xRegRect::~xRegRect()
@@ -74,11 +88,18 @@ QPainterPath xRegRect::shape() const
 
 void xRegRect::setRect(const QRectF& rect)
 {
-	if (rect == m_rect)
+	// 令矩形的宽与高大于0
+	auto nrect = rect.normalized();
+	if (nrect.width() < 0.001)
+		nrect.setWidth(0.001);
+	if (nrect.height() < 0.001)
+		nrect.setHeight(0.001);
+
+	if (nrect == m_rect)
 		return;
 
 	prepareGeometryChange();
-	m_rect = rect;
+	m_rect = nrect;
 	update();
 	emit shapeChanged();
 }
@@ -101,54 +122,87 @@ QList<QPointF> xRegRect::controlPoints() const
 
 void xRegRect::moveCtrlPoint(const QPointF& pt, const QPointF& movedPt)
 {
-	prepareGeometryChange();
+	auto tl = Distance(m_rect.topLeft(), pt);
+	auto tr = Distance(m_rect.topRight(), pt);
+	auto bl = Distance(m_rect.bottomLeft(), pt);
+	auto br = Distance(m_rect.bottomRight(), pt);
 
-	if (Distance(m_rect.topLeft(), pt) < DELTA_DIST_2 / viewScaleFactor()) // 当左下角和右下角重合时就没有矩形了
+	auto min = std::min({ tl,tr,bl,br });
+
+	// 移动左上角
+	if (min == tl && tl < DELTA_DIST / viewScaleFactor())
 	{
-		if (movedPt.x() > m_rect.topRight().x())
+		// 从左上角移到右下角时需要把movedPt当成右下角的点
+		if (movedPt.x() - m_rect.right() > 0.001 &&
+			movedPt.y() - m_rect.bottom() > 0.001)
 		{
-			m_rect.setTopRight(movedPt);
+			setRect(m_rect.topLeft(), movedPt);
 		}
-		else if (movedPt.y() > m_rect.bottomLeft().y())
+		// 从左上角移到右上角时需要把movedPt当成右上角的点
+		else if (movedPt.x() - m_rect.right() > 0.001)
 		{
-			m_rect.setBottomLeft(movedPt);
+			setRect(m_rect.bottomLeft(), movedPt);
+		}
+		// 从左上角移到左下角时需要把movedPt当成左下角的点
+		else if (movedPt.y() - m_rect.bottom() > 0.001)
+		{
+			setRect(m_rect.topRight(), movedPt);
 		}
 		else
 		{
-			m_rect.setTopLeft(movedPt);
-
+			setRect(movedPt, m_rect.bottomRight());
 		}
-		
 	}
-	else if (Distance(m_rect.topRight(), pt) < DELTA_DIST_2 / viewScaleFactor())
+	// 移动右上角
+	else if (min == tr && tr < DELTA_DIST / viewScaleFactor())
 	{
-		m_rect.setTopRight(movedPt);
+		// 从右上角移到右下角时需要把movedPt当成右下角的点
+		if (movedPt.y() - m_rect.bottom() > 0.001)
+		{
+			setRect(m_rect.topLeft(), movedPt);
+		}
+		else
+		{
+			setRect(movedPt, m_rect.bottomLeft());
+		}
 	}
-	else if (Distance(m_rect.bottomLeft(), pt) < DELTA_DIST_2 / viewScaleFactor())
+	// 移动左下角
+	else if (min == bl && bl < DELTA_DIST / viewScaleFactor())
 	{
-		m_rect.setBottomLeft(movedPt);
+		if (movedPt.x() - m_rect.right() > 0.001)
+		{
+			setRect(m_rect.topLeft(), movedPt);
+		}
+		else
+		{
+			setRect(movedPt, m_rect.topRight());
+		}
 	}
-	else if (Distance(m_rect.bottomRight(), pt) < DELTA_DIST_2 / viewScaleFactor())
+	// 移动右下角
+	else if (min == br && br < DELTA_DIST / viewScaleFactor())
 	{
-		m_rect.setBottomRight(movedPt);
+		setRect(m_rect.topLeft(), movedPt);
 	}
-	update();
-	emit shapeChanged();
-	qDebug() << movedPt << m_rect;
 }
 
 bool xRegRect::isCtrlPoint(const QPointF& p) const
 {
-	if (Distance(m_rect.topLeft(), p) < DELTA_DIST_2 / viewScaleFactor()
-		|| Distance(m_rect.topRight(), p) < DELTA_DIST_2 / viewScaleFactor()
-		|| Distance(m_rect.bottomLeft(), p) < DELTA_DIST_2 / viewScaleFactor()
-		|| Distance(m_rect.bottomRight(), p) < DELTA_DIST_2 / viewScaleFactor())
+	if (!(flags() & ItemIsMovable))
+		return false;
+
+	if (Distance(m_rect.topLeft(), p) < DELTA_DIST / viewScaleFactor()
+		|| Distance(m_rect.topRight(), p) < DELTA_DIST / viewScaleFactor()
+		|| Distance(m_rect.bottomLeft(), p) < DELTA_DIST / viewScaleFactor()
+		|| Distance(m_rect.bottomRight(), p) < DELTA_DIST / viewScaleFactor())
 		return true;
 	return false;
 }
 
 bool xRegRect::isRegionEdge(const QPointF& p) const
 {
+	if (!(flags() & ItemIsMovable))
+		return false;
+
 	return false;
 }
 
