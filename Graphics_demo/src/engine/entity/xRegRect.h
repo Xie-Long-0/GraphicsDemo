@@ -24,18 +24,27 @@ public:
 
 	QRectF rect() const { return m_rect; }
 	void setRect(const QRectF& rect);
-	// 通过任意两点设置矩形
+	// 通过任意两点设置矩形，需传入scene坐标中的值
 	void setRect(const QPointF &p1, const QPointF &p2) { setRect(QRectF(p1, p2)); }
 
+	/**
+	 * @brief 移动图元
+	 * @param delta 移动增量，需传入scene坐标中的值
+	*/
 	void moveBy(const QPointF& delta) override;
 	QList<QPointF> controlPoints() const override;
+	/**
+	 * @brief 移动图元的一个控制点
+	 * @param pt 控制点位置，用于判断哪个控制点，需传入scene坐标中的值
+	 * @param movedPt 移动后的点位置，需传入scene坐标中的值
+	*/
 	void moveCtrlPoint(const QPointF& pt, const QPointF& movedPt) override;
 	bool isCtrlPoint(const QPointF& p) const override;
 
-	// 判断是否是范围边缘
-	virtual bool isRegionEdge(const QPointF& p) const override;
-	// 通过点到中心图形的距离来设置范围宽度
-	virtual void changeEdgeByPoint(const QPointF& p) override;
+	// 判断是否是范围边缘，需传入scene坐标中的值
+	bool isRegionEdge(const QPointF& p) const override;
+	// 通过点来改变范围宽度，需传入scene坐标中的值
+	void changeEdgeByPoint(const QPointF& p) override;
 
 protected:
 	QRectF m_rect;

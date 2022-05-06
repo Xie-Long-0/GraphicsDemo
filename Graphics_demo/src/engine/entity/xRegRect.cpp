@@ -5,12 +5,12 @@
 #include <QGraphicsView>
 #include <QDebug>
 
-xRegRect::xRegRect(xGraphicView* view, QGraphicsItem* parent)
+xRegRect::xRegRect(xGraphicView *view, QGraphicsItem *parent)
 	: xRegionEntity(view, parent)
 {
 }
 
-xRegRect::xRegRect(const QRectF& rect, xGraphicView* view, QGraphicsItem* parent)
+xRegRect::xRegRect(const QRectF &rect, xGraphicView *view, QGraphicsItem *parent)
 	: xRegionEntity(view, parent)
 {
 	// 令矩形的宽与高大于0
@@ -23,7 +23,7 @@ xRegRect::xRegRect(const QRectF& rect, xGraphicView* view, QGraphicsItem* parent
 	m_rect = nrect;
 }
 
-xRegRect::xRegRect(const QPointF& topleft, const QPointF& botright, xGraphicView* view, QGraphicsItem* parent)
+xRegRect::xRegRect(const QPointF &topleft, const QPointF &botright, xGraphicView *view, QGraphicsItem *parent)
 	: xRegionEntity(view, parent)
 {
 	// 令矩形的宽与高大于0
@@ -45,7 +45,7 @@ int xRegRect::type() const
 	return Type;
 }
 
-void xRegRect::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void xRegRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 	auto style = m_style;
 
@@ -86,7 +86,7 @@ QPainterPath xRegRect::shape() const
 	return path;
 }
 
-void xRegRect::setRect(const QRectF& rect)
+void xRegRect::setRect(const QRectF &rect)
 {
 	// 令矩形的宽与高大于0
 	auto nrect = rect.normalized();
@@ -104,7 +104,7 @@ void xRegRect::setRect(const QRectF& rect)
 	emit shapeChanged();
 }
 
-void xRegRect::moveBy(const QPointF& delta)
+void xRegRect::moveBy(const QPointF &delta)
 {
 	if (delta.isNull())
 		return;
@@ -117,20 +117,20 @@ void xRegRect::moveBy(const QPointF& delta)
 
 QList<QPointF> xRegRect::controlPoints() const
 {
-	return {m_rect.topLeft(), m_rect.topRight(), m_rect.bottomLeft(), m_rect.bottomRight()};
+	return { m_rect.topLeft(), m_rect.topRight(), m_rect.bottomLeft(), m_rect.bottomRight() };
 }
 
-void xRegRect::moveCtrlPoint(const QPointF& pt, const QPointF& movedPt)
+void xRegRect::moveCtrlPoint(const QPointF &pt, const QPointF &movedPt)
 {
-	auto tl = Distance(m_rect.topLeft(), pt);
-	auto tr = Distance(m_rect.topRight(), pt);
-	auto bl = Distance(m_rect.bottomLeft(), pt);
-	auto br = Distance(m_rect.bottomRight(), pt);
+	const auto tl = Distance(m_rect.topLeft(), pt);
+	const auto tr = Distance(m_rect.topRight(), pt);
+	const auto bl = Distance(m_rect.bottomLeft(), pt);
+	const auto br = Distance(m_rect.bottomRight(), pt);
 
-	auto min = std::min({ tl,tr,bl,br });
+	const auto min = std::min({ tl,tr,bl,br });
 
 	// 移动左上角
-	if (min == tl && tl < DELTA_DIST / viewScaleFactor())
+	if (qFuzzyCompare(min, tl) && tl < DELTA_DIST / viewScaleFactor())
 	{
 		// 从左上角移到右下角时需要把movedPt当成右下角的点
 		if (movedPt.x() - m_rect.right() > 0.001 &&
@@ -154,7 +154,7 @@ void xRegRect::moveCtrlPoint(const QPointF& pt, const QPointF& movedPt)
 		}
 	}
 	// 移动右上角
-	else if (min == tr && tr < DELTA_DIST / viewScaleFactor())
+	else if (qFuzzyCompare(min, tr) && tr < DELTA_DIST / viewScaleFactor())
 	{
 		// 从右上角移到右下角时需要把movedPt当成右下角的点
 		if (movedPt.y() - m_rect.bottom() > 0.001)
@@ -167,8 +167,9 @@ void xRegRect::moveCtrlPoint(const QPointF& pt, const QPointF& movedPt)
 		}
 	}
 	// 移动左下角
-	else if (min == bl && bl < DELTA_DIST / viewScaleFactor())
+	else if (qFuzzyCompare(min, bl) && bl < DELTA_DIST / viewScaleFactor())
 	{
+		// 从左下角移到右下角时需要把movedPt当成右下角的点
 		if (movedPt.x() - m_rect.right() > 0.001)
 		{
 			setRect(m_rect.topLeft(), movedPt);
@@ -179,13 +180,13 @@ void xRegRect::moveCtrlPoint(const QPointF& pt, const QPointF& movedPt)
 		}
 	}
 	// 移动右下角
-	else if (min == br && br < DELTA_DIST / viewScaleFactor())
+	else if (qFuzzyCompare(min, br) && br < DELTA_DIST / viewScaleFactor())
 	{
 		setRect(m_rect.topLeft(), movedPt);
 	}
 }
 
-bool xRegRect::isCtrlPoint(const QPointF& p) const
+bool xRegRect::isCtrlPoint(const QPointF &p) const
 {
 	if (!(flags() & ItemIsMovable))
 		return false;
@@ -198,14 +199,50 @@ bool xRegRect::isCtrlPoint(const QPointF& p) const
 	return false;
 }
 
-bool xRegRect::isRegionEdge(const QPointF& p) const
+bool xRegRect::isRegionEdge(const QPointF &p) const
 {
 	if (!(flags() & ItemIsMovable))
 		return false;
 
+	const auto dl = fabs(p.x() - m_rect.left());
+	const auto dt = fabs(p.y() - m_rect.top());
+	const auto dr = fabs(p.x() - m_rect.right());
+	const auto db = fabs(p.y() - m_rect.bottom());
+
+	const auto min = std::min({ dl,dt,dr,db });
+
+	if (min < DELTA_DIST / viewScaleFactor())
+		return true;
+
 	return false;
 }
 
-void xRegRect::changeEdgeByPoint(const QPointF& p)
+void xRegRect::changeEdgeByPoint(const QPointF &p)
 {
+	const auto dl = fabs(p.x() - m_rect.left());
+	const auto dt = fabs(p.y() - m_rect.top());
+	const auto dr = fabs(p.x() - m_rect.right());
+	const auto db = fabs(p.y() - m_rect.bottom());
+
+	const auto min = std::min({ dl,dt,dr,db });
+
+	prepareGeometryChange();
+	if (qFuzzyCompare(min, dl))
+	{
+		m_rect.setLeft(p.x());
+	}
+	else if (qFuzzyCompare(min, dt))
+	{
+		m_rect.setTop(p.y());
+	}
+	else if (qFuzzyCompare(min, dr))
+	{
+		m_rect.setRight(p.x());
+	}
+	else
+	{
+		m_rect.setBottom(p.y());
+	}
+	update();
+	emit shapeChanged();
 }

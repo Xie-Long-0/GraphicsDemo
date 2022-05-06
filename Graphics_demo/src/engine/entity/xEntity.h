@@ -54,18 +54,21 @@ public:
 	Q_DISABLE_COPY(xEntity)
 	explicit xEntity(xGraphicView *view, QGraphicsItem *parent = nullptr);
 	virtual ~xEntity() = default;
-
-	// 移动图元，delta为移动增量
+	
+	/**
+	 * @brief 移动图元
+	 * @param delta 移动增量，需传入scene坐标中的值
+	*/
 	virtual void moveBy(const QPointF &delta) = 0;
 	// 返回图元的绘画控制点
 	virtual QList<QPointF> controlPoints() const = 0;
 	/**
 	 * @brief 移动图元的一个控制点
-	 * @param pt 图元上的控制点
-	 * @param movedPt 移动后的点位置
+	 * @param pt 控制点位置，用于判断哪个控制点，需传入scene坐标中的值
+	 * @param movedPt 移动后的点位置，需传入scene坐标中的值
 	*/
 	virtual void moveCtrlPoint(const QPointF &pt, const QPointF &movedPt) = 0;
-	// 判断是否是控制点
+	// 判断是否是控制点，需传入scene坐标中的值
 	virtual bool isCtrlPoint(const QPointF &p) const = 0;
 
 	xDef::EntityStatus status() const { return m_status; }

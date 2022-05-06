@@ -44,11 +44,22 @@ public:
 	void setPt2(const QPointF &p);
 	QPointF middlePoint() const { return (pt1() + pt2()) * 0.5; }
 
+	/**
+	 * @brief 移动图元
+	 * @param delta 移动增量，需传入scene坐标中的值
+	*/
 	void moveBy(const QPointF &delta) override;
 	QList<QPointF> controlPoints() const override;
+	/**
+	 * @brief 移动图元的一个控制点
+	 * @param pt 控制点位置，用于判断哪个控制点，需传入scene坐标中的值
+	 * @param movedPt 移动后的点位置，需传入scene坐标中的值
+	*/
 	void moveCtrlPoint(const QPointF &pt, const QPointF &movedPt) override;
 	bool isCtrlPoint(const QPointF &p) const override;
+	// 通过点来改变范围宽度，需传入scene坐标中的值
 	void changeEdgeByPoint(const QPointF &p) override;
+	// 判断是否是范围边缘，需传入scene坐标中的值
 	bool isRegionEdge(const QPointF &p) const override;
 
 protected:
