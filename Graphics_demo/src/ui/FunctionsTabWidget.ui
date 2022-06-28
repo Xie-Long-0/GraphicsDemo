@@ -42,7 +42,7 @@
        </sizepolicy>
       </property>
       <attribute name="title">
-       <string>功能一</string>
+       <string>基础图形</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
        <item row="1" column="1">
@@ -83,7 +83,7 @@
        </sizepolicy>
       </property>
       <attribute name="title">
-       <string>功能二</string>
+       <string>范围图形</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
@@ -118,6 +118,34 @@
         <widget class="QPushButton" name="regRectBtn">
          <property name="text">
           <string>矩形框</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>关联图形</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="1">
+        <widget class="QPushButton" name="interCircleAndCircleBtn">
+         <property name="text">
+          <string>绑定圆与圆</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QPushButton" name="interCircleBtn">
+         <property name="text">
+          <string>绑定圆</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="interLineAndLineBtn">
+         <property name="text">
+          <string>绑定线与线</string>
          </property>
         </widget>
        </item>

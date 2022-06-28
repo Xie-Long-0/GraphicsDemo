@@ -18,9 +18,9 @@ xActionDrawRegLine::~xActionDrawRegLine()
 
 void xActionDrawRegLine::mousePressEvent(QMouseEvent *e)
 {
-	auto spos = viewMapToScene(e);
 	if (e->button() == Qt::LeftButton)
 	{
+		auto spos = viewMapToScene(e);
 		switch (m_status)
 		{
 		case xDef::AS_Default:

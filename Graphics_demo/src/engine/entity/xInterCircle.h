@@ -24,6 +24,8 @@ public:
 	QRectF boundingRect() const override;
 	QPainterPath shape() const override;
 
+	void bindEntity(xEntity *e) override;
+
 protected slots:
 	void onEntityChanged() override;
 

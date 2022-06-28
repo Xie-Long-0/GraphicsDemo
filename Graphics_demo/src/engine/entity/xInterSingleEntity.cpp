@@ -1,4 +1,5 @@
 #include "xInterSingleEntity.h"
+#include <QFontMetrics>
 
 xInterSingleEntity::xInterSingleEntity(xGraphicView *view, QGraphicsItem *parent)
 	: xEntity(view, parent)
@@ -13,10 +14,6 @@ xInterSingleEntity::xInterSingleEntity(xEntity *item, xGraphicView *view, QGraph
 
 xInterSingleEntity::~xInterSingleEntity()
 {
-	if (m_entity)
-	{
-		disconnect(m_entity);
-	}
 }
 
 void xInterSingleEntity::setText(const QString &text)
@@ -26,6 +23,7 @@ void xInterSingleEntity::setText(const QString &text)
 
 	prepareGeometryChange();
 	m_text = text;
+	m_lastFactor = -1;	// 文本改变时重新计算文本大小
 	update();
 }
 
@@ -36,6 +34,11 @@ void xInterSingleEntity::setBindPoint(const QPointF &p)
 
 	prepareGeometryChange();
 	m_bindPoint = p;
+	m_rotateAngle = M_PI_2 - AnglePoint2Point(m_bindPoint, m_anchorPoint);
+	m_transform.reset();
+	m_transform.translate(m_bindPoint.x(), m_bindPoint.y());
+	m_transform.rotateRadians(m_rotateAngle);
+	m_transform.translate(-m_bindPoint.x(), -m_bindPoint.y());
 	update();
 }
 
@@ -46,6 +49,11 @@ void xInterSingleEntity::setAnchorPoint(const QPointF &p)
 
 	prepareGeometryChange();
 	m_anchorPoint = p;
+	m_rotateAngle = M_PI_2 - AnglePoint2Point(m_bindPoint, m_anchorPoint);
+	m_transform.reset();
+	m_transform.translate(m_bindPoint.x(), m_bindPoint.y());
+	m_transform.rotateRadians(m_rotateAngle);
+	m_transform.translate(-m_bindPoint.x(), -m_bindPoint.y());
 	update();
 }
 
@@ -61,12 +69,12 @@ void xInterSingleEntity::setShiftDistance(qreal dist)
 
 void xInterSingleEntity::bindEntity(xEntity *e)
 {
-	if (e == m_entity)
+	if (e == m_bindEntity)
 		return;
 
-	if (m_entity)
+	if (m_bindEntity)
 	{
-		disconnect(m_entity);
+		disconnect(m_bindEntity);
 	}
 
 	if (e)
@@ -76,21 +84,43 @@ void xInterSingleEntity::bindEntity(xEntity *e)
 		connect(e, &xEntity::destroyed, this, &xEntity::deleteLater);
 	}
 
-	m_entity = e;
+	m_bindEntity = e;
+}
+
+void xInterSingleEntity::moveBy(const QPointF &delta)
+{
+	if (delta.isNull())
+		return;
+
+	prepareGeometryChange();
+	m_anchorPoint += delta;
+	m_rotateAngle = M_PI_2 - AnglePoint2Point(m_bindPoint, m_anchorPoint);
+	m_transform.reset();
+	m_transform.translate(m_bindPoint.x(), m_bindPoint.y());
+	m_transform.rotateRadians(m_rotateAngle);
+	m_transform.translate(-m_bindPoint.x(), -m_bindPoint.y());
+	update();
 }
 
 QList<QPointF> xInterSingleEntity::controlPoints() const
 {
-	return QList<QPointF>();
+	return { m_anchorPoint };
 }
 
 void xInterSingleEntity::moveCtrlPoint(const QPointF &pt, const QPointF &movedPt)
 {
+	if (Distance(pt, m_anchorPoint) < DELTA_DIST / viewScaleFactor())
+	{
+		setAnchorPoint(movedPt);
+	}
 }
 
 bool xInterSingleEntity::isCtrlPoint(const QPointF &p) const
 {
-	return false;
+	if (!(flags() & ItemIsMovable))
+		return false;
+
+	return (Distance(m_anchorPoint, p) < DELTA_DIST_2 / viewScaleFactor());
 }
 
 void xInterSingleEntity::onEntityMoved(const QPointF &delta)
@@ -100,5 +130,10 @@ void xInterSingleEntity::onEntityMoved(const QPointF &delta)
 
 	prepareGeometryChange();
 	m_bindPoint += delta;
+	m_rotateAngle = M_PI_2 - AnglePoint2Point(m_bindPoint, m_anchorPoint);
+	m_transform.reset();
+	m_transform.translate(m_bindPoint.x(), m_bindPoint.y());
+	m_transform.rotateRadians(m_rotateAngle);
+	m_transform.translate(-m_bindPoint.x(), -m_bindPoint.y());
 	update();
 }

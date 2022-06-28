@@ -1,6 +1,7 @@
 #pragma once
 
 #include "xEntity.h"
+#include <QFont>
 
 /**
  * @brief 关联一个图元的基类
@@ -24,10 +25,20 @@ public:
 	qreal shiftDistance() const { return m_shiftDist; }
 	void setShiftDistance(qreal dist);
 
-	xEntity *getBindEntity() const { return m_entity; }
-	void bindEntity(xEntity *e);
+	xEntity *getBindEntity() const { return m_bindEntity; }
+	virtual void bindEntity(xEntity *e);
 
+	/**
+	* @brief 移动图元
+	* @param delta 移动增量，需传入scene坐标中的值
+	*/
+	void moveBy(const QPointF &delta) override;
 	QList<QPointF> controlPoints() const override;
+	/**
+	 * @brief 移动图元的一个控制点
+	 * @param pt 控制点位置，用于判断哪个控制点，需传入scene坐标中的值
+	 * @param movedPt 移动后的点位置，需传入scene坐标中的值
+	*/
 	void moveCtrlPoint(const QPointF &pt, const QPointF &movedPt) override;
 	bool isCtrlPoint(const QPointF &p) const override;
 
@@ -36,11 +47,16 @@ protected slots:
 	virtual void onEntityMoved(const QPointF &delta);
 
 protected:
-	QString m_text;
+	QString m_text;	// 显示文本
+	QRectF m_textRect;		// 文本占用的矩形框
 	QPointF m_bindPoint;	// 绑定点
 	QPointF m_anchorPoint;	// 锚定点
+	QTransform m_transform;	// 变换矩阵
+	qreal m_rotateAngle = 0;	// 旋转角度（弧度）
 	qreal m_shiftDist = 0.0;	// 文字偏移距离，往左偏是负数，往右偏是正数
-	xEntity *m_entity = nullptr;
+	xEntity *m_bindEntity = nullptr;	// 关联的图元
+	QFont m_font;	// 字体
+	qreal m_lastFactor = 0;	// 记录上次缩放后的值，当值未改变时不更新文本大小，以减少绘画计算
 };
 
 /**
@@ -49,11 +65,11 @@ protected:
 *                    偏移→ ╲╱    ╲xInterSingleEntity
 *                             ╲      ╲
 *                     锚定点→╱╲      ╲
-*                   ┆　　　╱    ╲    ╱
-*                   ┆角度╱        ╲╱
-*                   ┆╮╱
-*              ╱╲ ┆╱
-*            ╱    ╲ ←─ 绑定点
+*                    　　 　╱    ╲    ╱
+*               绑定点    ╱        ╲╱
+*                   │  ╱
+*              ╱╲ ↓╱╮角度
+*            ╱    ╲ ┄┄┄┄┄ 0°
 *          ╱ xEntity╲
 *          ╲        ╱
 *            ╲    ╱

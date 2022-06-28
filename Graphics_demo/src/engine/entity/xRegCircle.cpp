@@ -2,7 +2,6 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsScene>
-#include <QGraphicsView>
 #include <QDebug>
 
 xRegCircle::xRegCircle(xGraphicView *view, QGraphicsItem *parent)

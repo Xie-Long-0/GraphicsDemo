@@ -15,7 +15,6 @@ xActionDefault::~xActionDefault()
 
 void xActionDefault::mousePressEvent(QMouseEvent *e)
 {
-	m_p = viewMapToScene(e);
 	if (e->button() == Qt::LeftButton)
 	{
 		auto gi = m_view->itemAt(e->pos());
@@ -23,6 +22,7 @@ void xActionDefault::mousePressEvent(QMouseEvent *e)
 			return;
 
 		auto item = static_cast<xEntity *>(gi);
+		m_p = viewMapToScene(e);
 
 		if (item->flags() & QGraphicsItem::ItemIsSelectable)
 		{

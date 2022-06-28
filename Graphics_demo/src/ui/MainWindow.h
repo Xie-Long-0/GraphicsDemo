@@ -23,6 +23,8 @@ public slots:
 	void onDrawRegCircle();
 	void onDrawRegRect();
 
+	void onDrawInterCircle();
+
 protected:
 	void paintEvent(QPaintEvent *e) override;
 	bool eventFilter(QObject *obj, QEvent *e) override;

@@ -79,12 +79,16 @@ public:
 	void setStyle(xDef::Style style);
 
 	bool isThisVisible() const { return isVisible() && opacity() > 0; }
+	bool isMovable() const { return (flags() & ItemIsMovable); }
+	bool isSelectable() const { return (flags() & ItemIsSelectable); }
 
 public slots:
-	// 仅设置此图元的可见性，不影响children的可见性
-	void setThisVisible(bool visible);
-	void showThis() { setThisVisible(true); }
-	void hideThis() { setThisVisible(false); }
+	// 通过透明度设置此图元的可见性，不影响children的可见性
+	inline void setThisVisible(bool visible);
+	inline void showThis() { setThisVisible(true); }
+	inline void hideThis() { setThisVisible(false); }
+	inline void setMovable(bool b);
+	inline void setSelectable(bool b);
 
 signals:
 	void selectedChanged(bool selected);
@@ -117,6 +121,30 @@ inline void xEntity::init()
 	// 忽略parent的透明度，以实现parent不可见而children可见
 	setFlag(ItemIgnoresParentOpacity);
 	setAcceptHoverEvents(true);
+}
+
+inline void xEntity::setThisVisible(bool visible)
+{
+	if (visible)
+		setOpacity(1.0);
+	else
+		setOpacity(0);
+}
+
+inline void xEntity::setMovable(bool b)
+{
+	if (b)
+		setFlag(ItemIsMovable, true);
+	else
+		setFlag(ItemIsMovable, false);
+}
+
+inline void xEntity::setSelectable(bool b)
+{
+	if (b)
+		setFlag(ItemIsSelectable, true);
+	else
+		setFlag(ItemIsSelectable, false);
 }
 
 inline qreal xEntity::viewScaleFactor() const

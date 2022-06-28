@@ -21,6 +21,8 @@ signals:
 	void drawRegCircleEmit();
 	void drawRegRectEmit();
 
+	void drawInterCircle();
+
 protected:
 	void paintEvent(QPaintEvent *e) override;
 

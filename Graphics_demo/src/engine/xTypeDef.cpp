@@ -20,7 +20,7 @@ void MakeStyle(xDef::Style style, QPen *pen, QBrush *brush, qreal factor)
 		if (pen)
 		{
 			pen->setStyle(Qt::SolidLine);
-			pen->setColor(Qt::blue);
+			pen->setColor(Qt::cyan);
 			pen->setWidthF(2.0 / factor);
 		}
 		break;
@@ -89,13 +89,13 @@ void MakeStyle(xDef::Style style, QPen *pen, QBrush *brush, qreal factor)
 		if (pen)
 		{
 			pen->setStyle(Qt::SolidLine);
-			pen->setColor(QColor(0, 50, 225, 255));
+			pen->setColor(Qt::cyan);
 			pen->setWidthF(2.0 / factor);
 		}
 		if (brush)
 		{
 			brush->setStyle(Qt::SolidPattern);
-			brush->setColor(QColor(0, 50, 200, 80));
+			brush->setColor(QColor(0, 200, 180, 60));
 		}
 		break;
 
@@ -155,16 +155,45 @@ void MakeStyle(xDef::Style style, QPen *pen, QBrush *brush, qreal factor)
 
 		// ÎÄ×ÖÑùÊ½
 	case xDef::Style::S_TxtDrawing:
-		break;
 	case xDef::Style::S_TxtDrawn:
+		if (pen)
+		{
+			pen->setStyle(Qt::SolidLine);
+			pen->setColor(Qt::cyan);
+			pen->setWidthF(1.5 / factor);
+		}
 		break;
 	case xDef::Style::S_TxtMeasured:
+		if (pen)
+		{
+			pen->setStyle(Qt::SolidLine);
+			pen->setColor(Qt::green);
+			pen->setWidthF(1.75 / factor);
+		}
 		break;
 	case xDef::Style::S_TxtFailed:
+		if (pen)
+		{
+			pen->setStyle(Qt::SolidLine);
+			pen->setColor(Qt::red);
+			pen->setWidthF(1.75 / factor);
+		}
 		break;
 	case xDef::Style::S_TxtSelected:
+		if (pen)
+		{
+			pen->setStyle(Qt::SolidLine);
+			pen->setColor(Qt::yellow);
+			pen->setWidthF(2.0 / factor);
+		}
 		break;
 	case xDef::Style::S_TxtHovered:
+		if (pen)
+		{
+			pen->setStyle(Qt::SolidLine);
+			pen->setColor(QColor(255, 105, 0, 200));
+			pen->setWidthF(2.0 / factor);
+		}
 		break;
 
 	case xDef::Style::S_NoStyle:
