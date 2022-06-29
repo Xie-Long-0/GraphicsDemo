@@ -37,7 +37,7 @@ void xInterCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 	Q_UNUSED(widget);
 
 	auto style = m_style;
-	qreal f = viewScaleFactor();
+	const qreal f = viewScaleFactor();
 	if (style != xDef::S_NoStyle)
 	{
 		// 选中状态
@@ -56,9 +56,9 @@ void xInterCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 	}
 
 	// 连接线
-	QLineF linkL(m_bindPoint, m_anchorPoint);
+	const QLineF linkL(m_bindPoint, m_anchorPoint);
 	// 边距
-	qreal m = m_pen.widthF() + 4 / f;
+	const qreal m = m_pen.widthF() + 4 / f;
 
 	// 缩放改变时更新字体大小
 	if (!qFuzzyCompare(m_lastFactor, f))
@@ -75,6 +75,7 @@ void xInterCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 		m_textRect.translate(-m_textRect.width() / 2, 0);
 	}
 
+	// TODO: 后续优化文字旋转与绘画，提升性能
 	QPainterPath path;
 	// 添加文本底线
 	path.moveTo(m_textRect.bottomLeft() + QPointF(-4 / f, 0));
@@ -100,8 +101,8 @@ QRectF xInterCircle::boundingRect() const
 		return QRectF();
 
 	// 连接线
-	QLineF linkL(m_bindPoint, m_anchorPoint);
-	qreal m = m_pen.widthF() * 2 + 4 / viewScaleFactor();
+	const QLineF linkL(m_bindPoint, m_anchorPoint);
+	const qreal m = m_pen.widthF() * 2 + 4 / viewScaleFactor();
 
 	// 边界矩形
 	QRectF rect = m_textRect.marginsAdded({ m,0,m,m });
@@ -139,8 +140,8 @@ QPainterPath xInterCircle::shape() const
 		return QPainterPath();
 
 	// 连接线
-	QLineF linkL(m_bindPoint, m_anchorPoint);
-	qreal m = m_pen.widthF() * 2;
+	const QLineF linkL(m_bindPoint, m_anchorPoint);
+	const qreal m = m_pen.widthF() * 2;
 
 	// 使用多边形处理文字框矩形，代替文字绘画路径，提高效率
 	QPolygonF pg(m_textRect.marginsAdded({ m,0,m,m }));

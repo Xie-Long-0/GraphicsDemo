@@ -16,16 +16,16 @@ public:
 	xInterSingleEntity(xEntity *item, xGraphicView *view, QGraphicsItem *parent = nullptr);
 	virtual ~xInterSingleEntity();
 
-	QString text() const { return m_text; }
+	QString text() const noexcept { return m_text; }
 	void setText(const QString &text);
-	QPointF bindPoint() const { return m_bindPoint; }
+	QPointF bindPoint() const noexcept { return m_bindPoint; }
 	void setBindPoint(const QPointF &p);
-	QPointF anchorPoint() const { return m_anchorPoint; }
+	QPointF anchorPoint() const noexcept { return m_anchorPoint; }
 	void setAnchorPoint(const QPointF &p);
-	qreal shiftDistance() const { return m_shiftDist; }
+	qreal shiftDistance() const noexcept { return m_shiftDist; }
 	void setShiftDistance(qreal dist);
 
-	xEntity *getBindEntity() const { return m_bindEntity; }
+	xEntity *getBindEntity() const noexcept { return m_bindEntity; }
 	virtual void bindEntity(xEntity *e);
 
 	/**
@@ -33,7 +33,7 @@ public:
 	* @param delta 移动增量，需传入scene坐标中的值
 	*/
 	void moveBy(const QPointF &delta) override;
-	QList<QPointF> controlPoints() const override;
+	QList<QPointF> controlPoints() const noexcept override;
 	/**
 	 * @brief 移动图元的一个控制点
 	 * @param pt 控制点位置，用于判断哪个控制点，需传入scene坐标中的值

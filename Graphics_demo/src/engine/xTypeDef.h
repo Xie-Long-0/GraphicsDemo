@@ -146,7 +146,7 @@ inline double Distance(const QPointF &p1, const QPointF &p2)
 double DistancePoint2Line(const QPointF &p, const QLineF &line);
 
 /**
- * @brief 计算p1到p2形成的倾斜角（弧度）
+ * @brief 计算p1到p2形成的倾斜角（弧度），[0, 2PI)
 */
 double AnglePoint2Point(const QPointF &p1, const QPointF &p2);
 
@@ -156,21 +156,25 @@ double AnglePoint2Point(const QPointF &p1, const QPointF &p2);
 struct xCircleData
 {
 	constexpr xCircleData() = default;
+	constexpr xCircleData(const xCircleData &other) noexcept = default;
+	constexpr xCircleData(xCircleData &&other) noexcept = default;
 	constexpr xCircleData(const QPointF &center, qreal radius);
 	constexpr xCircleData(qreal cx, qreal cy, qreal radius);
 	constexpr xCircleData(const QPointF &p1, const QPointF &p2, const QPointF &p3);
 
-	constexpr QPointF center() const { return c; }
-	constexpr inline void setCenter(const QPointF &center);
-	constexpr qreal radius() const { return r; }
+	constexpr QPointF center() const noexcept { return c; }
+	constexpr inline void setCenter(const QPointF &center) noexcept;
+	constexpr qreal radius() const noexcept { return r; }
 	constexpr inline void setRadius(qreal radius);
-	constexpr QPointF pt1() const { return p1; }
-	constexpr QPointF pt2() const { return p2; }
-	constexpr QPointF pt3() const { return p3; }
-	constexpr inline void translate(const QPointF &p);
+	constexpr QPointF pt1() const noexcept { return p1; }
+	constexpr QPointF pt2() const noexcept { return p2; }
+	constexpr QPointF pt3() const noexcept { return p3; }
+	constexpr inline void translate(const QPointF &p) noexcept;
 
-	constexpr inline bool isValid() const;
-	friend constexpr inline bool operator==(const xCircleData &c1, const xCircleData &c2);
+	constexpr inline bool isValid() const noexcept;
+	friend constexpr inline bool operator==(const xCircleData &c1, const xCircleData &c2) noexcept;
+	constexpr xCircleData &operator=(const xCircleData &o) noexcept = default;
+	constexpr xCircleData &operator=(xCircleData &&o) noexcept = default;
 
 private:
 	// 由3点构造圆心和半径
@@ -183,7 +187,49 @@ private:
 	QPointF p1, p2, p3;
 };
 
-// class xCircleData
+/**
+ * @brief 由圆心、半径、起始角度、扫过角度及3个控制点组成的圆弧
+*/
+struct xArcData
+{
+	constexpr xArcData() = default;
+	constexpr xArcData(const xArcData &other) noexcept = default;
+	constexpr xArcData(xArcData &&other) noexcept = default;
+	constexpr xArcData(const QPointF &center, qreal radius, qreal angle, qreal angleLength);
+	constexpr xArcData(const QPointF &p1, const QPointF &p2, const QPointF &p3);
+
+	constexpr QPointF center() const noexcept { return c; }
+	constexpr inline void setCenter(const QPointF &center) noexcept;
+	constexpr qreal radius() const noexcept { return r; }
+	constexpr inline void setRadius(qreal radius);
+	constexpr qreal startAngle() const noexcept { return sa; }
+	constexpr inline void setStartAngle(qreal angle);
+	constexpr qreal angleLength() const noexcept { return alen; }
+	constexpr inline void setAngleLength(qreal alength);
+	constexpr QPointF pt1() const noexcept { return p1; }
+	constexpr QPointF pt2() const noexcept { return p2; }
+	constexpr QPointF pt3() const noexcept { return p3; }
+	constexpr inline void translate(const QPointF &p) noexcept;
+
+	constexpr inline bool isValid() const noexcept;
+	friend constexpr inline bool operator==(const xArcData &arc1, const xArcData &arc2) noexcept;
+	constexpr xArcData &operator=(const xArcData &o) noexcept = default;
+	constexpr xArcData &operator=(xArcData &&o) noexcept = default;
+
+private:
+	// 由3点构造圆心、半径及角度
+	constexpr inline void createFrom3P();
+	// 由圆心半径与角度构造3个点
+	constexpr inline void generate3P();
+
+	QPointF c;
+	qreal r = 0.0;
+	qreal sa = 0.0;		// 起始角度（弧度）
+	qreal alen = 0.0;	// 扫过角度（弧度），逆时针为正，顺时针为负
+	QPointF p1, p2, p3;
+};
+
+// struct xCircleData
 constexpr inline xCircleData::xCircleData(const QPointF &c, qreal r)
 	: c(c)
 	, r(r)
@@ -204,7 +250,7 @@ constexpr inline xCircleData::xCircleData(const QPointF &p1, const QPointF &p2, 
 	createFrom3P();
 }
 
-constexpr inline void xCircleData::setCenter(const QPointF &center)
+constexpr inline void xCircleData::setCenter(const QPointF &center) noexcept
 {
 	if (center == c)
 		return;
@@ -266,7 +312,7 @@ constexpr inline void xCircleData::generate3P()
 	p3 = c + PointFromPolar(r, M_PI * 4.0 / 3.0);
 }
 
-constexpr inline void xCircleData::translate(const QPointF &p)
+constexpr inline void xCircleData::translate(const QPointF &p) noexcept
 {
 	c += p;
 	p1 += p;
@@ -274,12 +320,154 @@ constexpr inline void xCircleData::translate(const QPointF &p)
 	p3 += p;
 }
 
-constexpr inline bool xCircleData::isValid() const
+constexpr inline bool xCircleData::isValid() const noexcept
 {
 	return (r > 0.00001);
 }
 
-constexpr inline bool operator==(const xCircleData &c1, const xCircleData &c2)
+constexpr inline bool operator==(const xCircleData &c1, const xCircleData &c2) noexcept
 {
 	return (c1.c == c2.c && qFuzzyCompare(c1.r, c2.r));
+}
+
+// struct xArcData
+inline constexpr xArcData::xArcData(const QPointF &center, qreal radius, qreal angle, qreal angleLength)
+	: c(center)
+	, r(radius)
+	, sa(angle)
+	, alen(angleLength)
+{
+	generate3P();
+}
+
+inline constexpr xArcData::xArcData(const QPointF &p1, const QPointF &p2, const QPointF &p3)
+	: p1(p1), p2(p2), p3(p3)
+{
+	createFrom3P();
+}
+
+inline constexpr void xArcData::createFrom3P()
+{
+	auto p12 = p2 - p1;
+	auto p23 = p3 - p2;
+	auto p13 = p3 - p1;
+
+	// p1 * p1
+	qreal dp1 = QPointF::dotProduct(p1, p1);
+	// p2 * p2 - p1 * p1
+	qreal dp12 = QPointF::dotProduct(p2, p2) - dp1;
+	// p3 * p3 - p1 * p1
+	qreal dp13 = QPointF::dotProduct(p3, p3) - dp1;
+	// cross-product, p12 x p23
+	qreal cp12p23 = p12.x() * p23.y() - p12.y() * p23.x();
+	// cross-product, p12 x p13
+	qreal cp12p13 = p12.x() * p13.y() - p12.y() * p13.x();
+	
+	// 3点共线
+	if (qFuzzyCompare(cp12p13, 0))
+	{
+		qWarning() << __FUNCTION__ << "Cannot create a Arc, 3 points on a line!";
+		return;
+	}
+
+	qreal x0 = (p13.y() * dp12 - p12.y() * dp13) / (cp12p13 * 2);
+	qreal y0 = (p12.x() * dp13 - p13.x() * dp12) / (cp12p13 * 2);
+
+	// 圆心
+	c = QPointF(x0, y0);
+	// 半径
+	r = QLineF(c, p1).length();
+
+	qreal a1 = AnglePoint2Point(c, p1);
+	qreal a2 = AnglePoint2Point(c, p2);
+	qreal a3 = AnglePoint2Point(c, p3);
+	// 起始角度
+	sa = a1;
+	// 判断扫过的角度
+	if (a1 > a3)
+	{
+		if (a2 < a1 && a2 > a3)
+			alen = -(a1 - a3);
+		else
+			alen = M_2PI - (a1 - a3);
+	}
+	else
+	{
+		if (a2 < a3 && a2 > a1)
+			alen = a3 - a1;
+		else
+			alen = a3 - a1 - M_2PI;
+	}
+}
+
+inline constexpr void xArcData::generate3P()
+{
+	if (!isValid())
+	{
+		qWarning() << __FUNCTION__ << ": The radius is invalid";
+		return;
+	}
+
+	p1 = c + PointFromPolar(r, sa);
+	p2 = c + PointFromPolar(r, sa + alen * 0.5);
+	p3 = c + PointFromPolar(r, sa + alen);
+}
+
+inline constexpr void xArcData::setCenter(const QPointF &center) noexcept
+{
+	if (center == c)
+		return;
+	auto d = center - c;
+	p1 += d;
+	p2 += d;
+	p3 += d;
+	c = center;
+}
+
+inline constexpr void xArcData::setRadius(qreal radius)
+{
+	if (qFuzzyCompare(radius, r))
+		return;
+
+	r = radius;
+	p1 = c + PointFromPolar(r, QLineF(c, p1).angle() * M_PI / 180.0);
+	p2 = c + PointFromPolar(r, QLineF(c, p2).angle() * M_PI / 180.0);
+	p3 = c + PointFromPolar(r, QLineF(c, p3).angle() * M_PI / 180.0);
+}
+
+inline constexpr void xArcData::setStartAngle(qreal angle)
+{
+	if (qFuzzyCompare(angle, sa))
+		return;
+
+	sa = angle;
+	generate3P();
+}
+
+inline constexpr void xArcData::setAngleLength(qreal alength)
+{
+	if (qFuzzyCompare(alength, alen))
+		return;
+
+	alen = alength;
+	generate3P();
+}
+
+inline constexpr void xArcData::translate(const QPointF &p) noexcept
+{
+	c += p;
+	p1 += p;
+	p2 += p;
+	p3 += p;
+}
+
+inline constexpr bool xArcData::isValid() const noexcept
+{
+	return (r > 0.00001 && fabs(alen) > 0.001);
+}
+
+inline constexpr bool operator==(const xArcData &arc1, const xArcData &arc2) noexcept
+{
+	return (arc1.c == arc2.c && qFuzzyCompare(arc1.r, arc2.r)
+		&& qFuzzyCompare(arc1.sa, arc2.sa) && qFuzzyCompare(arc1.alen, arc2.alen));
 }

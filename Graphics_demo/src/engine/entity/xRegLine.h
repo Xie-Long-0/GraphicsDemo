@@ -27,29 +27,29 @@ public:
 	QPainterPath shape() const override;
 
 	// 额外生成的无范围的线
-	QLineF subLineData() const { return m_subLine->lineData(); }
+	QLineF subLineData() const noexcept { return m_subLine->lineData(); }
 	// 设置额外生成的线
 	void setSubLine(const QLineF &line);
 	// 设置额外生成的线
 	void setSubLine(const QPointF &p1, const QPointF &p2);
-	void hideSubLine(bool hide = true) { m_subLine->setVisible(!hide); }
+	void hideSubLine(bool hide = true) noexcept { m_subLine->setVisible(!hide); }
 
-	QLineF lineData() const { return m_regLine; }
+	QLineF lineData() const noexcept { return m_regLine; }
 	void setLine(const QLineF &line, qreal width) { setLine(line.p1(), line.p2(), width); }
 	void setLine(const QPointF &p1, const QPointF &p2, qreal width);
 
-	QPointF pt1() const { return m_regLine.p1(); }
-	QPointF pt2() const { return m_regLine.p2(); }
+	QPointF pt1() const noexcept { return m_regLine.p1(); }
+	QPointF pt2() const noexcept { return m_regLine.p2(); }
 	void setPt1(const QPointF &p);
 	void setPt2(const QPointF &p);
-	QPointF middlePoint() const { return (pt1() + pt2()) * 0.5; }
+	QPointF middlePoint() const noexcept { return (pt1() + pt2()) * 0.5; }
 
 	/**
 	 * @brief 移动图元
 	 * @param delta 移动增量，需传入scene坐标中的值
 	*/
 	void moveBy(const QPointF &delta) override;
-	QList<QPointF> controlPoints() const override;
+	QList<QPointF> controlPoints() const noexcept override;
 	/**
 	 * @brief 移动图元的一个控制点
 	 * @param pt 控制点位置，用于判断哪个控制点，需传入scene坐标中的值

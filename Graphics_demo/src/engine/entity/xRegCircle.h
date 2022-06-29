@@ -27,26 +27,26 @@ public:
 	QPainterPath shape() const override;
 
 	// 额外生成的无范围的圆
-	xCircleData subCircleData() const { return m_subCircle->circleData(); }
+	xCircleData subCircleData() const noexcept { return m_subCircle->circleData(); }
 	// 设置额外生成的圆
 	void setSubCircle(const xCircleData &circle);
 	// 设置额外生成的圆
 	void setSubCircle(const QPointF &center, qreal radius);
-	void hideSubCircle(bool hide = true) { m_subCircle->setVisible(!hide); }
+	void hideSubCircle(bool hide = true) noexcept { m_subCircle->setVisible(!hide); }
 
-	xCircleData circleData() const { return m_regCircle; }
+	xCircleData circleData() const noexcept { return m_regCircle; }
 	void setCircle(const xCircleData &circle, qreal width) { setCircle(circle.center(), circle.radius(), width); }
 	void setCircle(const QPointF &center, qreal radius, qreal width);
 	void setCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, qreal width);
 
-	QPointF center() const { return m_regCircle.center(); }
+	QPointF center() const noexcept { return m_regCircle.center(); }
 	void setCenter(const QPointF &center) { moveBy(center - this->center()); }
-	qreal radius() const { return m_regCircle.radius(); }
+	qreal radius() const noexcept { return m_regCircle.radius(); }
 	void setRadius(qreal radius);
 
-	QPointF pt1() const { return m_regCircle.pt1(); }
-	QPointF pt2() const { return m_regCircle.pt2(); }
-	QPointF pt3() const { return m_regCircle.pt3(); }
+	QPointF pt1() const noexcept { return m_regCircle.pt1(); }
+	QPointF pt2() const noexcept { return m_regCircle.pt2(); }
+	QPointF pt3() const noexcept { return m_regCircle.pt3(); }
 	void setPt1(const QPointF &p);
 	void setPt2(const QPointF &p);
 	void setPt3(const QPointF &p);
@@ -56,7 +56,7 @@ public:
 	 * @param delta 移动增量，需传入scene坐标中的值
 	*/
 	void moveBy(const QPointF &delta) override;
-	QList<QPointF> controlPoints() const override;
+	QList<QPointF> controlPoints() const noexcept override;
 	/**
 	 * @brief 移动图元的一个控制点
 	 * @param pt 控制点位置，用于判断哪个控制点，需传入scene坐标中的值

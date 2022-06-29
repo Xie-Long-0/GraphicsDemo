@@ -13,7 +13,7 @@ public:
 	xInterCoupleEntity(xGraphicView *view, QGraphicsItem *parent = nullptr);
 	virtual ~xInterCoupleEntity();
 
-	QString text() const { return m_text; }
+	QString text() const noexcept { return m_text; }
 	void setText(const QString &text);
 
 	void bindEntity1(xEntity *e);

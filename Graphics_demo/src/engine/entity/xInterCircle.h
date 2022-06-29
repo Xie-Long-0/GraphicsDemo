@@ -5,6 +5,9 @@
 class xCircle;
 class xRegCircle;
 
+/**
+ * @brief 关联一个圆（或范围圆）的图元，继承自xInterSingleEntity
+*/
 class xInterCircle : public xInterSingleEntity
 {
 	Q_OBJECT

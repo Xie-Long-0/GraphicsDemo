@@ -136,7 +136,7 @@ void xLine::moveBy(const QPointF &delta)
 	emit posChanged(delta);
 }
 
-QList<QPointF> xLine::controlPoints() const
+QList<QPointF> xLine::controlPoints() const noexcept
 {
 	return { pt1(), pt2() };
 }

@@ -70,7 +70,7 @@ QRectF xRegRect::boundingRect() const
 {
 	if (m_rect.isEmpty())
 		return QRectF();
-	qreal w = m_pen.widthF() * 2;
+	const qreal w = m_pen.widthF() * 2;
 	return m_rect.marginsAdded({ w,w,w,w });
 }
 
@@ -115,7 +115,7 @@ void xRegRect::moveBy(const QPointF &delta)
 	emit posChanged(delta);
 }
 
-QList<QPointF> xRegRect::controlPoints() const
+QList<QPointF> xRegRect::controlPoints() const noexcept
 {
 	return { m_rect.topLeft(), m_rect.topRight(), m_rect.bottomLeft(), m_rect.bottomRight() };
 }

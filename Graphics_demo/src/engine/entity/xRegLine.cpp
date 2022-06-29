@@ -202,7 +202,7 @@ void xRegLine::moveBy(const QPointF &delta)
 	emit posChanged(delta);
 }
 
-QList<QPointF> xRegLine::controlPoints() const
+QList<QPointF> xRegLine::controlPoints() const noexcept
 {
 	return { pt1(),pt2() };
 }

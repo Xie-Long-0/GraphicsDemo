@@ -61,7 +61,7 @@ public:
 	*/
 	virtual void moveBy(const QPointF &delta) = 0;
 	// 返回图元的绘画控制点
-	virtual QList<QPointF> controlPoints() const = 0;
+	virtual QList<QPointF> controlPoints() const noexcept = 0;
 	/**
 	 * @brief 移动图元的一个控制点
 	 * @param pt 控制点位置，用于判断哪个控制点，需传入scene坐标中的值
@@ -71,24 +71,24 @@ public:
 	// 判断是否是控制点，需传入scene坐标中的值
 	virtual bool isCtrlPoint(const QPointF &p) const = 0;
 
-	xDef::EntityStatus status() const { return m_status; }
-	void setStatus(xDef::EntityStatus status) { m_status = status; }
-	QPen pen() const { return m_pen; }
+	xDef::EntityStatus status() const noexcept { return m_status; }
+	void setStatus(xDef::EntityStatus status) noexcept { m_status = status; }
+	QPen pen() const noexcept { return m_pen; }
 	void setPen(const QPen &pen);
-	xDef::Style style() const { return m_style; }
+	xDef::Style style() const noexcept { return m_style; }
 	void setStyle(xDef::Style style);
 
-	bool isThisVisible() const { return isVisible() && opacity() > 0; }
-	bool isMovable() const { return (flags() & ItemIsMovable); }
-	bool isSelectable() const { return (flags() & ItemIsSelectable); }
+	bool isThisVisible() const noexcept { return isVisible() && opacity() > 0; }
+	bool isMovable() const noexcept { return (flags() & ItemIsMovable); }
+	bool isSelectable() const noexcept { return (flags() & ItemIsSelectable); }
 
 public slots:
 	// 通过透明度设置此图元的可见性，不影响children的可见性
-	inline void setThisVisible(bool visible);
-	inline void showThis() { setThisVisible(true); }
-	inline void hideThis() { setThisVisible(false); }
-	inline void setMovable(bool b);
-	inline void setSelectable(bool b);
+	inline void setThisVisible(bool visible) noexcept;
+	inline void showThis() noexcept { setThisVisible(true); }
+	inline void hideThis() noexcept { setThisVisible(false); }
+	inline void setMovable(bool b) noexcept;
+	inline void setSelectable(bool b) noexcept;
 
 signals:
 	void selectedChanged(bool selected);
@@ -103,7 +103,7 @@ protected:
 	// 用于处理基类QGraphicsItem传递的改变，发送相应信号
 	QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 	// 获取视图的缩放系数
-	inline qreal viewScaleFactor() const;
+	inline qreal viewScaleFactor() const noexcept;
 
 	QPen m_pen;
 	xDef::Style m_style = xDef::S_NoStyle;
@@ -111,10 +111,10 @@ protected:
 	xGraphicView *m_view = nullptr;
 
 private:
-	inline void init();
+	inline void init() noexcept;
 };
 
-inline void xEntity::init()
+inline void xEntity::init() noexcept
 {
 	setFlag(ItemIsMovable);
 	setFlag(ItemIsSelectable);
@@ -123,7 +123,7 @@ inline void xEntity::init()
 	setAcceptHoverEvents(true);
 }
 
-inline void xEntity::setThisVisible(bool visible)
+inline void xEntity::setThisVisible(bool visible) noexcept
 {
 	if (visible)
 		setOpacity(1.0);
@@ -131,7 +131,7 @@ inline void xEntity::setThisVisible(bool visible)
 		setOpacity(0);
 }
 
-inline void xEntity::setMovable(bool b)
+inline void xEntity::setMovable(bool b) noexcept
 {
 	if (b)
 		setFlag(ItemIsMovable, true);
@@ -139,7 +139,7 @@ inline void xEntity::setMovable(bool b)
 		setFlag(ItemIsMovable, false);
 }
 
-inline void xEntity::setSelectable(bool b)
+inline void xEntity::setSelectable(bool b) noexcept
 {
 	if (b)
 		setFlag(ItemIsSelectable, true);
@@ -147,7 +147,7 @@ inline void xEntity::setSelectable(bool b)
 		setFlag(ItemIsSelectable, false);
 }
 
-inline qreal xEntity::viewScaleFactor() const
+inline qreal xEntity::viewScaleFactor() const noexcept
 {
 	if (m_view == nullptr) return 1.0;
 	return m_view->scaleFactor();

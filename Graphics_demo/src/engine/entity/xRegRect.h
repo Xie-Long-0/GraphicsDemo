@@ -22,7 +22,7 @@ public:
 	QRectF boundingRect() const override;
 	QPainterPath shape() const override;
 
-	QRectF rect() const { return m_rect; }
+	QRectF rect() const noexcept { return m_rect; }
 	void setRect(const QRectF& rect);
 	// 通过任意两点设置矩形，需传入scene坐标中的值
 	void setRect(const QPointF &p1, const QPointF &p2) { setRect(QRectF(p1, p2)); }
@@ -32,7 +32,7 @@ public:
 	 * @param delta 移动增量，需传入scene坐标中的值
 	*/
 	void moveBy(const QPointF& delta) override;
-	QList<QPointF> controlPoints() const override;
+	QList<QPointF> controlPoints() const noexcept override;
 	/**
 	 * @brief 移动图元的一个控制点
 	 * @param pt 控制点位置，用于判断哪个控制点，需传入scene坐标中的值
@@ -50,6 +50,6 @@ protected:
 	QRectF m_rect;
 
 private:
-	qreal regWidth() const = delete;
+	qreal regWidth() const noexcept = delete;
 	void setRegWidth(qreal w) = delete;
 };

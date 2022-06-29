@@ -23,9 +23,9 @@ public:
 	virtual void changeEdgeByPoint(const QPointF &p) = 0;
 
 	// 范围宽度，大小为从中心图形到最大一边的距离（通常情况下即为图元范围宽度的一半）
-	qreal regWidth() const { return m_width; }
+	qreal regWidth() const noexcept { return m_width; }
 	void setRegWidth(qreal w);
-	QBrush brush() const { return m_brush; }
+	QBrush brush() const noexcept { return m_brush; }
 	void setBrush(const QBrush &brush);
 
 signals:

@@ -222,7 +222,7 @@ void xRegCircle::moveBy(const QPointF &delta)
 	emit posChanged(delta);
 }
 
-QList<QPointF> xRegCircle::controlPoints() const
+QList<QPointF> xRegCircle::controlPoints() const noexcept
 {
 	return { pt1(), pt2(), pt3() };
 }

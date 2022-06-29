@@ -15,7 +15,7 @@ public:
 	~xGraphicView();
 
 	void setAction(xActionPreviewInterface *action);
-	qreal scaleFactor() const { return transform().m11(); }
+	qreal scaleFactor() const noexcept { return transform().m11(); }
 	void resizeScene();
 
 public slots:

@@ -173,7 +173,7 @@ void xCircle::moveBy(const QPointF &delta)
 	emit posChanged(delta);
 }
 
-QList<QPointF> xCircle::controlPoints() const
+QList<QPointF> xCircle::controlPoints() const noexcept
 {
 	return { pt1(), pt2(), pt3() };
 }
