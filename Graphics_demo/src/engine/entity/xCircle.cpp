@@ -41,9 +41,24 @@ void xCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
 	if (style != xDef::S_NoStyle)
 	{
-		if (option->state & QStyle::State_Selected)
+		if (isSelected())
 		{
 			style = xDef::S_Selected;
+			// 若有父图元如xRegCircle，则同时将父图元设置为选中
+			if (auto parent = parentItem(); parent != nullptr)
+			{
+				parent->setSelected(true);
+				parent->setOpacity(1.0);
+			}
+		}
+		else
+		{
+			// 若有父图元且父图元未选中，则隐藏父图元
+			if (auto parent = parentItem(); parent != nullptr && !parent->isSelected())
+			{
+				parent->setSelected(false);
+				parent->setOpacity(0);
+			}
 		}
 
 		if (option->state & QStyle::State_MouseOver)
@@ -61,7 +76,7 @@ void xCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	painter->setPen(m_pen);
 	painter->drawEllipse(m_circle.center(), m_circle.radius(), m_circle.radius());
 
-	if ((option->state & QStyle::State_Selected) && (flags() & ItemIsMovable))
+	if (isSelected() && (flags() & ItemIsMovable))
 	{
 		const qreal w = m_pen.widthF();
 		painter->fillRect(QRectF(m_circle.center().x() - w, m_circle.center().y() - w, w + w, w + w), Qt::yellow);

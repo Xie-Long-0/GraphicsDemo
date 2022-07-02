@@ -77,6 +77,8 @@ public:
 	void setPen(const QPen &pen);
 	xDef::Style style() const noexcept { return m_style; }
 	void setStyle(xDef::Style style);
+	QString name() const noexcept { return m_name; }
+	void setName(const QString &name) { m_name = name; }
 
 	bool isThisVisible() const noexcept { return isVisible() && opacity() > 0; }
 	bool isMovable() const noexcept { return (flags() & ItemIsMovable); }
@@ -89,6 +91,9 @@ public slots:
 	inline void hideThis() noexcept { setThisVisible(false); }
 	inline void setMovable(bool b) noexcept;
 	inline void setSelectable(bool b) noexcept;
+
+	// 用于调用计算任务
+	virtual void calculate() {}
 
 signals:
 	void selectedChanged(bool selected);
@@ -105,9 +110,10 @@ protected:
 	// 获取视图的缩放系数
 	inline qreal viewScaleFactor() const noexcept;
 
+	QString m_name;	// 图元的名称
 	QPen m_pen;
 	xDef::Style m_style = xDef::S_NoStyle;
-	xDef::EntityStatus m_status = xDef::ES_Init;
+	xDef::EntityStatus m_status = xDef::ES_NotMeasured;
 	xGraphicView *m_view = nullptr;
 
 private:

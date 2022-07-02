@@ -2,10 +2,13 @@
 #include <QGraphicsScene>
 #include <QMouseEvent>
 #include <QDebug>
+#include <QThread>
+
 #include "engine/xGraphicView.h"
 #include "entity/xCircle.h"
 #include "entity/xRegCircle.h"
 #include "entity/xInterCircle.h"
+#include "RecognizeHandler.h"
 
 xActionDrawInterCircle::xActionDrawInterCircle(xGraphicView *view)
 	: xActionPreviewInterface(view, xDef::AT_DrawInterCircle)
@@ -36,7 +39,9 @@ void xActionDrawInterCircle::mousePressEvent(QMouseEvent *e)
 			{
 				m_icircle = new xInterCircle(m_view);
 			}
+			// °ó¶¨Ô²
 			m_icircle->bindEntity(item);
+			m_icircle->setText("Bind Circle");
 			m_icircle->setAnchorPoint(viewMapToScene(e));
 			m_icircle->setStyle(xDef::S_TxtDrawing);
 			m_scene->addItem(m_icircle);
@@ -45,7 +50,7 @@ void xActionDrawInterCircle::mousePressEvent(QMouseEvent *e)
 			break;
 		}
 		case xDef::AS_DrawEntity1_P1:
-			m_status = xDef::AS_ActionFinished;
+			m_status = xDef::AS_Measured;
 			e->accept();
 			break;
 		case xDef::AS_Measured:
@@ -73,6 +78,15 @@ void xActionDrawInterCircle::mouseMoveEvent(QMouseEvent *e)
 
 void xActionDrawInterCircle::mouseReleaseEvent(QMouseEvent *e)
 {
+	if (e->button() == Qt::LeftButton)
+	{
+		if (m_status == xDef::AS_Measured && m_icircle)
+		{
+			m_icircle->calculate();
+			m_status = xDef::AS_ActionFinished;
+			e->accept();
+		}
+	}
 }
 
 void xActionDrawInterCircle::cancel()
@@ -84,4 +98,10 @@ void xActionDrawInterCircle::cancel()
 		m_icircle = nullptr;
 	}
 	m_status = xDef::AS_Default;
+}
+
+void xActionDrawInterCircle::calculate()
+{
+	if (m_icircle)
+		m_icircle->calculate();
 }

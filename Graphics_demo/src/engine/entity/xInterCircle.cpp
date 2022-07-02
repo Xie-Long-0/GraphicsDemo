@@ -5,6 +5,9 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsScene>
+#include <QThread>
+
+#include "RecognizeHandler.h"
 
 xInterCircle::xInterCircle(xGraphicView *view, QGraphicsItem *parent)
 	: xInterSingleEntity(view, parent)
@@ -41,9 +44,11 @@ void xInterCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 	if (style != xDef::S_NoStyle)
 	{
 		// Ñ¡ÖÐ×´Ì¬
-		if (option->state & QStyle::State_Selected)
+		if (isSelected())
 		{
 			style = xDef::S_TxtSelected;
+			if (m_bindEntity)
+				m_bindEntity->setSelected(true);
 		}
 
 		// ÐüÍ£×´Ì¬
@@ -160,15 +165,13 @@ void xInterCircle::bindEntity(xEntity *e)
 	xInterSingleEntity::bindEntity(e);
 	if (e->type() == xCircle::Type)
 	{
-		xCircle *c = static_cast<xCircle *>(e);
+		auto c = static_cast<xCircle *>(e);
 		setBindPoint(c->center());
-		setText(QString("Circle R: %1 C: [%2,%3]").arg(c->radius()).arg(c->center().x()).arg(c->center().y()));
 	}
 	else if (e->type() == xRegCircle::Type)
 	{
-		xRegCircle *c = static_cast<xRegCircle *>(e);
+		auto c = static_cast<xRegCircle *>(e);
 		setBindPoint(c->center());
-		setText(QString("RegCircle R: %1 C: [%2,%3]").arg(c->radius()).arg(c->center().x()).arg(c->center().y()));
 	}
 }
 
@@ -182,4 +185,23 @@ void xInterCircle::onEntityChanged()
 	{
 		setBindPoint(static_cast<xRegCircle *>(m_bindEntity)->center());
 	}
+}
+
+void xInterCircle::onEntityMoved(const QPointF &delta)
+{
+	xInterSingleEntity::onEntityMoved(delta);
+	calculate();
+}
+
+void xInterCircle::calculate()
+{
+	QThread *td = new QThread;
+	RecognizeHandler *rh = new RecognizeHandler;
+	rh->moveToThread(td);
+	connect(td, &QThread::finished, td, &QObject::deleteLater);
+	connect(td, &QThread::finished, rh, &QObject::deleteLater);
+	connect(rh, &RecognizeHandler::calcDone, td, &QThread::quit);
+	connect(rh, &RecognizeHandler::calcDone, m_view, &xGraphicView::calcFinished);
+	td->start();
+	rh->calcCircle(this);
 }

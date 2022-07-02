@@ -89,11 +89,7 @@ public:
 
 	enum EntityStatus
 	{
-		ES_Init = 0,
-		ES_Drawing,
-		ES_Drawn,
-		ES_Selected,
-		ES_Hovered,
+		ES_NotMeasured,
 		ES_MeasureOK,
 		ES_MeasureFailed,
 	};
@@ -195,16 +191,16 @@ struct xArcData
 	constexpr xArcData() = default;
 	constexpr xArcData(const xArcData &other) noexcept = default;
 	constexpr xArcData(xArcData &&other) noexcept = default;
-	constexpr xArcData(const QPointF &center, qreal radius, qreal angle, qreal angleLength);
+	constexpr xArcData(const QPointF &center, qreal radius, qreal angle, qreal spanAngle);
 	constexpr xArcData(const QPointF &p1, const QPointF &p2, const QPointF &p3);
 
 	constexpr QPointF center() const noexcept { return c; }
 	constexpr inline void setCenter(const QPointF &center) noexcept;
 	constexpr qreal radius() const noexcept { return r; }
 	constexpr inline void setRadius(qreal radius);
-	constexpr qreal startAngle() const noexcept { return sa; }
+	constexpr qreal startAngle() const noexcept { return a; }
 	constexpr inline void setStartAngle(qreal angle);
-	constexpr qreal angleLength() const noexcept { return alen; }
+	constexpr qreal spanAngle() const noexcept { return sa; }
 	constexpr inline void setAngleLength(qreal alength);
 	constexpr QPointF pt1() const noexcept { return p1; }
 	constexpr QPointF pt2() const noexcept { return p2; }
@@ -224,8 +220,8 @@ private:
 
 	QPointF c;
 	qreal r = 0.0;
-	qreal sa = 0.0;		// 起始角度（弧度）
-	qreal alen = 0.0;	// 扫过角度（弧度），逆时针为正，顺时针为负
+	qreal a = 0.0;		// 起始角度（弧度）
+	qreal sa = 0.0;	// 扫过角度（弧度），逆时针为正，顺时针为负
 	QPointF p1, p2, p3;
 };
 
@@ -331,11 +327,11 @@ constexpr inline bool operator==(const xCircleData &c1, const xCircleData &c2) n
 }
 
 // struct xArcData
-inline constexpr xArcData::xArcData(const QPointF &center, qreal radius, qreal angle, qreal angleLength)
+inline constexpr xArcData::xArcData(const QPointF &center, qreal radius, qreal angle, qreal spanAngle)
 	: c(center)
 	, r(radius)
-	, sa(angle)
-	, alen(angleLength)
+	, a(angle)
+	, sa(spanAngle)
 {
 	generate3P();
 }
@@ -382,21 +378,21 @@ inline constexpr void xArcData::createFrom3P()
 	qreal a2 = AnglePoint2Point(c, p2);
 	qreal a3 = AnglePoint2Point(c, p3);
 	// 起始角度
-	sa = a1;
+	a = a1;
 	// 判断扫过的角度
 	if (a1 > a3)
 	{
 		if (a2 < a1 && a2 > a3)
-			alen = -(a1 - a3);
+			sa = -(a1 - a3);
 		else
-			alen = M_2PI - (a1 - a3);
+			sa = M_2PI - (a1 - a3);
 	}
 	else
 	{
 		if (a2 < a3 && a2 > a1)
-			alen = a3 - a1;
+			sa = a3 - a1;
 		else
-			alen = a3 - a1 - M_2PI;
+			sa = a3 - a1 - M_2PI;
 	}
 }
 
@@ -408,9 +404,9 @@ inline constexpr void xArcData::generate3P()
 		return;
 	}
 
-	p1 = c + PointFromPolar(r, sa);
-	p2 = c + PointFromPolar(r, sa + alen * 0.5);
-	p3 = c + PointFromPolar(r, sa + alen);
+	p1 = c + PointFromPolar(r, a);
+	p2 = c + PointFromPolar(r, a + sa * 0.5);
+	p3 = c + PointFromPolar(r, a + sa);
 }
 
 inline constexpr void xArcData::setCenter(const QPointF &center) noexcept
@@ -437,19 +433,19 @@ inline constexpr void xArcData::setRadius(qreal radius)
 
 inline constexpr void xArcData::setStartAngle(qreal angle)
 {
-	if (qFuzzyCompare(angle, sa))
+	if (qFuzzyCompare(angle, a))
 		return;
 
-	sa = angle;
+	a = angle;
 	generate3P();
 }
 
 inline constexpr void xArcData::setAngleLength(qreal alength)
 {
-	if (qFuzzyCompare(alength, alen))
+	if (qFuzzyCompare(alength, sa))
 		return;
 
-	alen = alength;
+	sa = alength;
 	generate3P();
 }
 
@@ -463,11 +459,11 @@ inline constexpr void xArcData::translate(const QPointF &p) noexcept
 
 inline constexpr bool xArcData::isValid() const noexcept
 {
-	return (r > 0.00001 && fabs(alen) > 0.001);
+	return (r > 0.00001 && fabs(sa) > 0.001);
 }
 
 inline constexpr bool operator==(const xArcData &arc1, const xArcData &arc2) noexcept
 {
 	return (arc1.c == arc2.c && qFuzzyCompare(arc1.r, arc2.r)
-		&& qFuzzyCompare(arc1.sa, arc2.sa) && qFuzzyCompare(arc1.alen, arc2.alen));
+		&& qFuzzyCompare(arc1.a, arc2.a) && qFuzzyCompare(arc1.sa, arc2.sa));
 }

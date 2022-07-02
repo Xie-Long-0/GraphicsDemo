@@ -28,9 +28,11 @@ public:
 	QPainterPath shape() const override;
 
 	void bindEntity(xEntity *e) override;
+	void calculate() override;
 
 protected slots:
 	void onEntityChanged() override;
+	void onEntityMoved(const QPointF &delta) override;
 
 protected:
 	bool m_use2Line = false;

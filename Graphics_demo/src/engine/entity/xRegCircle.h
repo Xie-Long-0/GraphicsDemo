@@ -27,7 +27,7 @@ public:
 	QPainterPath shape() const override;
 
 	// 额外生成的无范围的圆
-	xCircleData subCircleData() const noexcept { return m_subCircle->circleData(); }
+	auto subCircle() const noexcept { return m_subCircle; }
 	// 设置额外生成的圆
 	void setSubCircle(const xCircleData &circle);
 	// 设置额外生成的圆

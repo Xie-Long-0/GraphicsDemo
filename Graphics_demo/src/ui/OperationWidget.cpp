@@ -16,6 +16,7 @@ OperationWidget::OperationWidget(QWidget *parent)
 		emit cancelEmit();
 		close();
 		});
+	connect(ui.calcBtn, &QPushButton::clicked, this, &OperationWidget::calcEmit);
 	connect(ui.nextBtn, &QPushButton::clicked, this, &OperationWidget::nextEmit);
 }
 

@@ -45,7 +45,7 @@ void xActionDrawCircle::mousePressEvent(QMouseEvent *e)
 			{
 				m_circle->setCircle(mp1, mp2, viewMapToScene(e));
 				m_circle->setStyle(xDef::S_Drawn);
-				// 操作完成，设置为S_ActionFinished
+				// 操作完成，设置为AS_ActionFinished
 				m_status = xDef::AS_ActionFinished;
 				e->accept();
 			}

@@ -61,9 +61,10 @@ protected:
 
 /**
 * 
-*                               ╱╲
-*                    偏移→ ╲╱    ╲xInterSingleEntity
-*                             ╲      ╲
+*                            ╱╲
+*                          ╱    ╲
+*                          ╲       ╲xInterSingleEntity
+*                            ╲       ╲
 *                     锚定点→╱╲      ╲
 *                    　　 　╱    ╲    ╱
 *               绑定点    ╱        ╲╱

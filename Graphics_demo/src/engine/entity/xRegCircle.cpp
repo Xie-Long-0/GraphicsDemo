@@ -66,8 +66,9 @@ void xRegCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 	if (style != xDef::S_NoStyle)
 	{
 		// 选中状态
-		if (option->state & QStyle::State_Selected)
+		if (isSelected())
 		{
+			m_subCircle->setSelected(true);
 			style = xDef::S_RegSelected;
 			// 选中时绘画边框
 			painter->setPen(QPen(QColor(255, 255, 0, 255), 1.0 / f));
@@ -90,7 +91,7 @@ void xRegCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 	painter->drawEllipse(m_regCircle.center(), r, r);
 
 	// 选中时绘画控制点
-	if ((option->state & QStyle::State_Selected) && (flags() & ItemIsMovable))
+	if (isSelected() && (flags() & ItemIsMovable))
 	{
 		const qreal w = m_pen.widthF();
 		painter->fillRect(QRectF(m_regCircle.center().x() - w, m_regCircle.center().y() - w, w + w, w + w), Qt::yellow);
@@ -133,6 +134,7 @@ void xRegCircle::setSubCircle(const xCircleData &circle)
 	m_subCircle->setCircle(circle);
 	m_subCircle->setStyle(xDef::S_Measured);
 	m_subCircle->show();
+	hideThis();
 }
 
 void xRegCircle::setSubCircle(const QPointF &center, qreal radius)
@@ -140,6 +142,7 @@ void xRegCircle::setSubCircle(const QPointF &center, qreal radius)
 	m_subCircle->setCircle(center, radius);
 	m_subCircle->setStyle(xDef::S_Measured);
 	m_subCircle->show();
+	hideThis();
 }
 
 void xRegCircle::setCircle(const QPointF &center, qreal radius, qreal width)

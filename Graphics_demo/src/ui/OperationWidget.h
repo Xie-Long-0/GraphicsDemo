@@ -13,6 +13,7 @@ public:
 signals:
 	void confirmEmit();
 	void cancelEmit();
+	void calcEmit();
 	void nextEmit();
 
 protected:

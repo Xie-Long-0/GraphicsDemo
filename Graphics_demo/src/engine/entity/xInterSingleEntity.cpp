@@ -74,7 +74,7 @@ void xInterSingleEntity::bindEntity(xEntity *e)
 
 	if (m_bindEntity)
 	{
-		disconnect(m_bindEntity);
+		m_bindEntity->disconnect(this);
 	}
 
 	if (e)

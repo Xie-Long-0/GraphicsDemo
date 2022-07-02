@@ -45,10 +45,7 @@ void xActionDrawRegCircle::mousePressEvent(QMouseEvent *e)
 			{
 				m_circle->setCircle(mp1, mp2, viewMapToScene(e), 30);
 				m_circle->setStyle(xDef::S_RegDrawn);
-				// TEST
-				m_circle->setSubCircle(m_circle->center(), m_circle->radius());
-
-				// 操作完成，设置为S_ActionFinished
+				// 操作完成，设置为AS_ActionFinished
 				m_status = xDef::AS_ActionFinished;
 				e->accept();
 			}

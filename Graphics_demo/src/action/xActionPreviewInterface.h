@@ -15,6 +15,8 @@ public:
 	virtual void confirm();
 	// 取消当前的操作，需要由派生类具体实现
 	virtual void cancel() = 0;
+	// 执行计算任务
+	virtual void calculate() {}
 	// 当前操作是否已完成，默认条件为判断(m_status >= xDef::S_ActionFinished)
 	virtual bool isFinished() const;
 };

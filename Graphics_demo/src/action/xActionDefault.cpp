@@ -17,6 +17,7 @@ void xActionDefault::mousePressEvent(QMouseEvent *e)
 {
 	if (e->button() == Qt::LeftButton)
 	{
+		// 获取鼠标位置的图元
 		auto gi = m_view->itemAt(e->pos());
 		if (gi == nullptr || gi->type() <= xEntity::ET_Unknown)
 			return;

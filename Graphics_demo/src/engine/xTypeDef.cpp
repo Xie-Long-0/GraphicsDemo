@@ -108,7 +108,8 @@ void MakeStyle(xDef::Style style, QPen *pen, QBrush *brush, qreal factor)
 		}
 		if (brush)
 		{
-			brush->setStyle(Qt::NoBrush);
+			brush->setStyle(Qt::SolidPattern);
+			brush->setColor(QColor(0, 200, 180, 60));
 		}
 		break;
 
@@ -183,7 +184,7 @@ void MakeStyle(xDef::Style style, QPen *pen, QBrush *brush, qreal factor)
 		if (pen)
 		{
 			pen->setStyle(Qt::SolidLine);
-			pen->setColor(Qt::yellow);
+			pen->setColor(QColor(255, 105, 0, 200));
 			pen->setWidthF(2.0 / factor);
 		}
 		break;
@@ -191,7 +192,7 @@ void MakeStyle(xDef::Style style, QPen *pen, QBrush *brush, qreal factor)
 		if (pen)
 		{
 			pen->setStyle(Qt::SolidLine);
-			pen->setColor(QColor(255, 105, 0, 200));
+			pen->setColor(Qt::yellow);
 			pen->setWidthF(2.0 / factor);
 		}
 		break;

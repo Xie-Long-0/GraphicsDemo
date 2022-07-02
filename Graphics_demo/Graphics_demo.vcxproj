@@ -68,7 +68,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.\src;.\inc;.\src\ui;.\src\engine;.\src\action;.\src\engine\entity;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\src;.\inc;.\src\ui;.\src\engine;.\src\action;.\src\engine\entity;.\src\processing;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>26812;4828</DisableSpecificWarnings>
     </ClCompile>
@@ -80,7 +80,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.\src;.\inc;.\src\ui;.\src\engine;.\src\action;.\src\engine\entity;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\src;.\inc;.\src\ui;.\src\engine;.\src\action;.\src\engine\entity;.\src\processing;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -119,6 +119,7 @@
     <ClCompile Include="src\action\xActionDrawRegRect.cpp" />
     <ClCompile Include="src\action\xActionInterface.cpp" />
     <ClCompile Include="src\action\xActionPreviewInterface.cpp" />
+    <ClCompile Include="src\engine\entity\xArc.cpp" />
     <ClCompile Include="src\engine\entity\xCircle.cpp" />
     <ClCompile Include="src\engine\entity\xEntity.cpp" />
     <ClCompile Include="src\engine\entity\xInterCircle.cpp" />
@@ -133,6 +134,7 @@
     <ClCompile Include="src\engine\xGraphicView.cpp" />
     <ClCompile Include="src\engine\xTypeDef.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\processing\RecognizeHandler.cpp" />
     <ClCompile Include="src\ui\FunctionsTabWidget.cpp" />
     <ClCompile Include="src\ui\MainWindow.cpp" />
     <ClCompile Include="src\ui\OperationWidget.cpp" />
@@ -157,6 +159,8 @@
     <ClInclude Include="src\action\xActionDrawRegLine.h" />
     <ClInclude Include="src\action\xActionDrawRegRect.h" />
     <ClInclude Include="src\action\xActionInterface.h" />
+    <QtMoc Include="src\processing\RecognizeHandler.h" />
+    <QtMoc Include="src\engine\entity\xArc.h" />
     <QtMoc Include="src\engine\entity\xRegRect.h" />
     <QtMoc Include="src\engine\entity\xInterCircle.h" />
     <QtMoc Include="src\engine\entity\xInterSingleEntity.h" />

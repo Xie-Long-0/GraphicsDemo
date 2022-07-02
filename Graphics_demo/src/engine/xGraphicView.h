@@ -14,8 +14,11 @@ public:
 	xGraphicView(QGraphicsScene *scene, QWidget *parent);
 	~xGraphicView();
 
+	// 设置新的Action，将会把上一个Action结束并释放
 	void setAction(xActionPreviewInterface *action);
+	// 返回视图缩放比例
 	qreal scaleFactor() const noexcept { return transform().m11(); }
+	// 调整缩放大小到自适应界面
 	void resizeScene();
 
 public slots:
@@ -26,6 +29,10 @@ public slots:
 	void zoomIn();
 	void zoomOut();
 	void zoomByFactor(qreal factor);
+
+signals:
+	// 可用于接收图元计算任务返回的结果并传到上层界面
+	void calcFinished(bool suc);
 
 private:
 	void mousePressEvent(QMouseEvent *e) override;

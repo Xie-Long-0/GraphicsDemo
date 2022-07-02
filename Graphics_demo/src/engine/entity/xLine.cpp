@@ -36,9 +36,24 @@ void xLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 	if (style != xDef::S_NoStyle)
 	{
 		// 选中状态
-		if (option->state & QStyle::State_Selected)
+		if (isSelected())
 		{
 			style = xDef::S_Selected;
+			// 若有父图元如xRegLine，则同时将父图元设置为选中
+			if (auto parent = parentItem(); parent != nullptr)
+			{
+				parent->setSelected(true);
+				parent->setOpacity(1.0);
+			}
+		}
+		else
+		{
+			// 若有父图元且父图元未选中，则隐藏父图元
+			if (auto parent = parentItem(); parent != nullptr && !parent->isSelected())
+			{
+				parent->setSelected(false);
+				parent->setOpacity(0);
+			}
 		}
 
 		// 悬停状态
@@ -58,7 +73,7 @@ void xLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 	painter->drawLine(m_line);
 
 	// 选中时绘画控制点
-	if ((option->state & QStyle::State_Selected) && (flags() & ItemIsMovable))
+	if (isSelected() && (flags() & ItemIsMovable))
 	{
 		const qreal w = m_pen.widthF();
 		painter->fillRect(QRectF(m_line.x1() - w, m_line.y1() - w, w + w, w + w), Qt::yellow);

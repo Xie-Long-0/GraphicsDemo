@@ -68,8 +68,9 @@ void xRegLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 	if (style != xDef::S_NoStyle)
 	{
 		// 选中状态
-		if (option->state & QStyle::State_Selected)
+		if (isSelected())
 		{
+			m_subLine->setSelected(true);
 			style = xDef::S_RegSelected;
 			// 选中时绘画边框
 			painter->setPen(QPen(QColor(255, 255, 0, 255), 1.0 / f));
@@ -102,7 +103,7 @@ void xRegLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 	painter->fillPath(ap, m_pen.color());
 
 	// 选中时绘画控制点
-	if ((option->state & QStyle::State_Selected) && (flags() & ItemIsMovable))
+	if (isSelected() && (flags() & ItemIsMovable))
 	{
 		const qreal w = m_pen.widthF();
 		painter->fillRect(QRectF(m_regLine.x1() - w, m_regLine.y1() - w, w + w, w + w), Qt::yellow);
@@ -148,6 +149,7 @@ void xRegLine::setSubLine(const QLineF &line)
 	m_subLine->setLine(line.p1(), line.p2());
 	m_subLine->setStyle(xDef::S_Measured);
 	m_subLine->show();
+	hideThis();
 }
 
 void xRegLine::setSubLine(const QPointF &p1, const QPointF &p2)
@@ -155,6 +157,7 @@ void xRegLine::setSubLine(const QPointF &p1, const QPointF &p2)
 	m_subLine->setLine(p1, p2);
 	m_subLine->setStyle(xDef::S_Measured);
 	m_subLine->show();
+	hideThis();
 }
 
 void xRegLine::setLine(const QPointF &p1, const QPointF &p2, qreal width)

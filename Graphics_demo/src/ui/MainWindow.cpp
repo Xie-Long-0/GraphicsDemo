@@ -4,9 +4,12 @@
 #include <QDebug>
 #include <QPainter>
 #include <QStyleOption>
+#include <QTimer>
+#include <QThread>
 
 #include "FunctionsTabWidget.h"
 #include "OperationWidget.h"
+#include "RecognizeHandler.h"
 
 #include "xActionDrawLine.h"
 #include "xActionDrawCircle.h"
@@ -28,6 +31,10 @@ MainWindow::MainWindow(QWidget *parent)
 	QImage img(2048, 2048, QImage::Format_RGB888);
 	img.fill(Qt::black);
 	m_view->setImage(img);
+
+	QTimer *timer = new QTimer(this);
+	connect(timer, &QTimer::timeout, m_view, [=]() { m_view->setImage(img); });
+	timer->start(500);
 
 	auto hLayout1 = new QHBoxLayout(ui.view_widget);
 	hLayout1->setContentsMargins(0, 0, 0, 0);
@@ -180,6 +187,9 @@ void MainWindow::onDrawInterCircle()
 	// 连接确定、取消、下一步信号槽
 	connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
 	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
+	connect(opw, &OperationWidget::calcEmit, this, [=] {
+		action->calculate();
+		});
 	connect(opw, &OperationWidget::nextEmit, this, [=] {
 		m_view->finishAction();
 		auto *action = new xActionDrawInterCircle(m_view);

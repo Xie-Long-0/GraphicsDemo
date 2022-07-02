@@ -27,7 +27,7 @@ public:
 	QPainterPath shape() const override;
 
 	// 额外生成的无范围的线
-	QLineF subLineData() const noexcept { return m_subLine->lineData(); }
+	auto subLineData() const noexcept { return m_subLine; }
 	// 设置额外生成的线
 	void setSubLine(const QLineF &line);
 	// 设置额外生成的线
