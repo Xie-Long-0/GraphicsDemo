@@ -45,7 +45,7 @@ void xCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 		{
 			style = xDef::S_Selected;
 			// 若有父图元如xRegCircle，则同时将父图元设置为选中
-			if (auto parent = parentItem(); parent != nullptr)
+			if (auto parent = parentEntity(); parent != nullptr)
 			{
 				parent->setSelected(true);
 				parent->setOpacity(1.0);
@@ -54,7 +54,7 @@ void xCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 		else
 		{
 			// 若有父图元且父图元未选中，则隐藏父图元
-			if (auto parent = parentItem(); parent != nullptr && !parent->isSelected())
+			if (auto parent = parentEntity(); parent != nullptr && !parent->isSelected())
 			{
 				parent->setSelected(false);
 				parent->setOpacity(0);

@@ -80,9 +80,15 @@ public:
 	QString name() const noexcept { return m_name; }
 	void setName(const QString &name) { m_name = name; }
 
+	inline xEntity* parentEntity() const;
+
 	bool isThisVisible() const noexcept { return isVisible() && opacity() > 0; }
 	bool isMovable() const noexcept { return (flags() & ItemIsMovable); }
 	bool isSelectable() const noexcept { return (flags() & ItemIsSelectable); }
+	bool hasChild() const noexcept { return m_hasChild; }
+
+	bool needCalculate() const noexcept { return m_needCalc; }
+	void setNeedCalcFlag(bool flag) noexcept { m_needCalc = flag; }
 
 public slots:
 	// 通过透明度设置此图元的可见性，不影响children的可见性
@@ -92,9 +98,6 @@ public slots:
 	inline void setMovable(bool b) noexcept;
 	inline void setSelectable(bool b) noexcept;
 
-	// 用于调用计算任务
-	virtual void calculate() {}
-
 signals:
 	void selectedChanged(bool selected);
 	void cursorChanged(const QCursor &newCursor);
@@ -103,6 +106,8 @@ signals:
 	void posChanged(const QPointF &delta);
 	// 形状改变信号
 	void shapeChanged();
+	// 通知关联图形进行计算
+	void requestCalc();
 
 protected:
 	// 用于处理基类QGraphicsItem传递的改变，发送相应信号
@@ -115,6 +120,8 @@ protected:
 	xDef::Style m_style = xDef::S_NoStyle;
 	xDef::EntityStatus m_status = xDef::ES_NotMeasured;
 	xGraphicView *m_view = nullptr;
+	bool m_needCalc = false;
+	bool m_hasChild = false;
 
 private:
 	inline void init() noexcept;
@@ -157,4 +164,11 @@ inline qreal xEntity::viewScaleFactor() const noexcept
 {
 	if (m_view == nullptr) return 1.0;
 	return m_view->scaleFactor();
+}
+
+inline xEntity *xEntity::parentEntity() const
+{
+	if (auto e = QGraphicsItem::parentItem(); e != nullptr && e->type() > xEntity::ET_Unknown)
+		return static_cast<xEntity *>(e);
+	return nullptr;
 }

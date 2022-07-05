@@ -42,8 +42,14 @@ public:
 	void moveCtrlPoint(const QPointF &pt, const QPointF &movedPt) override;
 	bool isCtrlPoint(const QPointF &p) const override;
 
+public slots:
+	// 用于调用计算任务
+	virtual void calculate() = 0;
+
 protected slots:
+	// 绑定的图形发生改变
 	virtual void onEntityChanged() = 0;
+	// 绑定的图形发生移动
 	virtual void onEntityMoved(const QPointF &delta);
 
 protected:

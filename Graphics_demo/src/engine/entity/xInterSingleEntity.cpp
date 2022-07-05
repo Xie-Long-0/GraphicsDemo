@@ -75,6 +75,15 @@ void xInterSingleEntity::bindEntity(xEntity *e)
 	if (m_bindEntity)
 	{
 		m_bindEntity->disconnect(this);
+		if (auto pe = m_bindEntity->parentEntity(); pe != nullptr)
+		{
+			pe->disconnect(this);
+			pe->setNeedCalcFlag(false);
+		}
+		else
+		{
+			m_bindEntity->setNeedCalcFlag(false);
+		}
 	}
 
 	if (e)
@@ -82,6 +91,16 @@ void xInterSingleEntity::bindEntity(xEntity *e)
 		connect(e, &xEntity::shapeChanged, this, &xInterSingleEntity::onEntityChanged);
 		connect(e, &xEntity::posChanged, this, &xInterSingleEntity::onEntityMoved);
 		connect(e, &xEntity::destroyed, this, &xEntity::deleteLater);
+		if (auto pe = e->parentEntity(); pe != nullptr)
+		{
+			connect(pe, &xEntity::requestCalc, this, &xInterSingleEntity::calculate);
+			pe->setNeedCalcFlag(true);
+		}
+		else
+		{
+			connect(e, &xEntity::requestCalc, this, &xInterSingleEntity::calculate);
+			e->setNeedCalcFlag(true);
+		}
 	}
 
 	m_bindEntity = e;

@@ -3,12 +3,14 @@
 xRegionEntity::xRegionEntity(xGraphicView *view, QGraphicsItem *parent)
 	: xEntity(view, parent)
 {
+	m_hasChild = true;
 }
 
 xRegionEntity::xRegionEntity(qreal width, xGraphicView *view, QGraphicsItem *parent)
 	: xEntity(view, parent)
 	, m_width(width)
 {
+	m_hasChild = true;
 }
 
 void xRegionEntity::setRegWidth(qreal w)

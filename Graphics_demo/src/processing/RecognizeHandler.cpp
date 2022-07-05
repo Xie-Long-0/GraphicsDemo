@@ -21,26 +21,49 @@ void RecognizeHandler::calcCircle(xInterCircle *ic)
 	auto e = ic->getBindEntity();
 	if (e == nullptr) return;
 
+	if (e->parentEntity())
+		e = e->parentEntity();
+
 	// Ä£Äâ¼ÆËã
 	QThread::msleep(300);
 
 	if (e->type() == xCircle::Type)
 	{
 		auto c = static_cast<xCircle *>(e);
-		ic->setText(QString("Measure Failed"));
+		static bool sucess = true;
 
-		c->setStatus(xDef::ES_MeasureFailed);
-		c->setStyle(xDef::S_Failed);
-		ic->setStatus(xDef::ES_MeasureFailed);
-		ic->setStyle(xDef::S_Failed);
+		if (sucess)
+		{
+			// TEST
+			c->setRadius(c->radius() + 20);
 
-		emit calcDone(false);
+			ic->setText(QString("Circle R: %1").arg(c->radius()));
+
+			c->setStatus(xDef::ES_MeasureOK);
+			c->setStyle(xDef::S_Measured);
+			ic->setStatus(xDef::ES_MeasureOK);
+			ic->setStyle(xDef::S_TxtMeasured);
+
+			emit calcDone(true);
+		}
+		else
+		{
+			ic->setText(QString("Measure Failed"));
+
+			c->setStatus(xDef::ES_MeasureFailed);
+			c->setStyle(xDef::S_Failed);
+			ic->setStatus(xDef::ES_MeasureFailed);
+			ic->setStyle(xDef::S_TxtFailed);
+
+			emit calcDone(false);
+		}
+		sucess = !sucess;
 	}
 	else if (e->type() == xRegCircle::Type)
 	{
 		auto c = static_cast<xRegCircle *>(e);
 		auto data = c->circleData();
-		bool sucess = true;
+		static bool sucess = true;
 		
 		if (sucess)
 		{
@@ -55,20 +78,26 @@ void RecognizeHandler::calcCircle(xInterCircle *ic)
 			c->setStatus(xDef::ES_MeasureOK);
 			c->setStyle(xDef::S_RegMeasured);
 			ic->setStatus(xDef::ES_MeasureOK);
-			ic->setStyle(xDef::S_Measured);
+			ic->setStyle(xDef::S_TxtMeasured);
 
 			emit calcDone(true);
 		}
 		else
 		{
 			ic->setText(QString("Measure Failed"));
+			
+			// Ê§°ÜÊ±°ó¶¨µ½·¶Î§Ô²
+			ic->bindEntity(c);
+			// Òþ²Ø×ÓÔ²
+			c->hideSubCircle();
 
 			c->setStatus(xDef::ES_MeasureFailed);
 			c->setStyle(xDef::S_RegFailed);
 			ic->setStatus(xDef::ES_MeasureFailed);
-			ic->setStyle(xDef::S_Failed);
+			ic->setStyle(xDef::S_TxtFailed);
 
 			emit calcDone(false);
 		}
+		sucess = !sucess;
 	}
 }

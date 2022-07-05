@@ -25,12 +25,14 @@ void xActionDefault::mousePressEvent(QMouseEvent *e)
 		auto item = static_cast<xEntity *>(gi);
 		m_p = viewMapToScene(e);
 
-		if (item->flags() & QGraphicsItem::ItemIsSelectable)
+		if (item->flags() & QGraphicsItem::ItemIsSelectable && item->parentItem() == nullptr)
 		{
 			// 将当前图元堆叠在与其相撞的其它图元上面
 			auto others = item->collidingItems();
 			for (auto i : others)
 			{
+				if (i->parentItem())
+					continue;
 				i->stackBefore(item);
 			}
 		}
@@ -102,6 +104,15 @@ void xActionDefault::mouseReleaseEvent(QMouseEvent *e)
 {
 	if (e->button() == Qt::LeftButton)
 	{
+		if ((m_willMoveItem || m_isGrabCtrlPoint || m_isGrabRegionEdge) && m_item)
+		{
+			// 移动后对需要重新计算的图形执行计算任务
+			if (m_item->type() > xEntity::ET_Unknown)
+			{
+				if (m_item->needCalculate())
+					m_item->requestCalc();
+			}
+		}
 		m_willMoveItem = false;
 		m_isGrabCtrlPoint = false;
 		m_isGrabRegionEdge = false;

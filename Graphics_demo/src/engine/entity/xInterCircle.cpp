@@ -187,12 +187,6 @@ void xInterCircle::onEntityChanged()
 	}
 }
 
-void xInterCircle::onEntityMoved(const QPointF &delta)
-{
-	xInterSingleEntity::onEntityMoved(delta);
-	calculate();
-}
-
 void xInterCircle::calculate()
 {
 	QThread *td = new QThread;
@@ -202,6 +196,6 @@ void xInterCircle::calculate()
 	connect(td, &QThread::finished, rh, &QObject::deleteLater);
 	connect(rh, &RecognizeHandler::calcDone, td, &QThread::quit);
 	connect(rh, &RecognizeHandler::calcDone, m_view, &xGraphicView::calcFinished);
+	connect(td, &QThread::started, this, [=]() { rh->calcCircle(this); });
 	td->start();
-	rh->calcCircle(this);
 }

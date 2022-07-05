@@ -34,6 +34,8 @@ void xActionDrawInterCircle::mousePressEvent(QMouseEvent *e)
 				return;
 
 			xEntity *item = static_cast<xEntity *>(gi);
+			if (auto pe = item->parentEntity(); pe != nullptr)
+				item = pe;
 
 			if (m_icircle == nullptr)
 			{
