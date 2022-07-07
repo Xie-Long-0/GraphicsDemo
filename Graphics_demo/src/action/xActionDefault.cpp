@@ -78,6 +78,7 @@ void xActionDefault::mouseMoveEvent(QMouseEvent *e)
 		auto p = viewMapToScene(e);
 		m_item->moveCtrlPoint(m_p, p);
 		m_p = p;
+		m_itemChanged = true;
 		e->accept();
 		return;
 	}
@@ -86,6 +87,7 @@ void xActionDefault::mouseMoveEvent(QMouseEvent *e)
 	{
 		auto p = viewMapToScene(e);
 		static_cast<xRegionEntity *>(m_item)->changeEdgeByPoint(p);
+		m_itemChanged = true;
 		e->accept();
 		return;
 	}
@@ -95,6 +97,7 @@ void xActionDefault::mouseMoveEvent(QMouseEvent *e)
 		auto p = viewMapToScene(e);
 		m_item->moveBy(p - m_p);
 		m_p = p;
+		m_itemChanged = true;
 		e->accept();
 		return;
 	}
@@ -104,18 +107,16 @@ void xActionDefault::mouseReleaseEvent(QMouseEvent *e)
 {
 	if (e->button() == Qt::LeftButton)
 	{
-		if ((m_willMoveItem || m_isGrabCtrlPoint || m_isGrabRegionEdge) && m_item)
+		if (m_itemChanged && m_item)
 		{
 			// 移动后对需要重新计算的图形执行计算任务
-			if (m_item->type() > xEntity::ET_Unknown)
-			{
-				if (m_item->needCalculate())
-					m_item->requestCalc();
-			}
+			if (m_item->needCalculate())
+				m_item->requestCalc();
 		}
 		m_willMoveItem = false;
 		m_isGrabCtrlPoint = false;
 		m_isGrabRegionEdge = false;
+		m_itemChanged = false;
 		m_item = nullptr;
 	}
 	else

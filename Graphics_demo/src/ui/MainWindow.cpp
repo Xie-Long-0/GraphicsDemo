@@ -62,6 +62,8 @@ MainWindow::MainWindow(QWidget *parent)
 	connect(tabWidget, &FunctionsTabWidget::drawInterCircle, this, &MainWindow::onDrawInterCircle);
 
 	connect(ui.action_quit, &QAction::triggered, this, &QWidget::close);
+	connect(ui.action_delete, &QAction::triggered, m_view, &xGraphicView::removeSelectedItems);
+	connect(ui.deleteAllBtn, &QPushButton::clicked, m_view, &xGraphicView::removeAllItems);
 }
 
 MainWindow::~MainWindow()

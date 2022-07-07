@@ -20,4 +20,5 @@ private:
 	bool m_willMoveItem = false;
 	bool m_isGrabCtrlPoint = false;
 	bool m_isGrabRegionEdge = false;
+	bool m_itemChanged = false;
 };

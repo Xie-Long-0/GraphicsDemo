@@ -90,6 +90,7 @@ void RecognizeHandler::calcCircle(xInterCircle *ic)
 			ic->bindEntity(c);
 			// Òþ²Ø×ÓÔ²
 			c->hideSubCircle();
+			c->showThis();
 
 			c->setStatus(xDef::ES_MeasureFailed);
 			c->setStyle(xDef::S_RegFailed);

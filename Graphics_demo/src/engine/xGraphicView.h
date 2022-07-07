@@ -29,6 +29,8 @@ public slots:
 	void zoomIn();
 	void zoomOut();
 	void zoomByFactor(qreal factor);
+	void removeSelectedItems();
+	void removeAllItems();
 
 signals:
 	// 可用于接收图元计算任务返回的结果并传到上层界面
