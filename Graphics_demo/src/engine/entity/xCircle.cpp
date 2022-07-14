@@ -74,7 +74,7 @@ void xCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	}
 
 	painter->setPen(m_pen);
-	painter->drawEllipse(m_circle.center(), m_circle.radius(), m_circle.radius());
+	painter->drawEllipse(m_circle.boundingRect());
 
 	if (isSelected() && (flags() & ItemIsMovable))
 	{
@@ -94,10 +94,7 @@ QRectF xCircle::boundingRect() const
 	// 计算图形在视场中的矩形，包括画笔的宽度，否则无法正确显示
 	// Note：画笔宽度设置为2倍以便更容易被选中
 	const qreal pw = m_pen.widthF() * 2;
-	const qreal x = m_circle.center().x() - m_circle.radius() - pw;
-	const qreal y = m_circle.center().y() - m_circle.radius() - pw;
-	const qreal w = m_circle.radius() + pw;
-	return QRectF(x, y, w + w, w + w);
+	return m_circle.boundingRect().marginsAdded({ pw,pw,pw,pw });
 }
 
 QPainterPath xCircle::shape() const
@@ -106,7 +103,7 @@ QPainterPath xCircle::shape() const
 	if (!m_circle.isValid())
 		return path;
 
-	path.addEllipse(m_circle.center(), m_circle.radius(), m_circle.radius());
+	path.addEllipse(m_circle.boundingRect());
 	return StrokeShapeFromPath(path, m_pen.widthF() * 2);
 }
 
@@ -124,7 +121,7 @@ void xCircle::setCircle(const QPointF &center, qreal radius)
 void xCircle::setCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3)
 {
 	auto c = xCircleData(p1, p2, p3);
-	if (c.center() == m_circle.center() && qFuzzyCompare(c.radius(), m_circle.radius()))
+	if (c == m_circle)
 		return;
 
 	prepareGeometryChange();

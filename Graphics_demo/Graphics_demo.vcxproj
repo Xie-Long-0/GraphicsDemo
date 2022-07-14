@@ -111,6 +111,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\action\xActionDefault.cpp" />
+    <ClCompile Include="src\action\xActionDrawArc.cpp" />
     <ClCompile Include="src\action\xActionDrawCircle.cpp" />
     <ClCompile Include="src\action\xActionDrawInterCircle.cpp" />
     <ClCompile Include="src\action\xActionDrawLine.cpp" />
@@ -154,6 +155,7 @@
     <QtMoc Include="src\engine\xGraphicView.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\action\xActionDrawArc.h" />
     <ClInclude Include="src\action\xActionDrawInterCircle.h" />
     <ClInclude Include="src\action\xActionDrawRegCircle.h" />
     <ClInclude Include="src\action\xActionDrawRegLine.h" />

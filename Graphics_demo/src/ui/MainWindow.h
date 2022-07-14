@@ -18,6 +18,7 @@ public:
 public slots:
 	void onDrawLine();
 	void onDrawCircle();
+	void onDrawArc();
 
 	void onDrawRegLine();
 	void onDrawRegCircle();

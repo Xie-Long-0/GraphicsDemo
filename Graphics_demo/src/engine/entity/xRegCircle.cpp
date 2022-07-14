@@ -88,7 +88,7 @@ void xRegCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 	painter->fillPath(path, m_brush);
 	// 画中心圆
 	painter->setPen(m_pen);
-	painter->drawEllipse(m_regCircle.center(), r, r);
+	painter->drawEllipse(m_regCircle.boundingRect());
 
 	// 选中时绘画控制点
 	if (isSelected() && (flags() & ItemIsMovable))

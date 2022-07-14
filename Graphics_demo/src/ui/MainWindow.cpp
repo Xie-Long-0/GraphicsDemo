@@ -13,6 +13,7 @@
 
 #include "xActionDrawLine.h"
 #include "xActionDrawCircle.h"
+#include "xActionDrawArc.h"
 #include "xActionDrawRegLine.h"
 #include "xActionDrawRegCircle.h"
 #include "xActionDrawRegRect.h"
@@ -54,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 	connect(tabWidget, &FunctionsTabWidget::drawLineEmit, this, &MainWindow::onDrawLine);
 	connect(tabWidget, &FunctionsTabWidget::drawCircleEmit, this, &MainWindow::onDrawCircle);
+	connect(tabWidget, &FunctionsTabWidget::drawArcEmit, this, &MainWindow::onDrawArc);
 
 	connect(tabWidget, &FunctionsTabWidget::drawRegLineEmit, this, &MainWindow::onDrawRegLine);
 	connect(tabWidget, &FunctionsTabWidget::drawRegCircleEmit, this, &MainWindow::onDrawRegCircle);
@@ -78,7 +80,7 @@ void MainWindow::onDrawLine()
 	ui.r_main_widget->hide();
 	ui.r_pop_widget->show();
 
-	xActionDrawLine *action = new xActionDrawLine(m_view);
+	auto action = new xActionDrawLine(m_view);
 	m_view->setAction(action);
 
 	// 连接确定、取消、下一步信号槽
@@ -86,7 +88,7 @@ void MainWindow::onDrawLine()
 	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
 	connect(opw, &OperationWidget::nextEmit, this, [=] {
 		m_view->finishAction();
-		xActionDrawLine *action = new xActionDrawLine(m_view);
+		auto action = new xActionDrawLine(m_view);
 		m_view->setAction(action);
 		});
 }
@@ -99,7 +101,7 @@ void MainWindow::onDrawCircle()
 	ui.r_main_widget->hide();
 	ui.r_pop_widget->show();
 
-	xActionDrawCircle *action = new xActionDrawCircle(m_view);
+	auto action = new xActionDrawCircle(m_view);
 	m_view->setAction(action);
 
 	// 连接确定、取消、下一步信号槽
@@ -107,7 +109,28 @@ void MainWindow::onDrawCircle()
 	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
 	connect(opw, &OperationWidget::nextEmit, this, [=] {
 		m_view->finishAction();
-		xActionDrawCircle *action = new xActionDrawCircle(m_view);
+		auto action = new xActionDrawCircle(m_view);
+		m_view->setAction(action);
+		});
+}
+
+void MainWindow::onDrawArc()
+{
+	// 切换操作窗口
+	auto opw = new OperationWidget(ui.r_pop_widget);
+	m_vLayout->addWidget(opw);
+	ui.r_main_widget->hide();
+	ui.r_pop_widget->show();
+
+	auto action = new xActionDrawArc(m_view);
+	m_view->setAction(action);
+
+	// 连接确定、取消、下一步信号槽
+	connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
+	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
+	connect(opw, &OperationWidget::nextEmit, this, [=] {
+		m_view->finishAction();
+		auto action = new xActionDrawArc(m_view);
 		m_view->setAction(action);
 		});
 }
@@ -120,7 +143,7 @@ void MainWindow::onDrawRegLine()
 	ui.r_main_widget->hide();
 	ui.r_pop_widget->show();
 
-	xActionDrawRegLine *action = new xActionDrawRegLine(m_view);
+	auto action = new xActionDrawRegLine(m_view);
 	m_view->setAction(action);
 
 	// 连接确定、取消、下一步信号槽
@@ -128,7 +151,7 @@ void MainWindow::onDrawRegLine()
 	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
 	connect(opw, &OperationWidget::nextEmit, this, [=] {
 		m_view->finishAction();
-		xActionDrawRegLine *action = new xActionDrawRegLine(m_view);
+		auto action = new xActionDrawRegLine(m_view);
 		m_view->setAction(action);
 		});
 }
@@ -141,7 +164,7 @@ void MainWindow::onDrawRegCircle()
 	ui.r_main_widget->hide();
 	ui.r_pop_widget->show();
 
-	xActionDrawRegCircle *action = new xActionDrawRegCircle(m_view);
+	auto action = new xActionDrawRegCircle(m_view);
 	m_view->setAction(action);
 
 	// 连接确定、取消、下一步信号槽
@@ -149,7 +172,7 @@ void MainWindow::onDrawRegCircle()
 	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
 	connect(opw, &OperationWidget::nextEmit, this, [=] {
 		m_view->finishAction();
-		xActionDrawRegCircle *action = new xActionDrawRegCircle(m_view);
+		auto action = new xActionDrawRegCircle(m_view);
 		m_view->setAction(action);
 		});
 }
@@ -162,7 +185,7 @@ void MainWindow::onDrawRegRect()
 	ui.r_main_widget->hide();
 	ui.r_pop_widget->show();
 
-	auto *action = new xActionDrawRegRect(m_view);
+	auto action = new xActionDrawRegRect(m_view);
 	m_view->setAction(action);
 
 	// 连接确定、取消、下一步信号槽
@@ -170,7 +193,7 @@ void MainWindow::onDrawRegRect()
 	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
 	connect(opw, &OperationWidget::nextEmit, this, [=] {
 		m_view->finishAction();
-		auto *action = new xActionDrawRegRect(m_view);
+		auto action = new xActionDrawRegRect(m_view);
 		m_view->setAction(action);
 		});
 }
@@ -190,11 +213,12 @@ void MainWindow::onDrawInterCircle()
 	connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
 	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
 	connect(opw, &OperationWidget::calcEmit, this, [=] {
-		action->calculate();
+		if (auto action = m_view->getAction(); action != nullptr)
+			action->calculate();
 		});
 	connect(opw, &OperationWidget::nextEmit, this, [=] {
 		m_view->finishAction();
-		auto *action = new xActionDrawInterCircle(m_view);
+		auto action = new xActionDrawInterCircle(m_view);
 		m_view->setAction(action);
 		});
 }

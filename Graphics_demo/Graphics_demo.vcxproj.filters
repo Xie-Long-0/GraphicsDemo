@@ -122,6 +122,9 @@
     <ClCompile Include="src\processing\RecognizeHandler.cpp">
       <Filter>processing</Filter>
     </ClCompile>
+    <ClCompile Include="src\action\xActionDrawArc.cpp">
+      <Filter>action</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
@@ -219,6 +222,9 @@
       <Filter>action</Filter>
     </ClInclude>
     <ClInclude Include="src\action\xActionDrawInterCircle.h">
+      <Filter>action</Filter>
+    </ClInclude>
+    <ClInclude Include="src\action\xActionDrawArc.h">
       <Filter>action</Filter>
     </ClInclude>
   </ItemGroup>

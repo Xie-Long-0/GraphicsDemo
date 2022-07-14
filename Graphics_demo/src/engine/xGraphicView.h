@@ -14,6 +14,7 @@ public:
 	xGraphicView(QGraphicsScene *scene, QWidget *parent);
 	~xGraphicView();
 
+	auto getAction() const noexcept { return m_action; }
 	// 设置新的Action，将会把上一个Action结束并释放
 	void setAction(xActionPreviewInterface *action);
 	// 返回视图缩放比例

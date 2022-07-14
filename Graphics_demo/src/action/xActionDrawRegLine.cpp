@@ -79,7 +79,7 @@ void xActionDrawRegLine::cancel()
 	if (m_line)
 	{
 		m_scene->removeItem(m_line);
-		delete m_line;
+		m_line->deleteLater();
 		m_line = nullptr;
 	}
 	m_status = xDef::AS_Default;

@@ -16,6 +16,7 @@ public slots:
 signals:
 	void drawLineEmit();
 	void drawCircleEmit();
+	void drawArcEmit();
 
 	void drawRegLineEmit();
 	void drawRegCircleEmit();
