@@ -20,6 +20,7 @@ signals:
 
 	void drawRegLineEmit();
 	void drawRegCircleEmit();
+	void drawRegArcEmit();
 	void drawRegRectEmit();
 
 	void drawInterCircle();

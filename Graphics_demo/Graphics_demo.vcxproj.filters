@@ -125,6 +125,15 @@
     <ClCompile Include="src\action\xActionDrawArc.cpp">
       <Filter>action</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\entity\xRegArc.cpp">
+      <Filter>engine\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="src\action\xActionDrawRegArc.cpp">
+      <Filter>action</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\xUtils.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
@@ -184,6 +193,9 @@
     <QtMoc Include="src\processing\RecognizeHandler.h">
       <Filter>processing</Filter>
     </QtMoc>
+    <QtMoc Include="src\engine\entity\xRegArc.h">
+      <Filter>engine\entity</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\ui\MainWindow.ui">
@@ -226,6 +238,12 @@
     </ClInclude>
     <ClInclude Include="src\action\xActionDrawArc.h">
       <Filter>action</Filter>
+    </ClInclude>
+    <ClInclude Include="src\action\xActionDrawRegArc.h">
+      <Filter>action</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\xUtils.h">
+      <Filter>engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

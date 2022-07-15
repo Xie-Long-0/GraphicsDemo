@@ -78,7 +78,7 @@ void xActionDrawRegCircle::mouseMoveEvent(QMouseEvent *e)
 		if (m_line)
 		{
 			m_scene->removeItem(m_line);
-			delete m_line;
+			m_line->deleteLater();
 			m_line = nullptr;
 		}
 		if (m_circle == nullptr)

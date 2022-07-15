@@ -1,23 +1,23 @@
-#include "xActionDrawArc.h"
+#include "xActionDrawRegArc.h"
 #include <QGraphicsScene>
 #include <QMouseEvent>
 #include <QDebug>
 #include "engine/xGraphicView.h"
-#include "entity/xArc.h"
+#include "entity/xRegArc.h"
 #include "entity/xLine.h"
 
-xActionDrawArc::xActionDrawArc(xGraphicView *view)
-	: xActionPreviewInterface(view, xDef::AT_DrawArc)
+xActionDrawRegArc::xActionDrawRegArc(xGraphicView *view)
+	: xActionPreviewInterface(view, xDef::AT_DrawRegArc)
 {
 }
 
-xActionDrawArc::~xActionDrawArc()
+xActionDrawRegArc::~xActionDrawRegArc()
 {
 	if (!isFinished())
 		cancel();
 }
 
-void xActionDrawArc::mousePressEvent(QMouseEvent *e)
+void xActionDrawRegArc::mousePressEvent(QMouseEvent * e)
 {
 	if (e->button() == Qt::LeftButton)
 	{
@@ -43,8 +43,8 @@ void xActionDrawArc::mousePressEvent(QMouseEvent *e)
 		case xDef::AS_DrawEntity1_P2:
 			if (Distance(mp1, spos) > DELTA_DIST_2 && Distance(mp2, spos) > DELTA_DIST_2)
 			{
-				m_arc->setArc(mp1, mp2, viewMapToScene(e));
-				m_arc->setStyle(xDef::S_Drawn);
+				m_arc->setArc(mp1, mp2, viewMapToScene(e), 30);
+				m_arc->setStyle(xDef::S_RegDrawn);
 				// 操作完成，设置为AS_ActionFinished
 				m_status = xDef::AS_ActionFinished;
 				e->accept();
@@ -57,7 +57,7 @@ void xActionDrawArc::mousePressEvent(QMouseEvent *e)
 	}
 }
 
-void xActionDrawArc::mouseMoveEvent(QMouseEvent *e)
+void xActionDrawRegArc::mouseMoveEvent(QMouseEvent *e)
 {
 	switch (m_status)
 	{
@@ -83,11 +83,11 @@ void xActionDrawArc::mouseMoveEvent(QMouseEvent *e)
 		}
 		if (m_arc == nullptr)
 		{
-			m_arc = new xArc(m_view);
-			m_arc->setStyle(xDef::S_Drawing);
+			m_arc = new xRegArc(m_view);
+			m_arc->setStyle(xDef::S_RegDrawing);
 			m_scene->addItem(m_arc);
 		}
-		m_arc->setArc(mp1, mp2, viewMapToScene(e));
+		m_arc->setArc(mp1, mp2, viewMapToScene(e), 30);
 		e->accept();
 		break;
 
@@ -96,11 +96,11 @@ void xActionDrawArc::mouseMoveEvent(QMouseEvent *e)
 	}
 }
 
-void xActionDrawArc::mouseReleaseEvent(QMouseEvent *e)
+void xActionDrawRegArc::mouseReleaseEvent(QMouseEvent *e)
 {
 }
 
-void xActionDrawArc::cancel()
+void xActionDrawRegArc::cancel()
 {
 	if (m_line)
 	{

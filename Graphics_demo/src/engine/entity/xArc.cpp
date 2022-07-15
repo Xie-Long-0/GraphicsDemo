@@ -154,6 +154,50 @@ void xArc::setRadius(qreal radius)
 	emit shapeChanged();
 }
 
+void xArc::setAngle(qreal angle)
+{
+	if (qFuzzyCompare(angle, m_arc.angle()))
+		return;
+
+	prepareGeometryChange();
+	m_arc.setAngle(angle);
+	update();
+	emit shapeChanged();
+}
+
+void xArc::setSpanAngle(qreal angle)
+{
+	if (qFuzzyCompare(angle, m_arc.spanAngle()))
+		return;
+
+	prepareGeometryChange();
+	m_arc.setSpanAngle(angle);
+	update();
+	emit shapeChanged();
+}
+
+void xArc::setAngleDegree(qreal angle)
+{
+	if (qFuzzyCompare(angle, m_arc.angleDegree()))
+		return;
+
+	prepareGeometryChange();
+	m_arc.setAngleDegree(angle);
+	update();
+	emit shapeChanged();
+}
+
+void xArc::setSpanAngleDegree(qreal angle)
+{
+	if (qFuzzyCompare(angle, m_arc.spanAngleDegree()))
+		return;
+
+	prepareGeometryChange();
+	m_arc.setSpanAngleDegree(angle);
+	update();
+	emit shapeChanged();
+}
+
 void xArc::setPt1(const QPointF &p)
 {
 	if (p == m_arc.pt1())

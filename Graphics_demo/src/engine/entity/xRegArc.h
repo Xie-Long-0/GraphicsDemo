@@ -1,23 +1,20 @@
 #pragma once
 
-#include "xEntity.h"
+#include "xRegionEntity.h"
+#include "xArc.h"
 
-/**
- * @brief 继承自xEntity的无范围圆弧
-*/
-class xArc : public xEntity
+class xRegArc : public xRegionEntity
 {
 	Q_OBJECT
 
 public:
-	Q_DISABLE_COPY(xArc)
-	explicit xArc(xGraphicView *view, QGraphicsItem *parent = nullptr);
-	xArc(const xArcData &arc, xGraphicView *view, QGraphicsItem *parent = nullptr);
-	xArc(const QPointF &center, qreal radius, qreal angle, qreal spanAngle, xGraphicView *view, QGraphicsItem *parent = nullptr);
-	xArc(const QPointF &p1, const QPointF &p2, const QPointF &p3, xGraphicView *view, QGraphicsItem *parent = nullptr);
+	explicit xRegArc(xGraphicView *view, QGraphicsItem *parent = nullptr);
+	xRegArc(const xArcData &arc, qreal width, xGraphicView *view, QGraphicsItem *parent = nullptr);
+	xRegArc(const QPointF &center, qreal radius, qreal angle, qreal spanAngle, qreal width, xGraphicView *view, QGraphicsItem *parent = nullptr);
+	xRegArc(const QPointF &p1, const QPointF &p2, const QPointF &p3, qreal width, xGraphicView *view, QGraphicsItem *parent = nullptr);
 
 	// 自定义实体类型枚举
-	enum { Type = ET_Arc };
+	enum { Type = ET_RegArc };
 	// 重写函数，返回当前的类型值
 	int type() const override;
 
@@ -25,10 +22,18 @@ public:
 	QRectF boundingRect() const override;
 	QPainterPath shape() const override;
 
+	// 额外生成的无范围的圆
+	auto subArc() const noexcept { return m_subArc; }
+	// 设置额外生成的圆
+	void setSubArc(const xArcData &arc);
+	// 设置额外生成的圆
+	void setSubArc(const QPointF &center, qreal radius, qreal angle, qreal spanAngle);
+	void hideSubArc(bool hide = true) noexcept { m_subArc->setVisible(!hide); }
+
 	xArcData arcData() const noexcept { return m_arc; }
-	void setArc(const xArcData &arc);
-	void setArc(const QPointF &center, qreal radius, qreal angle, qreal spanAngle);
-	void setArc(const QPointF &p1, const QPointF &p2, const QPointF &p3);
+	void setArc(const xArcData &arc, qreal width);
+	void setArc(const QPointF &center, qreal radius, qreal angle, qreal spanAngle, qreal width);
+	void setArc(const QPointF &p1, const QPointF &p2, const QPointF &p3, qreal width);
 
 	QPointF center() const noexcept { return m_arc.center(); }
 	void setCenter(const QPointF &center) { moveBy(center - this->center()); }
@@ -63,7 +68,14 @@ public:
 	*/
 	void moveCtrlPoint(const QPointF &pt, const QPointF &movedPt) override;
 	bool isCtrlPoint(const QPointF &p) const override;
+	// 通过点来改变范围宽度，需传入scene坐标中的值
+	void changeEdgeByPoint(const QPointF &p) override;
+	// 判断是否是范围边缘，需传入scene坐标中的值
+	bool isRegionEdge(const QPointF &p) const override;
 
 protected:
+	// 范围圆弧的数据
 	xArcData m_arc;
+	// 生成的圆弧
+	xArc *m_subArc = nullptr;
 };

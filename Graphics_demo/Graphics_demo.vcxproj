@@ -115,6 +115,7 @@
     <ClCompile Include="src\action\xActionDrawCircle.cpp" />
     <ClCompile Include="src\action\xActionDrawInterCircle.cpp" />
     <ClCompile Include="src\action\xActionDrawLine.cpp" />
+    <ClCompile Include="src\action\xActionDrawRegArc.cpp" />
     <ClCompile Include="src\action\xActionDrawRegCircle.cpp" />
     <ClCompile Include="src\action\xActionDrawRegLine.cpp" />
     <ClCompile Include="src\action\xActionDrawRegRect.cpp" />
@@ -128,12 +129,14 @@
     <ClCompile Include="src\engine\entity\xInterLineAndLine.cpp" />
     <ClCompile Include="src\engine\entity\xInterSingleEntity.cpp" />
     <ClCompile Include="src\engine\entity\xLine.cpp" />
+    <ClCompile Include="src\engine\entity\xRegArc.cpp" />
     <ClCompile Include="src\engine\entity\xRegCircle.cpp" />
     <ClCompile Include="src\engine\entity\xRegionEntity.cpp" />
     <ClCompile Include="src\engine\entity\xRegLine.cpp" />
     <ClCompile Include="src\engine\entity\xRegRect.cpp" />
     <ClCompile Include="src\engine\xGraphicView.cpp" />
     <ClCompile Include="src\engine\xTypeDef.cpp" />
+    <ClCompile Include="src\engine\xUtils.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\processing\RecognizeHandler.cpp" />
     <ClCompile Include="src\ui\FunctionsTabWidget.cpp" />
@@ -157,10 +160,13 @@
   <ItemGroup>
     <ClInclude Include="src\action\xActionDrawArc.h" />
     <ClInclude Include="src\action\xActionDrawInterCircle.h" />
+    <ClInclude Include="src\action\xActionDrawRegArc.h" />
     <ClInclude Include="src\action\xActionDrawRegCircle.h" />
     <ClInclude Include="src\action\xActionDrawRegLine.h" />
     <ClInclude Include="src\action\xActionDrawRegRect.h" />
     <ClInclude Include="src\action\xActionInterface.h" />
+    <ClInclude Include="src\engine\xUtils.h" />
+    <QtMoc Include="src\engine\entity\xRegArc.h" />
     <QtMoc Include="src\processing\RecognizeHandler.h" />
     <QtMoc Include="src\engine\entity\xArc.h" />
     <QtMoc Include="src\engine\entity\xRegRect.h" />

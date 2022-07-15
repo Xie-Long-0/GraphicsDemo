@@ -22,6 +22,7 @@ public slots:
 
 	void onDrawRegLine();
 	void onDrawRegCircle();
+	void onDrawRegArc();
 	void onDrawRegRect();
 
 	void onDrawInterCircle();

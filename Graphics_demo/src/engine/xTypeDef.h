@@ -1,24 +1,15 @@
 #pragma once
 
-#include <cmath>
 #include <qobjectdefs.h>
 #include <QLine>
 #include <QPainterPath>
 #include <QDebug>
 
-#ifndef M_PI
-constexpr double M_PI = 3.14159265358979323846264;
-#endif
-#ifndef M_PI_2
-constexpr double M_PI_2 = 1.57079632679489661923132; // PI * 0.5
-#endif
-#ifndef M_2PI
-constexpr double M_2PI = 6.28318530717958647692528;  // PI * 2
-#endif
-constexpr double ANGLE_15_RAD = 0.261799;	// 15度对应的弧度
-constexpr double DELTA_DIST = 5.0;		// 较小的距离增量，通常用于移动时的判断
-constexpr double DELTA_DIST_2 = 8.0;	// 较大的距离增量，通常用于点击时的判断
+#include "xUtils.h"
 
+/**
+ * @brief Definitions about Entity
+*/
 class xDef
 {
 	Q_GADGET
@@ -108,43 +99,6 @@ public:
  * @param factor 视图的缩放系数，用于设置画笔宽度
 */
 void MakeStyle(xDef::Style style = xDef::S_NoStyle, QPen *pen = nullptr, QBrush *brush = nullptr, qreal factor = 1.0);
-
-/**
- * @brief 根据基础Path创建具有宽度的空心Path
- * @param path 传入的绘画路径
- * @param width 传入的宽度
- * @return 创建具有宽度的路径
-*/
-QPainterPath StrokeShapeFromPath(const QPainterPath &path, qreal width);
-
-/**
- * @brief 通过极坐标生成点
- * @param length 长度
- * @param angle 角度，单位为弧度
- * @return 生成的点
-*/
-inline QPointF PointFromPolar(qreal length, qreal angle)
-{
-	return QPointF(std::cos(angle) * length, -std::sin(angle) * length);
-}
-
-/**
- * @brief 计算两点间的距离
-*/
-inline double Distance(const QPointF &p1, const QPointF &p2)
-{
-	return hypot(p2.x() - p1.x(), p2.y() - p1.y());
-}
-
-/**
- * @brief 点到直线的距离
-*/
-double DistancePoint2Line(const QPointF &p, const QLineF &line);
-
-/**
- * @brief 计算p1到p2形成的倾斜角（弧度），[0, 2PI)
-*/
-double AnglePoint2Point(const QPointF &p1, const QPointF &p2);
 
 /**
  * @brief 由圆心、半径及3个控制点组成的圆
@@ -318,6 +272,22 @@ inline xArcData::xArcData(const QPointF &center, qreal radius, qreal angle, qrea
 	, a(angle)
 	, sa(spanAngle)
 {
+	while (a < 0)
+	{
+		a += M_2PI;
+	}
+	while (a > M_2PI)
+	{
+		a -= M_2PI;
+	}
+	while (sa < -M_2PI)
+	{
+		sa += M_2PI;
+	}
+	while (sa > M_2PI)
+	{
+		sa -= M_2PI;
+	}
 	generate3P();
 }
 
@@ -364,6 +334,15 @@ inline void xArcData::setRadius(qreal radius) noexcept
 
 inline void xArcData::setAngle(qreal angle) noexcept
 {
+	while (angle < 0)
+	{
+		angle += M_2PI;
+	}
+	while (angle > M_2PI)
+	{
+		angle -= M_2PI;
+	}
+
 	if (qFuzzyCompare(angle, a))
 		return;
 
@@ -373,6 +352,15 @@ inline void xArcData::setAngle(qreal angle) noexcept
 
 inline void xArcData::setSpanAngle(qreal alength) noexcept
 {
+	while (alength < -M_2PI)
+	{
+		alength += M_2PI;
+	}
+	while (alength > M_2PI)
+	{
+		alength -= M_2PI;
+	}
+
 	if (qFuzzyCompare(alength, sa))
 		return;
 
@@ -383,6 +371,15 @@ inline void xArcData::setSpanAngle(qreal alength) noexcept
 inline void xArcData::setAngleDegree(qreal angle) noexcept
 {
 	qreal arad = angle * M_PI / 180;
+	while (arad < 0)
+	{
+		arad += M_2PI;
+	}
+	while (arad > M_2PI)
+	{
+		arad -= M_2PI;
+	}
+
 	if (qFuzzyCompare(arad, a))
 		return;
 
@@ -392,7 +389,16 @@ inline void xArcData::setAngleDegree(qreal angle) noexcept
 
 inline void xArcData::setSpanAngleDegree(qreal alength) noexcept
 {
-	const qreal arad = alength * M_PI / 180;
+	qreal arad = alength * M_PI / 180;
+	while (arad < -M_2PI)
+	{
+		arad += M_2PI;
+	}
+	while (arad > M_2PI)
+	{
+		arad -= M_2PI;
+	}
+
 	if (qFuzzyCompare(arad, a))
 		return;
 
