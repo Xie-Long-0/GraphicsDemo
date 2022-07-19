@@ -18,9 +18,9 @@ public:
 	xInterCircle(xCircle *item, xGraphicView *view, QGraphicsItem *parent = nullptr);
 	xInterCircle(xRegCircle *item, xGraphicView *view, QGraphicsItem *parent = nullptr);
 
-	~xInterCircle();
-
+	// 自定义实体类型枚举
 	enum { Type = ET_InterCircle };
+	// 重写函数，返回当前的类型值
 	int type() const override;
 
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;

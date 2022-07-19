@@ -13,7 +13,6 @@ class xInterSingleEntity : public xEntity
 public:
 	Q_DISABLE_COPY(xInterSingleEntity)
 	explicit xInterSingleEntity(xGraphicView *view, QGraphicsItem *parent = nullptr);
-	xInterSingleEntity(xEntity *item, xGraphicView *view, QGraphicsItem *parent = nullptr);
 	virtual ~xInterSingleEntity();
 
 	QString text() const noexcept { return m_text; }

@@ -6,12 +6,6 @@ xInterSingleEntity::xInterSingleEntity(xGraphicView *view, QGraphicsItem *parent
 {
 }
 
-xInterSingleEntity::xInterSingleEntity(xEntity *item, xGraphicView *view, QGraphicsItem *parent)
-	: xEntity(view, parent)
-{
-	bindEntity(item);
-}
-
 xInterSingleEntity::~xInterSingleEntity()
 {
 }

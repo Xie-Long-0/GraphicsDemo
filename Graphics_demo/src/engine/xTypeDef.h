@@ -43,6 +43,7 @@ public:
 		AT_DrawRegPoint,
 		AT_DrawRegRect,
 		AT_DrawInterCircle,
+		AT_DrawInterArc,
 	};
 	Q_ENUM(ActionType)
 

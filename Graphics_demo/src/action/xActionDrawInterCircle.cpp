@@ -2,13 +2,11 @@
 #include <QGraphicsScene>
 #include <QMouseEvent>
 #include <QDebug>
-#include <QThread>
 
 #include "engine/xGraphicView.h"
 #include "entity/xCircle.h"
 #include "entity/xRegCircle.h"
 #include "entity/xInterCircle.h"
-#include "RecognizeHandler.h"
 
 xActionDrawInterCircle::xActionDrawInterCircle(xGraphicView *view)
 	: xActionPreviewInterface(view, xDef::AT_DrawInterCircle)

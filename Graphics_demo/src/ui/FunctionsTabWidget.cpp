@@ -17,6 +17,7 @@ FunctionsTabWidget::FunctionsTabWidget(QWidget *parent)
 	connect(ui.regRectBtn, &QPushButton::clicked, this, &FunctionsTabWidget::drawRegRectEmit);
 
 	connect(ui.interCircleBtn, &QPushButton::clicked, this, &FunctionsTabWidget::drawInterCircle);
+	connect(ui.interArcBtn, &QPushButton::clicked, this, &FunctionsTabWidget::drawInterArc);
 }
 
 FunctionsTabWidget::~FunctionsTabWidget()

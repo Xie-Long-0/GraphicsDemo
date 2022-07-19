@@ -87,7 +87,7 @@ void xActionDrawRegCircle::mouseMoveEvent(QMouseEvent *e)
 			m_circle->setStyle(xDef::S_RegDrawing);
 			m_scene->addItem(m_circle);
 		}
-		m_circle->setCircle(xCircleData(mp1, mp2, viewMapToScene(e)), 30);
+		m_circle->setCircle(mp1, mp2, viewMapToScene(e), 30);
 		e->accept();
 		break;
 

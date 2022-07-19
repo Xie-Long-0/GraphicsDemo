@@ -19,7 +19,7 @@
 #include "xActionDrawRegArc.h"
 #include "xActionDrawRegRect.h"
 #include "xActionDrawInterCircle.h"
-
+#include "xActionDrawInterArc.h"
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
@@ -64,6 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
 	connect(tabWidget, &FunctionsTabWidget::drawRegRectEmit, this, &MainWindow::onDrawRegRect);
 
 	connect(tabWidget, &FunctionsTabWidget::drawInterCircle, this, &MainWindow::onDrawInterCircle);
+	connect(tabWidget, &FunctionsTabWidget::drawInterArc, this, &MainWindow::onDrawInterArc);
 
 	connect(ui.action_quit, &QAction::triggered, this, &QWidget::close);
 	connect(ui.action_delete, &QAction::triggered, m_view, &xGraphicView::removeSelectedItems);
@@ -242,6 +243,31 @@ void MainWindow::onDrawInterCircle()
 	connect(opw, &OperationWidget::nextEmit, this, [=] {
 		m_view->finishAction();
 		auto action = new xActionDrawInterCircle(m_view);
+		m_view->setAction(action);
+		});
+}
+
+void MainWindow::onDrawInterArc()
+{
+	// 切换操作窗口
+	auto opw = new OperationWidget(ui.r_pop_widget);
+	m_vLayout->addWidget(opw);
+	ui.r_main_widget->hide();
+	ui.r_pop_widget->show();
+
+	auto action = new xActionDrawInterArc(m_view);
+	m_view->setAction(action);
+
+	// 连接确定、取消、下一步信号槽
+	connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
+	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
+	connect(opw, &OperationWidget::calcEmit, this, [=] {
+		if (auto action = m_view->getAction(); action != nullptr)
+			action->calculate();
+		});
+	connect(opw, &OperationWidget::nextEmit, this, [=] {
+		m_view->finishAction();
+		auto action = new xActionDrawInterArc(m_view);
 		m_view->setAction(action);
 		});
 }

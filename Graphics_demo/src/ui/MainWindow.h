@@ -26,6 +26,7 @@ public slots:
 	void onDrawRegRect();
 
 	void onDrawInterCircle();
+	void onDrawInterArc();
 
 protected:
 	void paintEvent(QPaintEvent *e) override;

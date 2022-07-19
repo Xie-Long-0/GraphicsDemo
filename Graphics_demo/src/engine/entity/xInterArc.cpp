@@ -1,6 +1,6 @@
-#include "xInterCircle.h"
-#include "xCircle.h"
-#include "xRegCircle.h"
+#include "xInterArc.h"
+#include "xArc.h"
+#include "xRegArc.h"
 #include <QFontMetrics>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
@@ -9,29 +9,29 @@
 
 #include "RecognizeHandler.h"
 
-xInterCircle::xInterCircle(xGraphicView *view, QGraphicsItem *parent)
+xInterArc::xInterArc(xGraphicView *view, QGraphicsItem *parent)
 	: xInterSingleEntity(view, parent)
 {
 }
 
-xInterCircle::xInterCircle(xCircle *item, xGraphicView *view, QGraphicsItem *parent)
-	: xInterSingleEntity(view, parent)
-{
-	bindEntity(item);
-}
-
-xInterCircle::xInterCircle(xRegCircle *item, xGraphicView *view, QGraphicsItem *parent)
+xInterArc::xInterArc(xArc *item, xGraphicView *view, QGraphicsItem *parent)
 	: xInterSingleEntity(view, parent)
 {
 	bindEntity(item);
 }
 
-int xInterCircle::type() const
+xInterArc::xInterArc(xRegArc *item, xGraphicView *view, QGraphicsItem *parent)
+	: xInterSingleEntity(view, parent)
+{
+	bindEntity(item);
+}
+
+int xInterArc::type() const
 {
 	return Type;
 }
 
-void xInterCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void xInterArc::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 	Q_UNUSED(widget);
 
@@ -96,7 +96,7 @@ void xInterCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 	painter->drawPath(path);
 }
 
-QRectF xInterCircle::boundingRect() const
+QRectF xInterArc::boundingRect() const
 {
 	if (m_bindEntity == nullptr)
 		return QRectF();
@@ -135,7 +135,7 @@ QRectF xInterCircle::boundingRect() const
 	return rect;
 }
 
-QPainterPath xInterCircle::shape() const
+QPainterPath xInterArc::shape() const
 {
 	if (m_bindEntity == nullptr)
 		return QPainterPath();
@@ -149,41 +149,29 @@ QPainterPath xInterCircle::shape() const
 	// 移到绑定点上方
 	pg.translate(m_bindPoint);
 	pg.translate(m_shiftDist, -linkL.length());
-	
+
 	QPainterPath path;
 	// 添加旋转后的多边形
 	path.addPolygon(m_transform.map(pg));
 	return path;
 }
 
-void xInterCircle::bindEntity(xEntity *e)
+void xInterArc::bindEntity(xEntity *e)
 {
 	xInterSingleEntity::bindEntity(e);
-	if (e->type() == xCircle::Type)
+	if (e->type() == xArc::Type)
 	{
-		auto c = static_cast<xCircle *>(e);
+		auto c = static_cast<xArc *>(e);
 		setBindPoint(c->center());
 	}
-	else if (e->type() == xRegCircle::Type)
+	else if (e->type() == xRegArc::Type)
 	{
-		auto c = static_cast<xRegCircle *>(e);
+		auto c = static_cast<xRegArc *>(e);
 		setBindPoint(c->center());
 	}
 }
 
-void xInterCircle::onEntityChanged()
-{
-	if (m_bindEntity->type() == xCircle::Type)
-	{
-		setBindPoint(static_cast<xCircle *>(m_bindEntity)->center());
-	}
-	else if (m_bindEntity->type() == xRegCircle::Type)
-	{
-		setBindPoint(static_cast<xRegCircle *>(m_bindEntity)->center());
-	}
-}
-
-void xInterCircle::calculate()
+void xInterArc::calculate()
 {
 	QThread *td = new QThread;
 	RecognizeHandler *rh = new RecognizeHandler;
@@ -192,6 +180,20 @@ void xInterCircle::calculate()
 	connect(td, &QThread::finished, rh, &QObject::deleteLater);
 	connect(rh, &RecognizeHandler::calcDone, td, &QThread::quit);
 	connect(rh, &RecognizeHandler::calcDone, m_view, &xGraphicView::calcFinished);
-	connect(td, &QThread::started, this, [=]() { rh->calcCircle(this); });
+	connect(td, &QThread::started, this, [=]() { rh->calcArc(this); });
 	td->start();
+}
+
+void xInterArc::onEntityChanged()
+{
+	if (m_bindEntity->type() == xArc::Type)
+	{
+		auto i = static_cast<xArc *>(m_bindEntity);
+		setBindPoint(i->center());
+	}
+	else if (m_bindEntity->type() == xRegArc::Type)
+	{
+		auto i = static_cast<xRegArc *>(m_bindEntity);
+		setBindPoint(i->center());
+	}
 }

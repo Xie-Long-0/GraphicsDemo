@@ -128,13 +128,6 @@
        <string>关联图形</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="1">
-        <widget class="QPushButton" name="interCircleAndCircleBtn">
-         <property name="text">
-          <string>绑定圆与圆</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="0">
         <widget class="QPushButton" name="interCircleBtn">
          <property name="text">
@@ -143,6 +136,20 @@
         </widget>
        </item>
        <item row="1" column="0">
+        <widget class="QPushButton" name="interCircleAndCircleBtn">
+         <property name="text">
+          <string>绑定圆与圆</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="interArcBtn">
+         <property name="text">
+          <string>绑定圆弧</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
         <widget class="QPushButton" name="interLineAndLineBtn">
          <property name="text">
           <string>绑定线与线</string>

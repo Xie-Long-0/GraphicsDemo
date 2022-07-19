@@ -134,6 +134,12 @@
     <ClCompile Include="src\engine\xUtils.cpp">
       <Filter>engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\entity\xInterArc.cpp">
+      <Filter>engine\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="src\action\xActionDrawInterArc.cpp">
+      <Filter>action</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
@@ -196,6 +202,9 @@
     <QtMoc Include="src\engine\entity\xRegArc.h">
       <Filter>engine\entity</Filter>
     </QtMoc>
+    <QtMoc Include="src\engine\entity\xInterArc.h">
+      <Filter>engine\entity</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\ui\MainWindow.ui">
@@ -244,6 +253,9 @@
     </ClInclude>
     <ClInclude Include="src\engine\xUtils.h">
       <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\action\xActionDrawInterArc.h">
+      <Filter>action</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

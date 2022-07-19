@@ -113,6 +113,7 @@
     <ClCompile Include="src\action\xActionDefault.cpp" />
     <ClCompile Include="src\action\xActionDrawArc.cpp" />
     <ClCompile Include="src\action\xActionDrawCircle.cpp" />
+    <ClCompile Include="src\action\xActionDrawInterArc.cpp" />
     <ClCompile Include="src\action\xActionDrawInterCircle.cpp" />
     <ClCompile Include="src\action\xActionDrawLine.cpp" />
     <ClCompile Include="src\action\xActionDrawRegArc.cpp" />
@@ -124,6 +125,7 @@
     <ClCompile Include="src\engine\entity\xArc.cpp" />
     <ClCompile Include="src\engine\entity\xCircle.cpp" />
     <ClCompile Include="src\engine\entity\xEntity.cpp" />
+    <ClCompile Include="src\engine\entity\xInterArc.cpp" />
     <ClCompile Include="src\engine\entity\xInterCircle.cpp" />
     <ClCompile Include="src\engine\entity\xInterCoupleEntity.cpp" />
     <ClCompile Include="src\engine\entity\xInterLineAndLine.cpp" />
@@ -159,12 +161,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\action\xActionDrawArc.h" />
+    <ClInclude Include="src\action\xActionDrawInterArc.h" />
     <ClInclude Include="src\action\xActionDrawInterCircle.h" />
     <ClInclude Include="src\action\xActionDrawRegArc.h" />
     <ClInclude Include="src\action\xActionDrawRegCircle.h" />
     <ClInclude Include="src\action\xActionDrawRegLine.h" />
     <ClInclude Include="src\action\xActionDrawRegRect.h" />
     <ClInclude Include="src\action\xActionInterface.h" />
+    <QtMoc Include="src\engine\entity\xInterArc.h" />
     <ClInclude Include="src\engine\xUtils.h" />
     <QtMoc Include="src\engine\entity\xRegArc.h" />
     <QtMoc Include="src\processing\RecognizeHandler.h" />
