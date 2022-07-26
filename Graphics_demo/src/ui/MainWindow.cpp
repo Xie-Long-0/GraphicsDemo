@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
 	ui.setupUi(this);
 	ui.view_widget->installEventFilter(this);
 
-	m_scene = new QGraphicsScene(this);
+	m_scene = new QGraphicsScene();
 	m_view = new xGraphicView(m_scene, ui.view_widget);
 
 	QImage img(2048, 2048, QImage::Format_RGB888);
@@ -73,6 +73,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+	// 将scene的销毁推迟到view窗口销毁之后
+	m_scene->deleteLater();
 }
 
 void MainWindow::onDrawLine()
