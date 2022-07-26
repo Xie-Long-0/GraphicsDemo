@@ -4,7 +4,6 @@
 #include <QLine>
 #include <QPainterPath>
 #include <QDebug>
-
 #include "xUtils.h"
 
 /**
@@ -191,6 +190,12 @@ private:
 	qreal sa = 0.0;	// 扫过角度（弧度），逆时针为正，顺时针为负
 	QPointF p1, p2, p3;
 };
+
+// 将圆弧转换为近似逼近的多边形
+QPolygonF ArcToPolygon(const xArcData &arc);
+
+// 将圆弧转换为近似逼近的多边形
+QPolygonF ArcToPolygon(const QPointF &center, qreal radius, qreal angle, qreal spanAngle);
 
 // struct xCircleData
 inline xCircleData::xCircleData(const QPointF &c, qreal r) noexcept

@@ -211,6 +211,38 @@ void MakeStyle(xDef::Style style, QPen *pen, QBrush *brush, qreal factor)
 	}
 }
 
+QPolygonF ArcToPolygon(const xArcData &arc)
+{
+	const qreal da = (arc.spanAngle() > 0) ? 0.01 : -0.01;
+	const qreal ea = arc.angle() + arc.spanAngle();
+	QPolygonF pg;
+	for (qreal a = arc.angle(); da > 0 ? (a < ea) : (a > ea); a += da)
+	{
+		auto p = arc.center() + PointFromPolar(arc.radius(), a);
+		pg.append(std::move(p));
+	}
+	// 添加结束点
+	auto pe = arc.center() + PointFromPolar(arc.radius(), ea);
+	pg.append(std::move(pe));
+	return pg;
+}
+
+QPolygonF ArcToPolygon(const QPointF &center, qreal radius, qreal angle, qreal spanAngle)
+{
+	const qreal da = (spanAngle > 0) ? 0.01 : -0.01;
+	const qreal ea = angle + spanAngle;
+	QPolygonF pg;
+	for (qreal a = angle; da > 0 ? (a < ea) : (a > ea); a += da)
+	{
+		auto p = center + PointFromPolar(radius, a);
+		pg.append(std::move(p));
+	}
+	// 添加结束点
+	auto pe = center + PointFromPolar(radius, ea);
+	pg.append(std::move(pe));
+	return pg;
+}
+
 void xCircleData::createFrom3P() noexcept
 {
 	if (p1 == p2 || p2 == p3 || p3 == p1)

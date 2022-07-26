@@ -2,6 +2,8 @@
 
 #include <qmath.h>
 #include <qpainterpath.h>
+#include <qpainter.h>
+#include <qpolygon.h>
 
 #ifndef M_PI
 constexpr double M_PI = 3.14159265358979323846264;
@@ -67,7 +69,7 @@ double AnglePoint2Point(const QPointF &p1, const QPointF &p2, bool reverseY = tr
 bool AngleIsBetween(double srcAngle, double angle, double spanAngle) noexcept;
 
 /**
- * @brief 将角度转换到 [0, 2PI) 范围（弧度）
+ * @brief 将角（弧度）转换到 [0, 2PI) 范围
 */
 constexpr double NormalizeAngle(double angle) noexcept
 {
@@ -83,7 +85,7 @@ constexpr double NormalizeAngle(double angle) noexcept
 }
 
 /**
- * @brief 将角度转换到 [0, 360) 范围
+ * @brief 将角转换到 [0, 360) 范围
 */
 constexpr double NormalizeAngleDegree(double angle) noexcept
 {
@@ -91,9 +93,64 @@ constexpr double NormalizeAngleDegree(double angle) noexcept
 		return 0.0;
 
 	if (angle < 0)
-		return NormalizeAngle(angle + 360);
+		return NormalizeAngleDegree(angle + 360);
 	else if (angle > 360.0)
-		return NormalizeAngle(angle - 360);
+		return NormalizeAngleDegree(angle - 360);
 	else
 		return angle;
+}
+
+/**
+ * @brief 将角（弧度）转换到 (-2PI, 2PI) 范围
+*/
+constexpr double NormalizeAngleEx(double angle) noexcept
+{
+	if (qFuzzyCompare(angle, M_2PI) || qFuzzyCompare(angle, -M_2PI))
+		return 0.0;
+
+	if (angle < -M_2PI)
+		return NormalizeAngleEx(angle + M_2PI);
+	else if (angle > M_2PI)
+		return NormalizeAngleEx(angle - M_2PI);
+	else
+		return angle;
+}
+
+/**
+ * @brief 将角转换到 (-360, 360) 范围
+*/
+constexpr double NormalizeAngleDegreeEx(double angle) noexcept
+{
+	if (qFuzzyCompare(angle, 360.0) || qFuzzyCompare(angle, -360.0))
+		return 0.0;
+
+	if (angle < -360.0)
+		return NormalizeAngleDegreeEx(angle + 360);
+	else if (angle > 360.0)
+		return NormalizeAngleDegreeEx(angle - 360);
+	else
+		return angle;
+}
+
+/**
+ * @brief 以点为中心填充一个正方形
+ * @param p 中心点
+ * @param w 正方形边长的一半
+ * @param color 填充颜色
+*/
+inline void FillRectByPoint(QPainter *painter, const QPointF &p, qreal w, const QColor &color) noexcept
+{
+	painter->fillRect(QRectF(p.x() - w, p.y() - w, w * 2, w * 2), color);
+}
+
+/**
+ * @brief 以点为中心填充一个正方形，以画笔的宽度与颜色为参数
+ * @param p 中心点
+ * @param pen 画笔
+*/
+inline void FillRectByPoint(QPainter *painter, const QPointF &p, const QPen &pen) noexcept
+{
+	const qreal w = pen.widthF();
+	const QColor c = pen.color();
+	painter->fillRect(QRectF(p.x() - w, p.y() - w, w * 2, w * 2), c);
 }
