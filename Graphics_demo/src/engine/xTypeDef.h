@@ -119,7 +119,7 @@ struct xCircleData
 	QPointF pt1() const noexcept { return p1; }
 	QPointF pt2() const noexcept { return p2; }
 	QPointF pt3() const noexcept { return p3; }
-	// 圆的外接矩形，主要用于绘画
+	// 圆的外接矩形
 	QRectF boundingRect() const noexcept { return QRectF(c.x() - r, c.y() - r, r * 2, r * 2); }
 	inline void translate(const QPointF &p) noexcept;
 
@@ -169,7 +169,7 @@ struct xArcData
 	QPointF pt1() const noexcept { return p1; }
 	QPointF pt2() const noexcept { return p2; }
 	QPointF pt3() const noexcept { return p3; }
-	// 圆弧所在圆的外接矩形，主要用于绘画
+	// 圆弧所在圆的外接矩形
 	QRectF boundingRect() const noexcept { return QRectF(c.x() - r, c.y() - r, r * 2, r * 2); }
 	inline void translate(const QPointF &p) noexcept;
 

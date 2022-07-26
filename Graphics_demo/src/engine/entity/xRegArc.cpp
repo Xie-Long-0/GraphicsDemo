@@ -54,15 +54,15 @@ void xRegArc::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
 	const qreal w = m_width;
 	QPainterPath path;
-	path.arcMoveTo(m_arc.boundingRect().marginsAdded({ w,w,w,w }), m_arc.angleDegree());
-	path.arcTo(m_arc.boundingRect().marginsAdded({ w,w,w,w }), m_arc.angleDegree(), m_arc.spanAngleDegree());
+	path.addPolygon(ArcToPolygon(center(), radius() + w, angle(), spanAngle()));
 	// 半径大于范围宽度时加入内圆弧
 	if (m_arc.radius() > w)
 	{
-		// 反向画另一个圆弧，使用其按顺序连线
-		path.arcTo(m_arc.boundingRect().marginsRemoved({ w,w,w,w }),
-			m_arc.angleDegree() + m_arc.spanAngleDegree(), -m_arc.spanAngleDegree());
-		path.closeSubpath();
+		// 内外两个圆弧端点连接线
+		path.lineTo(center() + PointFromPolar(radius() - w, angle() + spanAngle()));
+		// 添加另一个反向圆弧，使用其按顺序连线
+		path.addPolygon(ArcToPolygon(center(), radius() - w, angle() + spanAngle(), -spanAngle()));
+		path.lineTo(center() + PointFromPolar(radius() + w, angle()));
 	}
 	else
 	{
@@ -97,20 +97,17 @@ void xRegArc::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	// 填充范围
 	painter->fillPath(path, m_brush);
 	// 画中心圆弧
-	QPainterPath cpath;
-	cpath.arcMoveTo(m_arc.boundingRect(), m_arc.angleDegree());
-	cpath.arcTo(m_arc.boundingRect(), m_arc.angleDegree(), m_arc.spanAngleDegree());
 	painter->setPen(m_pen);
-	painter->drawPath(cpath);
+	painter->drawPolyline(ArcToPolygon(m_arc));
 
 	// 选中时绘画控制点
 	if (isSelected() && (flags() & ItemIsMovable))
 	{
 		const qreal w = m_pen.widthF();
-		painter->fillRect(QRectF(m_arc.center().x() - w, m_arc.center().y() - w, w + w, w + w), Qt::yellow);
-		painter->fillRect(QRectF(m_arc.pt1().x() - w, m_arc.pt1().y() - w, w + w, w + w), Qt::yellow);
-		painter->fillRect(QRectF(m_arc.pt2().x() - w, m_arc.pt2().y() - w, w + w, w + w), Qt::yellow);
-		painter->fillRect(QRectF(m_arc.pt3().x() - w, m_arc.pt3().y() - w, w + w, w + w), Qt::yellow);
+		FillRectByPoint(painter, m_arc.center(), w, Qt::yellow);
+		FillRectByPoint(painter, m_arc.pt1(), w, Qt::yellow);
+		FillRectByPoint(painter, m_arc.pt2(), w, Qt::yellow);
+		FillRectByPoint(painter, m_arc.pt3(), w, Qt::yellow);
 	}
 }
 
@@ -131,14 +128,12 @@ QPainterPath xRegArc::shape() const
 
 	const qreal pw = m_pen.widthF() + m_width;
 
-	path.arcMoveTo(m_arc.boundingRect().marginsAdded({ pw,pw,pw,pw }), m_arc.angleDegree());
-	path.arcTo(m_arc.boundingRect().marginsAdded({ pw,pw,pw,pw }), m_arc.angleDegree(), m_arc.spanAngleDegree());
+	path.addPolygon(ArcToPolygon(center(), radius() + pw, angle(), spanAngle()));
 	// 半径大于范围宽度时加入内圆弧
 	if (m_arc.radius() > m_width)
 	{
-		// 反向画另一个圆弧，使用其按顺序连线
-		path.arcTo(m_arc.boundingRect().marginsRemoved({ pw,pw,pw,pw }),
-			m_arc.angleDegree() + m_arc.spanAngleDegree(), -m_arc.spanAngleDegree());
+		// 添加另一个反向圆弧，使用其按顺序连线
+		path.addPolygon(ArcToPolygon(center(), radius() - pw, angle() + spanAngle(), -spanAngle()));
 		path.closeSubpath();
 	}
 	else

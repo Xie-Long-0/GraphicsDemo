@@ -72,19 +72,17 @@ void xArc::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 		MakeStyle(style, &m_pen, nullptr, f);
 	}
 
-	QPainterPath path;
-	path.arcMoveTo(m_arc.boundingRect(), m_arc.angleDegree());
-	path.arcTo(m_arc.boundingRect(), m_arc.angleDegree(), m_arc.spanAngleDegree());
+	auto arcPg = ArcToPolygon(m_arc);
 	painter->setPen(m_pen);
-	painter->drawPath(path);
+	painter->drawPolyline(arcPg);
 
 	if (isSelected() && (flags() & ItemIsMovable))
 	{
 		const qreal w = m_pen.widthF();
-		painter->fillRect(QRectF(m_arc.center().x() - w, m_arc.center().y() - w, w + w, w + w), Qt::yellow);
-		painter->fillRect(QRectF(m_arc.pt1().x() - w, m_arc.pt1().y() - w, w + w, w + w), Qt::yellow);
-		painter->fillRect(QRectF(m_arc.pt2().x() - w, m_arc.pt2().y() - w, w + w, w + w), Qt::yellow);
-		painter->fillRect(QRectF(m_arc.pt3().x() - w, m_arc.pt3().y() - w, w + w, w + w), Qt::yellow);
+		FillRectByPoint(painter, m_arc.center(), w, Qt::yellow);
+		FillRectByPoint(painter, m_arc.pt1(), w, Qt::yellow);
+		FillRectByPoint(painter, m_arc.pt2(), w, Qt::yellow);
+		FillRectByPoint(painter, m_arc.pt3(), w, Qt::yellow);
 	}
 }
 
@@ -103,8 +101,7 @@ QPainterPath xArc::shape() const
 	if (!m_arc.isValid())
 		return path;
 
-	path.arcMoveTo(m_arc.boundingRect(), m_arc.angleDegree());
-	path.arcTo(m_arc.boundingRect(), m_arc.angleDegree(), m_arc.spanAngleDegree());
+	path.addPolygon(ArcToPolygon(m_arc));
 	return StrokeShapeFromPath(path, m_pen.widthF() * 3);
 }
 
