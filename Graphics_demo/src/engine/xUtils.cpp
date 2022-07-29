@@ -1,6 +1,6 @@
 #include "xUtils.h"
 
-QPainterPath StrokeShapeFromPath(const QPainterPath &path, qreal width)
+QPainterPath StrokeShapeFromPath(const QPainterPath &path, double width)
 {
 	if (path.isEmpty() || width < 0.001)
 		return path;

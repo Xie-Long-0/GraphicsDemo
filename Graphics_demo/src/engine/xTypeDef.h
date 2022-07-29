@@ -6,6 +6,8 @@
 #include <QDebug>
 #include "xUtils.h"
 
+constexpr double FontSize = 12.0;
+
 /**
  * @brief Definitions about Entity
 */

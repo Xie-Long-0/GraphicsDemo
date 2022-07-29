@@ -6,17 +6,15 @@
 #include <qpolygon.h>
 
 #ifndef M_PI
-constexpr double M_PI = 3.14159265358979323846264;
-#define M_PI M_PI
+#define M_PI (3.14159265358979323846264)
 #endif
 #ifndef M_PI_2
-constexpr double M_PI_2 = 1.57079632679489661923132; // PI * 0.5
-#define M_PI_2 M_PI_2
+#define M_PI_2 (1.57079632679489661923132)  // PI * 0.5
 #endif
 #ifndef M_2PI
-constexpr double M_2PI = 6.28318530717958647692528;  // PI * 2
-#define M_2PI M_2PI
+#define M_2PI (6.28318530717958647692528)   // PI * 2
 #endif
+
 constexpr double ANGLE_15_RAD = 0.261799;	// 15度对应的弧度
 constexpr double DELTA_DIST = 5.0;		// 较小的距离增量，通常用于移动时的判断
 constexpr double DELTA_DIST_2 = 8.0;	// 较大的距离增量，通常用于点击时的判断
@@ -27,7 +25,7 @@ constexpr double DELTA_DIST_2 = 8.0;	// 较大的距离增量，通常用于点击时的判断
  * @param width 传入的宽度
  * @return 创建具有宽度的路径
 */
-QPainterPath StrokeShapeFromPath(const QPainterPath &path, qreal width);
+QPainterPath StrokeShapeFromPath(const QPainterPath &path, double width);
 
 /**
  * @brief 通过极坐标生成点
@@ -35,7 +33,7 @@ QPainterPath StrokeShapeFromPath(const QPainterPath &path, qreal width);
  * @param angle 角度，单位为弧度
  * @return 生成的点
 */
-inline QPointF PointFromPolar(qreal length, qreal angle)
+inline QPointF PointFromPolar(double length, double angle)
 {
 	return QPointF(std::cos(angle) * length, -std::sin(angle) * length);
 }
@@ -138,7 +136,7 @@ constexpr double NormalizeAngleDegreeEx(double angle) noexcept
  * @param w 正方形边长的一半
  * @param color 填充颜色
 */
-inline void FillRectByPoint(QPainter *painter, const QPointF &p, qreal w, const QColor &color) noexcept
+inline void FillRectByPoint(QPainter *painter, const QPointF &p, double w, const QColor &color) noexcept
 {
 	painter->fillRect(QRectF(p.x() - w, p.y() - w, w * 2, w * 2), color);
 }
@@ -150,7 +148,19 @@ inline void FillRectByPoint(QPainter *painter, const QPointF &p, qreal w, const 
 */
 inline void FillRectByPoint(QPainter *painter, const QPointF &p, const QPen &pen) noexcept
 {
-	const qreal w = pen.widthF();
+	const double w = pen.widthF();
 	const QColor c = pen.color();
 	painter->fillRect(QRectF(p.x() - w, p.y() - w, w * 2, w * 2), c);
+}
+
+// 弧度转角度
+constexpr double Rad2Deg(double radAngle) noexcept
+{
+	return radAngle * 180 / M_PI;
+}
+
+// 角度转弧度
+constexpr double Deg2Rad(double degAngle) noexcept
+{
+	return degAngle * M_PI / 180;
 }

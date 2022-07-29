@@ -28,11 +28,7 @@ void xInterSingleEntity::setBindPoint(const QPointF &p)
 
 	prepareGeometryChange();
 	m_bindPoint = p;
-	m_rotateAngle = M_PI_2 - AnglePoint2Point(m_bindPoint, m_anchorPoint);
-	m_transform.reset();
-	m_transform.translate(m_bindPoint.x(), m_bindPoint.y());
-	m_transform.rotateRadians(m_rotateAngle);
-	m_transform.translate(-m_bindPoint.x(), -m_bindPoint.y());
+	updateTransform();
 	update();
 }
 
@@ -43,11 +39,7 @@ void xInterSingleEntity::setAnchorPoint(const QPointF &p)
 
 	prepareGeometryChange();
 	m_anchorPoint = p;
-	m_rotateAngle = M_PI_2 - AnglePoint2Point(m_bindPoint, m_anchorPoint);
-	m_transform.reset();
-	m_transform.translate(m_bindPoint.x(), m_bindPoint.y());
-	m_transform.rotateRadians(m_rotateAngle);
-	m_transform.translate(-m_bindPoint.x(), -m_bindPoint.y());
+	updateTransform();
 	update();
 }
 
@@ -107,11 +99,7 @@ void xInterSingleEntity::moveBy(const QPointF &delta)
 
 	prepareGeometryChange();
 	m_anchorPoint += delta;
-	m_rotateAngle = M_PI_2 - AnglePoint2Point(m_bindPoint, m_anchorPoint);
-	m_transform.reset();
-	m_transform.translate(m_bindPoint.x(), m_bindPoint.y());
-	m_transform.rotateRadians(m_rotateAngle);
-	m_transform.translate(-m_bindPoint.x(), -m_bindPoint.y());
+	updateTransform();
 	update();
 }
 
@@ -143,10 +131,6 @@ void xInterSingleEntity::onEntityMoved(const QPointF &delta)
 
 	prepareGeometryChange();
 	m_bindPoint += delta;
-	m_rotateAngle = M_PI_2 - AnglePoint2Point(m_bindPoint, m_anchorPoint);
-	m_transform.reset();
-	m_transform.translate(m_bindPoint.x(), m_bindPoint.y());
-	m_transform.rotateRadians(m_rotateAngle);
-	m_transform.translate(-m_bindPoint.x(), -m_bindPoint.y());
+	updateTransform();
 	update();
 }

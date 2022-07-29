@@ -52,17 +52,29 @@ protected slots:
 	virtual void onEntityMoved(const QPointF &delta);
 
 protected:
+	inline void updateTransform();
+
+protected:
 	QString m_text;	// 显示文本
 	QRectF m_textRect;		// 文本占用的矩形框
 	QPointF m_bindPoint;	// 绑定点
 	QPointF m_anchorPoint;	// 锚定点
 	QTransform m_transform;	// 变换矩阵
-	qreal m_rotateAngle = 0;	// 旋转角度（弧度）
+	qreal m_rotateAngle = 0;	// 旋转角度（角度）
 	qreal m_shiftDist = 0.0;	// 文字偏移距离，往左偏是负数，往右偏是正数
 	xEntity *m_bindEntity = nullptr;	// 关联的图元
 	QFont m_font;	// 字体
 	qreal m_lastFactor = 0;	// 记录上次缩放后的值，当值未改变时不更新文本大小，以减少绘画计算
 };
+
+inline void xInterSingleEntity::updateTransform()
+{
+	m_rotateAngle = 90.0 - Rad2Deg(AnglePoint2Point(m_bindPoint, m_anchorPoint));
+	m_transform.reset();
+	m_transform.translate(m_bindPoint.x(), m_bindPoint.y());
+	m_transform.rotate(m_rotateAngle);
+	m_transform.translate(-m_bindPoint.x(), -m_bindPoint.y());
+}
 
 /**
 * 

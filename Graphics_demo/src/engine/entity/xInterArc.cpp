@@ -66,8 +66,7 @@ void xInterArc::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 	{
 		m_lastFactor = f;
 		// 更新字体大小
-		m_font.setPointSizeF(11.0 / f);
-		m_font.setWeight(QFont::ExtraLight);
+		m_font.setPointSizeF(FontSize / f);
 
 		QFontMetricsF fm(m_font);
 		m_textRect = fm.boundingRect(m_text);
@@ -76,23 +75,20 @@ void xInterArc::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 		m_textRect.translate(-m_textRect.width() / 2, 0);
 	}
 
-	// TODO: 后续优化文字旋转与绘画，提升性能
-	QPainterPath path;
-	// 添加文本底线
-	path.moveTo(m_textRect.bottomLeft() + QPointF(-4 / f, 0));
-	path.lineTo(m_textRect.bottomRight() + QPointF(4 / f, 0));
-	// 添加文字
-	path.addText(m_textRect.left(), m_textRect.bottom() - m, m_font, m_text);
-	// 移动并旋转
-	path.translate(m_bindPoint);
-	path.translate(m_shiftDist, -linkL.length());
-	path = m_transform.map(path);
-
 	// 画连接的虚线
 	painter->setPen(QPen(m_pen.color(), m_pen.widthF(), Qt::DashLine));
 	painter->drawLine(linkL);
-	// 画文本内容
+
+	// 转换绘画坐标系
+	painter->translate(m_bindPoint);
+	painter->rotate(m_rotateAngle);
+	painter->translate(m_shiftDist, -linkL.length());
+
 	painter->setPen(m_pen);
+	painter->drawLine(m_textRect.bottomLeft() + QPointF(-m, 0), m_textRect.bottomRight() + QPointF(m, 0));
+	// 画文本内容，将文字添加到绘画路径可得到更平整的文字
+	QPainterPath path;
+	path.addText(m_textRect.left(), m_textRect.bottom() - m, m_font, m_text);
 	painter->drawPath(path);
 }
 
