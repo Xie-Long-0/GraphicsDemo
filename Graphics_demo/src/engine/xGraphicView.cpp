@@ -13,7 +13,7 @@ xGraphicView::xGraphicView(QGraphicsScene *scene, QWidget *parent)
 	setMouseTracking(true);
 	setRenderHint(QPainter::Antialiasing);
 	
-	// Ìí¼Ó±³¾°Í¼Æ¬ÊµÌå£¬²¢½ûÖ¹Ñ¡ÖÐºÍÒÆ¶¯
+	// æ·»åŠ èƒŒæ™¯å›¾ç‰‡å®žä½“ï¼Œå¹¶ç¦æ­¢é€‰ä¸­å’Œç§»åŠ¨
 	m_pixmap = new QGraphicsPixmapItem();
 	m_pixmap->setAcceptHoverEvents(false);
 	m_pixmap->setAcceptTouchEvents(false);
@@ -96,10 +96,10 @@ void xGraphicView::removeSelectedItems()
 	auto items = scene()->selectedItems();
 	for (auto i : items)
 	{
-		// µ±Ò»´ÎÑ¡ÖÐ²Ù×÷°üº¬¶à¸öÍ¼ÔªÊ±ÐèÒª·ÖÇé¿ö²Ù×÷
+		// å½“ä¸€æ¬¡é€‰ä¸­æ“ä½œåŒ…å«å¤šä¸ªå›¾å…ƒæ—¶éœ€è¦åˆ†æƒ…å†µæ“ä½œ
 		if (items.size() > 1)
 		{
-			// Ñ¡ÖÐInterSingle»òInterCoupleÊ±Ö»É¾³ý¸ÃÍ¼Ôª
+			// é€‰ä¸­InterSingleæˆ–InterCoupleæ—¶åªåˆ é™¤è¯¥å›¾å…ƒ
 			if ((i->type() > xEntity::ET_InterSingle_Start && i->type() < xEntity::ET_InterSingle_End) ||
 				(i->type() > xEntity::ET_InterCouple_Start && i->type() < xEntity::ET_InterCouple_End))
 			{
@@ -108,7 +108,7 @@ void xGraphicView::removeSelectedItems()
 				return;
 			}
 
-			// Ñ¡ÖÐ¾ßÓÐ¸¸×ÓÍ¼ÔªÊ±ÐèÒªÅÐ¶ÏÓÐÎÞ¹ØÁªÍ¼ÐÎ
+			// é€‰ä¸­å…·æœ‰çˆ¶å­å›¾å…ƒæ—¶éœ€è¦åˆ¤æ–­æœ‰æ— å…³è”å›¾å½¢
 			if (i->parentItem() != nullptr)
 			{
 				continue;
@@ -136,7 +136,7 @@ void xGraphicView::removeSelectedItems()
 
 void xGraphicView::removeAllItems()
 {
-	// ±£ÁôÒ»¸öPixmapItem
+	// ä¿ç•™ä¸€ä¸ªPixmapItem
 	while (scene()->items().size() > 1)
 	{
 		auto items = scene()->items();
@@ -146,7 +146,7 @@ void xGraphicView::removeAllItems()
 				continue;
 
 			scene()->removeItem(i);
-			// É¾³ýÓÐ¸¸Ä¸»òº¢×ÓµÄÍ¼ÐÎÊ±ÐèÒªÖØÐÂ»ñÈ¡items
+			// åˆ é™¤æœ‰çˆ¶æ¯æˆ–å­©å­çš„å›¾å½¢æ—¶éœ€è¦é‡æ–°èŽ·å–items
 			if (i->parentItem() != nullptr || i->childItems().isEmpty() != true)
 			{
 				delete i;
@@ -167,8 +167,8 @@ void xGraphicView::resizeScene()
 	m_initFactor = std::max(fw, fh);
 	scale(m_initFactor, m_initFactor);
 	
-	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);	// Òþ²ØË®Æ½¹ö¶¯Ìõ
-	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);		// Òþ²Ø´¹Ö±¹ö¶¯Ìõ
+	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);	// éšè—æ°´å¹³æ»šåŠ¨æ¡
+	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);		// éšè—åž‚ç›´æ»šåŠ¨æ¡
 }
 
 void xGraphicView::mousePressEvent(QMouseEvent *e)
@@ -184,7 +184,7 @@ void xGraphicView::mousePressEvent(QMouseEvent *e)
 	}
 	if (e->isAccepted())
 		return;
-	// È¥³ýCtrlÐÞÊÎ¼üµÄ¶àÑ¡²Ù×÷
+	// åŽ»é™¤Ctrlä¿®é¥°é”®çš„å¤šé€‰æ“ä½œ
 	if (e->modifiers() & Qt::ControlModifier)
 		e->setModifiers(e->modifiers() & ~Qt::ControlModifier);
 	QGraphicsView::mousePressEvent(e);
@@ -219,7 +219,7 @@ void xGraphicView::mouseReleaseEvent(QMouseEvent *e)
 	}
 	if (e->isAccepted())
 		return;
-	// È¥³ýCtrlÐÞÊÎ¼üµÄ¶àÑ¡²Ù×÷
+	// åŽ»é™¤Ctrlä¿®é¥°é”®çš„å¤šé€‰æ“ä½œ
 	if (e->modifiers() & Qt::ControlModifier)
 		e->setModifiers(e->modifiers() & ~Qt::ControlModifier);
 	QGraphicsView::mouseReleaseEvent(e);
@@ -295,8 +295,8 @@ void xGraphicView::onScaleChanged()
 {
 	if (scaleFactor() <= m_initFactor)
 	{
-		setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);	// Òþ²ØË®Æ½¹ö¶¯Ìõ
-		setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);		// Òþ²Ø´¹Ö±¹ö¶¯Ìõ
+		setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);	// éšè—æ°´å¹³æ»šåŠ¨æ¡
+		setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);		// éšè—åž‚ç›´æ»šåŠ¨æ¡
 	}
 	else
 	{

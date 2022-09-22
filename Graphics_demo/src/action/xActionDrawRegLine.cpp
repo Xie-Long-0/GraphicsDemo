@@ -34,7 +34,7 @@ void xActionDrawRegLine::mousePressEvent(QMouseEvent *e)
 			{
 				m_line->setLine(mp, spos, 30);
 				m_line->setStyle(xDef::S_RegDrawn);
-				// 操作完成，设置为AS_ActionFinished
+				// 鎿嶄綔瀹屾垚锛岃缃负AS_ActionFinished
 				m_status = xDef::AS_ActionFinished;
 				e->accept();
 			}

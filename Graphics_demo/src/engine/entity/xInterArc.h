@@ -6,7 +6,7 @@ class xArc;
 class xRegArc;
 
 /**
- * @brief ¹ØÁªÒ»¸öÔ²»¡£¨»ò·¶Î§Ô²»¡£©µÄÍ¼Ôª£¬¼Ì³Ğ×ÔxInterSingleEntity
+ * @brief å…³è”ä¸€ä¸ªåœ†å¼§ï¼ˆæˆ–èŒƒå›´åœ†å¼§ï¼‰çš„å›¾å…ƒï¼Œç»§æ‰¿è‡ªxInterSingleEntity
 */
 class xInterArc : public xInterSingleEntity
 {
@@ -18,9 +18,9 @@ public:
 	xInterArc(xArc *item, xGraphicView *view, QGraphicsItem *parent = nullptr);
 	xInterArc(xRegArc *item, xGraphicView *view, QGraphicsItem *parent = nullptr);
 
-	// ×Ô¶¨ÒåÊµÌåÀàĞÍÃ¶¾Ù
+	// è‡ªå®šä¹‰å®ä½“ç±»å‹æšä¸¾
 	enum { Type = ET_InterArc };
-	// ÖØĞ´º¯Êı£¬·µ»Øµ±Ç°µÄÀàĞÍÖµ
+	// é‡å†™å‡½æ•°ï¼Œè¿”å›å½“å‰çš„ç±»å‹å€¼
 	int type() const override;
 
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;

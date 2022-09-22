@@ -39,7 +39,7 @@ void xActionDrawInterCircle::mousePressEvent(QMouseEvent *e)
 			{
 				m_icircle = new xInterCircle(m_view);
 			}
-			// ��Բ
+			// 绑定圆
 			m_icircle->bindEntity(item);
 			m_icircle->setText("Bind Circle");
 			m_icircle->setAnchorPoint(viewMapToScene(e));

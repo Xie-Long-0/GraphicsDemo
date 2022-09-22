@@ -45,7 +45,7 @@ void xActionDrawCircle::mousePressEvent(QMouseEvent *e)
 			{
 				m_circle->setCircle(mp1, mp2, viewMapToScene(e));
 				m_circle->setStyle(xDef::S_Drawn);
-				// ²Ù×÷Íê³É£¬ÉèÖÃÎªAS_ActionFinished
+				// æ“ä½œå®Œæˆï¼Œè®¾ç½®ä¸ºAS_ActionFinished
 				m_status = xDef::AS_ActionFinished;
 				e->accept();
 			}
@@ -62,7 +62,7 @@ void xActionDrawCircle::mouseMoveEvent(QMouseEvent *e)
 	switch (m_status)
 	{
 	case xDef::AS_DrawEntity1_P1:
-		// »­Á½¸öµãÊ±ÏÔÊ¾Îª»­Ö±Ïß
+		// ç”»ä¸¤ä¸ªç‚¹æ—¶æ˜¾ç¤ºä¸ºç”»ç›´çº¿
 		if (m_line == nullptr)
 		{
 			m_line = new xLine(m_view);
@@ -74,7 +74,7 @@ void xActionDrawCircle::mouseMoveEvent(QMouseEvent *e)
 		break;
 
 	case xDef::AS_DrawEntity1_P2:
-		// »­µÚÈý¸öµãÊ±É¾³ýÁÙÊ±µÄÖ±Ïß
+		// ç”»ç¬¬ä¸‰ä¸ªç‚¹æ—¶åˆ é™¤ä¸´æ—¶çš„ç›´çº¿
 		if (m_line)
 		{
 			m_scene->removeItem(m_line);

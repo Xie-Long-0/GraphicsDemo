@@ -13,7 +13,7 @@ xRegRect::xRegRect(xGraphicView *view, QGraphicsItem *parent)
 xRegRect::xRegRect(const QRectF &rect, xGraphicView *view, QGraphicsItem *parent)
 	: xRegionEntity(view, parent)
 {
-	// Áî¾ØĞÎµÄ¿íÓë¸ß´óÓÚ0
+	// ä»¤çŸ©å½¢çš„å®½ä¸é«˜å¤§äº0
 	auto nrect = rect.normalized();
 	if (nrect.width() < 0.001)
 		nrect.setWidth(0.001);
@@ -26,7 +26,7 @@ xRegRect::xRegRect(const QRectF &rect, xGraphicView *view, QGraphicsItem *parent
 xRegRect::xRegRect(const QPointF &topleft, const QPointF &botright, xGraphicView *view, QGraphicsItem *parent)
 	: xRegionEntity(view, parent)
 {
-	// Áî¾ØĞÎµÄ¿íÓë¸ß´óÓÚ0
+	// ä»¤çŸ©å½¢çš„å®½ä¸é«˜å¤§äº0
 	auto nrect = QRectF(topleft, botright).normalized();
 	if (nrect.width() < 0.001)
 		nrect.setWidth(0.001);
@@ -51,7 +51,7 @@ void xRegRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
 	if (style != xDef::S_NoStyle)
 	{
-		// ĞüÍ£×´Ì¬
+		// æ‚¬åœçŠ¶æ€
 		if (option->state & QStyle::State_MouseOver)
 		{
 			style = xDef::S_RegHovered;
@@ -88,7 +88,7 @@ QPainterPath xRegRect::shape() const
 
 void xRegRect::setRect(const QRectF &rect)
 {
-	// Áî¾ØĞÎµÄ¿íÓë¸ß´óÓÚ0
+	// ä»¤çŸ©å½¢çš„å®½ä¸é«˜å¤§äº0
 	auto nrect = rect.normalized();
 	if (nrect.width() < 0.001)
 		nrect.setWidth(0.001);
@@ -129,21 +129,21 @@ void xRegRect::moveCtrlPoint(const QPointF &pt, const QPointF &movedPt)
 
 	const auto min = std::min({ tl,tr,bl,br });
 
-	// ÒÆ¶¯×óÉÏ½Ç
+	// ç§»åŠ¨å·¦ä¸Šè§’
 	if (qFuzzyCompare(min, tl) && tl < DELTA_DIST / viewScaleFactor())
 	{
-		// ´Ó×óÉÏ½ÇÒÆµ½ÓÒÏÂ½ÇÊ±ĞèÒª°ÑmovedPtµ±³ÉÓÒÏÂ½ÇµÄµã
+		// ä»å·¦ä¸Šè§’ç§»åˆ°å³ä¸‹è§’æ—¶éœ€è¦æŠŠmovedPtå½“æˆå³ä¸‹è§’çš„ç‚¹
 		if (movedPt.x() - m_rect.right() > 0.001 &&
 			movedPt.y() - m_rect.bottom() > 0.001)
 		{
 			setRect(m_rect.topLeft(), movedPt);
 		}
-		// ´Ó×óÉÏ½ÇÒÆµ½ÓÒÉÏ½ÇÊ±ĞèÒª°ÑmovedPtµ±³ÉÓÒÉÏ½ÇµÄµã
+		// ä»å·¦ä¸Šè§’ç§»åˆ°å³ä¸Šè§’æ—¶éœ€è¦æŠŠmovedPtå½“æˆå³ä¸Šè§’çš„ç‚¹
 		else if (movedPt.x() - m_rect.right() > 0.001)
 		{
 			setRect(m_rect.bottomLeft(), movedPt);
 		}
-		// ´Ó×óÉÏ½ÇÒÆµ½×óÏÂ½ÇÊ±ĞèÒª°ÑmovedPtµ±³É×óÏÂ½ÇµÄµã
+		// ä»å·¦ä¸Šè§’ç§»åˆ°å·¦ä¸‹è§’æ—¶éœ€è¦æŠŠmovedPtå½“æˆå·¦ä¸‹è§’çš„ç‚¹
 		else if (movedPt.y() - m_rect.bottom() > 0.001)
 		{
 			setRect(m_rect.topRight(), movedPt);
@@ -153,10 +153,10 @@ void xRegRect::moveCtrlPoint(const QPointF &pt, const QPointF &movedPt)
 			setRect(movedPt, m_rect.bottomRight());
 		}
 	}
-	// ÒÆ¶¯ÓÒÉÏ½Ç
+	// ç§»åŠ¨å³ä¸Šè§’
 	else if (qFuzzyCompare(min, tr) && tr < DELTA_DIST / viewScaleFactor())
 	{
-		// ´ÓÓÒÉÏ½ÇÒÆµ½ÓÒÏÂ½ÇÊ±ĞèÒª°ÑmovedPtµ±³ÉÓÒÏÂ½ÇµÄµã
+		// ä»å³ä¸Šè§’ç§»åˆ°å³ä¸‹è§’æ—¶éœ€è¦æŠŠmovedPtå½“æˆå³ä¸‹è§’çš„ç‚¹
 		if (movedPt.y() - m_rect.bottom() > 0.001)
 		{
 			setRect(m_rect.topLeft(), movedPt);
@@ -166,10 +166,10 @@ void xRegRect::moveCtrlPoint(const QPointF &pt, const QPointF &movedPt)
 			setRect(movedPt, m_rect.bottomLeft());
 		}
 	}
-	// ÒÆ¶¯×óÏÂ½Ç
+	// ç§»åŠ¨å·¦ä¸‹è§’
 	else if (qFuzzyCompare(min, bl) && bl < DELTA_DIST / viewScaleFactor())
 	{
-		// ´Ó×óÏÂ½ÇÒÆµ½ÓÒÏÂ½ÇÊ±ĞèÒª°ÑmovedPtµ±³ÉÓÒÏÂ½ÇµÄµã
+		// ä»å·¦ä¸‹è§’ç§»åˆ°å³ä¸‹è§’æ—¶éœ€è¦æŠŠmovedPtå½“æˆå³ä¸‹è§’çš„ç‚¹
 		if (movedPt.x() - m_rect.right() > 0.001)
 		{
 			setRect(m_rect.topLeft(), movedPt);
@@ -179,7 +179,7 @@ void xRegRect::moveCtrlPoint(const QPointF &pt, const QPointF &movedPt)
 			setRect(movedPt, m_rect.topRight());
 		}
 	}
-	// ÒÆ¶¯ÓÒÏÂ½Ç
+	// ç§»åŠ¨å³ä¸‹è§’
 	else if (qFuzzyCompare(min, br) && br < DELTA_DIST / viewScaleFactor())
 	{
 		setRect(m_rect.topLeft(), movedPt);

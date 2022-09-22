@@ -43,7 +43,7 @@ void xArc::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 		if (isSelected())
 		{
 			style = xDef::S_Selected;
-			// ÈôÓÐ¸¸Í¼ÔªÈçxRegArc£¬ÔòÍ¬Ê±½«¸¸Í¼ÔªÉèÖÃÎªÑ¡ÖÐ
+			// è‹¥æœ‰çˆ¶å›¾å…ƒå¦‚xRegArcï¼Œåˆ™åŒæ—¶å°†çˆ¶å›¾å…ƒè®¾ç½®ä¸ºé€‰ä¸­
 			if (auto parent = parentEntity(); parent != nullptr)
 			{
 				parent->setSelected(true);
@@ -52,7 +52,7 @@ void xArc::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 		}
 		else
 		{
-			// ÈôÓÐ¸¸Í¼ÔªÇÒ¸¸Í¼ÔªÎ´Ñ¡ÖÐ£¬ÔòÒþ²Ø¸¸Í¼Ôª
+			// è‹¥æœ‰çˆ¶å›¾å…ƒä¸”çˆ¶å›¾å…ƒæœªé€‰ä¸­ï¼Œåˆ™éšè—çˆ¶å›¾å…ƒ
 			if (auto parent = parentEntity(); parent != nullptr && !parent->isSelected())
 			{
 				parent->setSelected(false);

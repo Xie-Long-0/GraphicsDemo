@@ -15,7 +15,7 @@ void xEntity::setPen(const QPen &pen)
 
 	prepareGeometryChange();
 	m_pen = pen;
-	m_style = xDef::S_NoStyle;	// ÉèÖÃÎŞÑùÊ½ÒÔÊ¹ÓÃÊÖ¶¯ÉèÖÃµÄ±Ê»­
+	m_style = xDef::S_NoStyle;	// è®¾ç½®æ— æ ·å¼ä»¥ä½¿ç”¨æ‰‹åŠ¨è®¾ç½®çš„ç¬”ç”»
 	update();
 }
 

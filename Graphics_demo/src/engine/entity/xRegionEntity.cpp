@@ -31,6 +31,6 @@ void xRegionEntity::setBrush(const QBrush &brush)
 
 	prepareGeometryChange();
 	m_brush = brush;
-	m_style = xDef::S_NoStyle;	// ÉèÖÃÎŞÑùÊ½ÒÔÊ¹ÓÃ×Ô¶¨Òå±ÊË¢
+	m_style = xDef::S_NoStyle;	// è®¾ç½®æ— æ ·å¼ä»¥ä½¿ç”¨è‡ªå®šä¹‰ç¬”åˆ·
 	update();
 }

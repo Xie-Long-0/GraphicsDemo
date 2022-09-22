@@ -17,7 +17,7 @@ void xInterSingleEntity::setText(const QString &text)
 
 	prepareGeometryChange();
 	m_text = text;
-	m_lastFactor = -1;	// ÎÄ±¾¸Ä±äÊ±ÖØĞÂ¼ÆËãÎÄ±¾´óĞ¡
+	m_lastFactor = -1;	// æ–‡æœ¬æ”¹å˜æ—¶é‡æ–°è®¡ç®—æ–‡æœ¬å¤§å°
 	update();
 }
 

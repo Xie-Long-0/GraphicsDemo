@@ -15,11 +15,11 @@ public:
 	~xGraphicView();
 
 	auto getAction() const noexcept { return m_action; }
-	// ÉèÖÃĞÂµÄAction£¬½«»á°ÑÉÏÒ»¸öAction½áÊø²¢ÊÍ·Å
+	// è®¾ç½®æ–°çš„Actionï¼Œå°†ä¼šæŠŠä¸Šä¸€ä¸ªActionç»“æŸå¹¶é‡Šæ”¾
 	void setAction(xActionPreviewInterface *action);
-	// ·µ»ØÊÓÍ¼Ëõ·Å±ÈÀı
+	// è¿”å›è§†å›¾ç¼©æ”¾æ¯”ä¾‹
 	qreal scaleFactor() const noexcept { return transform().m11(); }
-	// µ÷ÕûËõ·Å´óĞ¡µ½×ÔÊÊÓ¦½çÃæ
+	// è°ƒæ•´ç¼©æ”¾å¤§å°åˆ°è‡ªé€‚åº”ç•Œé¢
 	void resizeScene();
 
 public slots:
@@ -34,7 +34,7 @@ public slots:
 	void removeAllItems();
 
 signals:
-	// ¿ÉÓÃÓÚ½ÓÊÕÍ¼Ôª¼ÆËãÈÎÎñ·µ»ØµÄ½á¹û²¢´«µ½ÉÏ²ã½çÃæ
+	// å¯ç”¨äºæ¥æ”¶å›¾å…ƒè®¡ç®—ä»»åŠ¡è¿”å›çš„ç»“æœå¹¶ä¼ åˆ°ä¸Šå±‚ç•Œé¢
 	void calcFinished(bool suc);
 
 private:

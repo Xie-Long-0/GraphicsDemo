@@ -5,7 +5,7 @@
 xActionPreviewInterface::xActionPreviewInterface(xGraphicView *view, xDef::ActionType type)
 	: xActionInterface(view, type)
 {
-	// ËùÓÐÊµÌå½ûÖ¹ÒÆ¶¯¡¢Ñ¡ÖÐÓëÐüÍ£ÊÂ¼þ
+	// æ‰€æœ‰å®žä½“ç¦æ­¢ç§»åŠ¨ã€é€‰ä¸­ä¸Žæ‚¬åœäº‹ä»¶
 	auto items = m_scene->items();
 	for (auto i : items)
 	{
@@ -17,11 +17,11 @@ xActionPreviewInterface::xActionPreviewInterface(xGraphicView *view, xDef::Actio
 
 xActionPreviewInterface::~xActionPreviewInterface()
 {
-	// ËùÓÐÊµÌåÈ¡Ïû½ûÖ¹ÒÆ¶¯¡¢Ñ¡ÖÐÓëÐüÍ£ÊÂ¼þ
+	// æ‰€æœ‰å®žä½“å–æ¶ˆç¦æ­¢ç§»åŠ¨ã€é€‰ä¸­ä¸Žæ‚¬åœäº‹ä»¶
 	auto items = m_scene->items();
 	for (auto i : items)
 	{
-		// Ìø¹ýÍ¼Æ¬ÊµÌå
+		// è·³è¿‡å›¾ç‰‡å®žä½“
 		if (i->type() == QGraphicsPixmapItem::Type)
 			continue;
 		if (i->parentItem() == nullptr)

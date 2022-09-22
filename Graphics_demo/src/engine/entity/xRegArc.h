@@ -13,20 +13,20 @@ public:
 	xRegArc(const QPointF &center, qreal radius, qreal angle, qreal spanAngle, qreal width, xGraphicView *view, QGraphicsItem *parent = nullptr);
 	xRegArc(const QPointF &p1, const QPointF &p2, const QPointF &p3, qreal width, xGraphicView *view, QGraphicsItem *parent = nullptr);
 
-	// ×Ô¶¨ÒåÊµÌåÀàĞÍÃ¶¾Ù
+	// è‡ªå®šä¹‰å®ä½“ç±»å‹æšä¸¾
 	enum { Type = ET_RegArc };
-	// ÖØĞ´º¯Êı£¬·µ»Øµ±Ç°µÄÀàĞÍÖµ
+	// é‡å†™å‡½æ•°ï¼Œè¿”å›å½“å‰çš„ç±»å‹å€¼
 	int type() const override;
 
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 	QRectF boundingRect() const override;
 	QPainterPath shape() const override;
 
-	// ¶îÍâÉú³ÉµÄÎŞ·¶Î§µÄÔ²
+	// é¢å¤–ç”Ÿæˆçš„æ— èŒƒå›´çš„åœ†
 	auto subArc() const noexcept { return m_subArc; }
-	// ÉèÖÃ¶îÍâÉú³ÉµÄÔ²
+	// è®¾ç½®é¢å¤–ç”Ÿæˆçš„åœ†
 	void setSubArc(const xArcData &arc);
-	// ÉèÖÃ¶îÍâÉú³ÉµÄÔ²
+	// è®¾ç½®é¢å¤–ç”Ÿæˆçš„åœ†
 	void setSubArc(const QPointF &center, qreal radius, qreal angle, qreal spanAngle);
 	void hideSubArc(bool hide = true) noexcept { m_subArc->setVisible(!hide); }
 
@@ -56,26 +56,26 @@ public:
 	void setPt3(const QPointF &p);
 
 	/**
-	 * @brief ÒÆ¶¯Í¼Ôª
-	 * @param delta ÒÆ¶¯ÔöÁ¿£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
+	 * @brief ç§»åŠ¨å›¾å…ƒ
+	 * @param delta ç§»åŠ¨å¢é‡ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
 	*/
 	void moveBy(const QPointF &delta) override;
 	QList<QPointF> controlPoints() const noexcept override;
 	/**
-	 * @brief ÒÆ¶¯Í¼ÔªµÄÒ»¸ö¿ØÖÆµã
-	 * @param pt ¿ØÖÆµãÎ»ÖÃ£¬ÓÃÓÚÅĞ¶ÏÄÄ¸ö¿ØÖÆµã£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
-	 * @param movedPt ÒÆ¶¯ºóµÄµãÎ»ÖÃ£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
+	 * @brief ç§»åŠ¨å›¾å…ƒçš„ä¸€ä¸ªæ§åˆ¶ç‚¹
+	 * @param pt æ§åˆ¶ç‚¹ä½ç½®ï¼Œç”¨äºåˆ¤æ–­å“ªä¸ªæ§åˆ¶ç‚¹ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
+	 * @param movedPt ç§»åŠ¨åçš„ç‚¹ä½ç½®ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
 	*/
 	void moveCtrlPoint(const QPointF &pt, const QPointF &movedPt) override;
 	bool isCtrlPoint(const QPointF &p) const override;
-	// Í¨¹ıµãÀ´¸Ä±ä·¶Î§¿í¶È£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
+	// é€šè¿‡ç‚¹æ¥æ”¹å˜èŒƒå›´å®½åº¦ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
 	void changeEdgeByPoint(const QPointF &p) override;
-	// ÅĞ¶ÏÊÇ·ñÊÇ·¶Î§±ßÔµ£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
+	// åˆ¤æ–­æ˜¯å¦æ˜¯èŒƒå›´è¾¹ç¼˜ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
 	bool isRegionEdge(const QPointF &p) const override;
 
 protected:
-	// ·¶Î§Ô²»¡µÄÊı¾İ
+	// èŒƒå›´åœ†å¼§çš„æ•°æ®
 	xArcData m_arc;
-	// Éú³ÉµÄÔ²»¡
+	// ç”Ÿæˆçš„åœ†å¼§
 	xArc *m_subArc = nullptr;
 };

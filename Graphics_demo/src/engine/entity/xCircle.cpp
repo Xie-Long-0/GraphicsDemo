@@ -44,7 +44,7 @@ void xCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 		if (isSelected())
 		{
 			style = xDef::S_Selected;
-			// ÈôÓĞ¸¸Í¼ÔªÈçxRegCircle£¬ÔòÍ¬Ê±½«¸¸Í¼ÔªÉèÖÃÎªÑ¡ÖĞ
+			// è‹¥æœ‰çˆ¶å›¾å…ƒå¦‚xRegCircleï¼Œåˆ™åŒæ—¶å°†çˆ¶å›¾å…ƒè®¾ç½®ä¸ºé€‰ä¸­
 			if (auto parent = parentEntity(); parent != nullptr)
 			{
 				parent->setSelected(true);
@@ -53,7 +53,7 @@ void xCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 		}
 		else
 		{
-			// ÈôÓĞ¸¸Í¼ÔªÇÒ¸¸Í¼ÔªÎ´Ñ¡ÖĞ£¬ÔòÒş²Ø¸¸Í¼Ôª
+			// è‹¥æœ‰çˆ¶å›¾å…ƒä¸”çˆ¶å›¾å…ƒæœªé€‰ä¸­ï¼Œåˆ™éšè—çˆ¶å›¾å…ƒ
 			if (auto parent = parentEntity(); parent != nullptr && !parent->isSelected())
 			{
 				parent->setSelected(false);
@@ -91,8 +91,8 @@ QRectF xCircle::boundingRect() const
 	if (!m_circle.isValid())
 		return QRectF();
 
-	// ¼ÆËãÍ¼ĞÎÔÚÊÓ³¡ÖĞµÄ¾ØĞÎ£¬°üÀ¨»­±ÊµÄ¿í¶È£¬·ñÔòÎŞ·¨ÕıÈ·ÏÔÊ¾
-	// Note£º»­±Ê¿í¶ÈÉèÖÃÎª2±¶ÒÔ±ã¸üÈİÒ×±»Ñ¡ÖĞ
+	// è®¡ç®—å›¾å½¢åœ¨è§†åœºä¸­çš„çŸ©å½¢ï¼ŒåŒ…æ‹¬ç”»ç¬”çš„å®½åº¦ï¼Œå¦åˆ™æ— æ³•æ­£ç¡®æ˜¾ç¤º
+	// Noteï¼šç”»ç¬”å®½åº¦è®¾ç½®ä¸º2å€ä»¥ä¾¿æ›´å®¹æ˜“è¢«é€‰ä¸­
 	const qreal pw = m_pen.widthF() * 2;
 	return m_circle.boundingRect().marginsAdded({ pw,pw,pw,pw });
 }

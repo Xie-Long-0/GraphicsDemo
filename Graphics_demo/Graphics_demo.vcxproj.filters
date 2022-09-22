@@ -143,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+    <None Include=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\ui\MainWindow.h">

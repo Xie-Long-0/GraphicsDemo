@@ -3,7 +3,7 @@
 #include "xEntity.h"
 
 /**
- * @brief ¼Ì³Ğ×ÔxEntityµÄÎŞ·¶Î§Ô²»¡
+ * @brief ç»§æ‰¿è‡ªxEntityçš„æ— èŒƒå›´åœ†å¼§
 */
 class xArc : public xEntity
 {
@@ -16,9 +16,9 @@ public:
 	xArc(const QPointF &center, qreal radius, qreal angle, qreal spanAngle, xGraphicView *view, QGraphicsItem *parent = nullptr);
 	xArc(const QPointF &p1, const QPointF &p2, const QPointF &p3, xGraphicView *view, QGraphicsItem *parent = nullptr);
 
-	// ×Ô¶¨ÒåÊµÌåÀàĞÍÃ¶¾Ù
+	// è‡ªå®šä¹‰å®ä½“ç±»å‹æšä¸¾
 	enum { Type = ET_Arc };
-	// ÖØĞ´º¯Êı£¬·µ»Øµ±Ç°µÄÀàĞÍÖµ
+	// é‡å†™å‡½æ•°ï¼Œè¿”å›å½“å‰çš„ç±»å‹å€¼
 	int type() const override;
 
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
@@ -51,15 +51,15 @@ public:
 	void setPt3(const QPointF &p);
 
 	/**
-	 * @brief ÒÆ¶¯Í¼Ôª
-	 * @param delta ÒÆ¶¯ÔöÁ¿£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
+	 * @brief ç§»åŠ¨å›¾å…ƒ
+	 * @param delta ç§»åŠ¨å¢é‡ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
 	*/
 	void moveBy(const QPointF &delta) override;
 	QList<QPointF> controlPoints() const noexcept override;
 	/**
-	 * @brief ÒÆ¶¯Í¼ÔªµÄÒ»¸ö¿ØÖÆµã
-	 * @param pt ¿ØÖÆµãÎ»ÖÃ£¬ÓÃÓÚÅĞ¶ÏÄÄ¸ö¿ØÖÆµã£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
-	 * @param movedPt ÒÆ¶¯ºóµÄµãÎ»ÖÃ£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
+	 * @brief ç§»åŠ¨å›¾å…ƒçš„ä¸€ä¸ªæ§åˆ¶ç‚¹
+	 * @param pt æ§åˆ¶ç‚¹ä½ç½®ï¼Œç”¨äºåˆ¤æ–­å“ªä¸ªæ§åˆ¶ç‚¹ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
+	 * @param movedPt ç§»åŠ¨åçš„ç‚¹ä½ç½®ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
 	*/
 	void moveCtrlPoint(const QPointF &pt, const QPointF &movedPt) override;
 	bool isCtrlPoint(const QPointF &p) const override;

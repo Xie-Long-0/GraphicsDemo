@@ -3,7 +3,7 @@
 #include "xEntity.h"
 
 /**
- * @brief ¹ØÁªÁ½¸öÍ¼ÔªµÄ»ùÀà
+ * @brief å…³è”ä¸¤ä¸ªå›¾å…ƒçš„åŸºç±»
 */
 class xInterCoupleEntity : public xEntity
 {
@@ -32,15 +32,15 @@ public:
 	virtual void bindEntity2(xEntity *e);
 
 	/**
-	 * @brief ÒÆ¶¯Í¼Ôª
-	 * @param delta ÒÆ¶¯ÔöÁ¿£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
+	 * @brief ç§»åŠ¨å›¾å…ƒ
+	 * @param delta ç§»åŠ¨å¢é‡ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
 	*/
 	void moveBy(const QPointF &delta) override;
 	QList<QPointF> controlPoints() const noexcept override;
 	/**
-	 * @brief ÒÆ¶¯Í¼ÔªµÄÒ»¸ö¿ØÖÆµã
-	 * @param pt ¿ØÖÆµãÎ»ÖÃ£¬ÓÃÓÚÅĞ¶ÏÄÄ¸ö¿ØÖÆµã£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
-	 * @param movedPt ÒÆ¶¯ºóµÄµãÎ»ÖÃ£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
+	 * @brief ç§»åŠ¨å›¾å…ƒçš„ä¸€ä¸ªæ§åˆ¶ç‚¹
+	 * @param pt æ§åˆ¶ç‚¹ä½ç½®ï¼Œç”¨äºåˆ¤æ–­å“ªä¸ªæ§åˆ¶ç‚¹ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
+	 * @param movedPt ç§»åŠ¨åçš„ç‚¹ä½ç½®ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
 	*/
 	void moveCtrlPoint(const QPointF &pt, const QPointF &movedPt) override;
 	bool isCtrlPoint(const QPointF &p) const override;
@@ -52,31 +52,31 @@ protected slots:
 	virtual void onEntity2Moved(const QPointF &delta);
 
 protected:
-	QString m_text;	// ÏÔÊ¾ÎÄ±¾
-	QRectF m_textRect;		// ÎÄ±¾Õ¼ÓÃµÄ¾ØĞÎ¿ò
-	QPointF m_bindPoint1;	// °ó¶¨µã1
-	QPointF m_bindPoint2;	// °ó¶¨µã2
-	QPointF m_anchorPoint;	// Ãª¶¨µã
-	QTransform m_transform;	// ±ä»»¾ØÕó
-	qreal m_rotateAngle = 0;	// Ğı×ª½Ç¶È£¨»¡¶È£©
-	qreal m_shiftDist = 0.0;	// ÎÄ×ÖÆ«ÒÆ¾àÀë£¬Íù×óÆ«ÊÇ¸ºÊı£¬ÍùÓÒÆ«ÊÇÕıÊı
-	xEntity *m_bindEntity1 = nullptr;	// ¹ØÁªµÄÍ¼Ôª1
-	xEntity *m_bindEntity2 = nullptr;	// ¹ØÁªµÄÍ¼Ôª2
-	QFont m_font;	// ×ÖÌå
-	qreal m_lastFactor = 0;	// ¼ÇÂ¼ÉÏ´ÎËõ·ÅºóµÄÖµ£¬µ±ÖµÎ´¸Ä±äÊ±²»¸üĞÂÎÄ±¾´óĞ¡£¬ÒÔ¼õÉÙ»æ»­¼ÆËã
+	QString m_text;	// æ˜¾ç¤ºæ–‡æœ¬
+	QRectF m_textRect;		// æ–‡æœ¬å ç”¨çš„çŸ©å½¢æ¡†
+	QPointF m_bindPoint1;	// ç»‘å®šç‚¹1
+	QPointF m_bindPoint2;	// ç»‘å®šç‚¹2
+	QPointF m_anchorPoint;	// é”šå®šç‚¹
+	QTransform m_transform;	// å˜æ¢çŸ©é˜µ
+	qreal m_rotateAngle = 0;	// æ—‹è½¬è§’åº¦ï¼ˆå¼§åº¦ï¼‰
+	qreal m_shiftDist = 0.0;	// æ–‡å­—åç§»è·ç¦»ï¼Œå¾€å·¦åæ˜¯è´Ÿæ•°ï¼Œå¾€å³åæ˜¯æ­£æ•°
+	xEntity *m_bindEntity1 = nullptr;	// å…³è”çš„å›¾å…ƒ1
+	xEntity *m_bindEntity2 = nullptr;	// å…³è”çš„å›¾å…ƒ2
+	QFont m_font;	// å­—ä½“
+	qreal m_lastFactor = 0;	// è®°å½•ä¸Šæ¬¡ç¼©æ”¾åçš„å€¼ï¼Œå½“å€¼æœªæ”¹å˜æ—¶ä¸æ›´æ–°æ–‡æœ¬å¤§å°ï¼Œä»¥å‡å°‘ç»˜ç”»è®¡ç®—
 };
 
 /**
 * 
 *                       +-------------------+
-*               Æ«ÒÆ¡ı  |       Text        | xInterCoupleEntity
+*               åç§»â†“  |       Text        | xInterCoupleEntity
 *                -------+---------x---------+
-*                  ©ª        ©ª   ¡ü
-*                  ©ª        ©ª   Ãª¶¨µã
+*                  â”†        â”†   â†‘
+*                  â”†        â”†   é”šå®šç‚¹
 *                 +--+      +--+
-*                 |©ª|      |©ª|
-*                 |©ª|      |©ª|
-*       °ó¶¨µã¡ú  |©ª|      |©ª|
+*                 |â”†|      |â”†|
+*                 |â”†|      |â”†|
+*       ç»‘å®šç‚¹â†’  |â”†|      |â”†|
 *                 |  |      |  |
 *                 |  |      |  |
 *                 +--+      +--+

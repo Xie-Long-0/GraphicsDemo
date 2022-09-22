@@ -48,13 +48,13 @@ void xRegLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 	Q_UNUSED(widget);
 
 	const qreal angle = m_regLine.angle() * M_PI / 180.0;
-	// ¾ØÐÎ4¸ö¶¥µã£¬line.p1×ó±ßµÄµã¿ªÊ¼£¬Ë³Ê±Õë
+	// çŸ©å½¢4ä¸ªé¡¶ç‚¹ï¼Œline.p1å·¦è¾¹çš„ç‚¹å¼€å§‹ï¼Œé¡ºæ—¶é’ˆ
 	const auto p1 = PointFromPolar(m_width, angle + M_PI * 0.5) + m_regLine.p1();
 	const auto p2 = PointFromPolar(m_width, angle + M_PI * 0.5) + m_regLine.p2();
 	const auto p3 = PointFromPolar(m_width, angle - M_PI * 0.5) + m_regLine.p2();
 	const auto p4 = PointFromPolar(m_width, angle - M_PI * 0.5) + m_regLine.p1();
 
-	// ±ß¿òÂ·¾¶
+	// è¾¹æ¡†è·¯å¾„
 	QPainterPath path;
 	path.moveTo(p1);
 	path.lineTo(p2);
@@ -67,17 +67,17 @@ void xRegLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
 	if (style != xDef::S_NoStyle)
 	{
-		// Ñ¡ÖÐ×´Ì¬
+		// é€‰ä¸­çŠ¶æ€
 		if (isSelected())
 		{
 			m_subLine->setSelected(true);
 			style = xDef::S_RegSelected;
-			// Ñ¡ÖÐÊ±»æ»­±ß¿ò
+			// é€‰ä¸­æ—¶ç»˜ç”»è¾¹æ¡†
 			painter->setPen(QPen(QColor(255, 255, 0, 255), 1.0 / f));
 			painter->drawPath(path);
 		}
 
-		// ÐüÍ£×´Ì¬
+		// æ‚¬åœçŠ¶æ€
 		if (option->state & QStyle::State_MouseOver)
 		{
 			style = xDef::S_RegHovered;
@@ -86,13 +86,13 @@ void xRegLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 		MakeStyle(style, &m_pen, &m_brush, f);
 	}
 
-	// Ìî³ä·¶Î§
+	// å¡«å……èŒƒå›´
 	painter->fillPath(path, m_brush);
-	// »­ÖÐÐÄÏß
+	// ç”»ä¸­å¿ƒçº¿
 	painter->setPen(m_pen);
 	painter->drawLine(m_regLine);
 	
-	// Ìî³äÖÐÐÄÏß¼ýÍ·
+	// å¡«å……ä¸­å¿ƒçº¿ç®­å¤´
 	const auto lp = PointFromPolar(14.0 / f, angle + M_PI - ANGLE_15_RAD) + m_regLine.p2();
 	const auto rp = PointFromPolar(14.0 / f, angle + M_PI + ANGLE_15_RAD) + m_regLine.p2();
 	QPainterPath ap;
@@ -102,7 +102,7 @@ void xRegLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 	ap.closeSubpath();
 	painter->fillPath(ap, m_pen.color());
 
-	// Ñ¡ÖÐÊ±»æ»­¿ØÖÆµã
+	// é€‰ä¸­æ—¶ç»˜ç”»æŽ§åˆ¶ç‚¹
 	if (isSelected() && (flags() & ItemIsMovable))
 	{
 		const qreal w = m_pen.widthF();
@@ -117,7 +117,7 @@ QRectF xRegLine::boundingRect() const
 		return QRectF();
 
 	const qreal angle = m_regLine.angle() * M_PI / 180.0;
-	// ¾ØÐÎ4¸ö¶¥µã£¬line.p1µã×ó±ßµÄµã¿ªÊ¼£¬Ë³Ê±Õë
+	// çŸ©å½¢4ä¸ªé¡¶ç‚¹ï¼Œline.p1ç‚¹å·¦è¾¹çš„ç‚¹å¼€å§‹ï¼Œé¡ºæ—¶é’ˆ
 	const auto p1 = PointFromPolar(m_width, angle + M_PI * 0.5) + m_regLine.p1();
 	const auto p2 = PointFromPolar(m_width, angle + M_PI * 0.5) + m_regLine.p2();
 	const auto p3 = PointFromPolar(m_width, angle - M_PI * 0.5) + m_regLine.p2();

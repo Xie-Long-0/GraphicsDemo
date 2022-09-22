@@ -6,7 +6,7 @@ void MakeStyle(xDef::Style style, QPen *pen, QBrush *brush, qreal factor)
 {
 	switch (style)
 	{
-		// ²»´ø·¶Î§ÊµÌåÑùÊ½
+		// ä¸å¸¦èŒƒå›´å®ä½“æ ·å¼
 	case xDef::Style::S_Drawing:
 		if (pen)
 		{
@@ -70,7 +70,7 @@ void MakeStyle(xDef::Style style, QPen *pen, QBrush *brush, qreal factor)
 		}
 		break;
 
-		// ´ø·¶Î§ÊµÌåÑùÊ½
+		// å¸¦èŒƒå›´å®ä½“æ ·å¼
 	case xDef::Style::S_RegDrawing:
 		if (pen)
 		{
@@ -154,7 +154,7 @@ void MakeStyle(xDef::Style style, QPen *pen, QBrush *brush, qreal factor)
 		}
 		break;
 
-		// ÎÄ×ÖÑùÊ½
+		// æ–‡å­—æ ·å¼
 	case xDef::Style::S_TxtDrawing:
 	case xDef::Style::S_TxtDrawn:
 		if (pen)
@@ -221,7 +221,7 @@ QPolygonF ArcToPolygon(const xArcData &arc)
 		auto p = arc.center() + PointFromPolar(arc.radius(), a);
 		pg.append(std::move(p));
 	}
-	// Ìí¼Ó½áÊøµã
+	// æ·»åŠ ç»“æŸç‚¹
 	auto pe = arc.center() + PointFromPolar(arc.radius(), ea);
 	pg.append(std::move(pe));
 	return pg;
@@ -237,7 +237,7 @@ QPolygonF ArcToPolygon(const QPointF &center, qreal radius, qreal angle, qreal s
 		auto p = center + PointFromPolar(radius, a);
 		pg.append(std::move(p));
 	}
-	// Ìí¼Ó½áÊøµã
+	// æ·»åŠ ç»“æŸç‚¹
 	auto pe = center + PointFromPolar(radius, ea);
 	pg.append(std::move(pe));
 	return pg;
@@ -256,7 +256,7 @@ void xCircleData::createFrom3P() noexcept
 	const qreal ra2 = QPointF::dotProduct(va, va) * 0.5;
 	const qreal rb2 = QPointF::dotProduct(vb, vb) * 0.5;
 	const qreal crossp = va.x() * vb.y() - va.y() * vb.x();
-	// crosspÎª0Ôò3µãÔÚÍ¬Ò»Ö±ÏßÉÏ
+	// crosspä¸º0åˆ™3ç‚¹åœ¨åŒä¸€ç›´çº¿ä¸Š
 	if (qFuzzyCompare(crossp, 0.0))
 	{
 		qWarning() << __FUNCTION__ << ": Three points in a line";
@@ -287,7 +287,7 @@ void xArcData::createFrom3P() noexcept
 	// cross-product, p12 x p13
 	qreal cp12p13 = p12.x() * p13.y() - p12.y() * p13.x();
 
-	// 3µã¹²Ïß
+	// 3ç‚¹å…±çº¿
 	if (qFuzzyCompare(cp12p13, 0))
 	{
 		qWarning() << __FUNCTION__ << "Cannot create a Arc, 3 points on a line!";
@@ -297,17 +297,17 @@ void xArcData::createFrom3P() noexcept
 	qreal x0 = (p13.y() * dp12 - p12.y() * dp13) / (cp12p13 * 2);
 	qreal y0 = (p12.x() * dp13 - p13.x() * dp12) / (cp12p13 * 2);
 
-	// Ô²ĞÄ
+	// åœ†å¿ƒ
 	c = QPointF(x0, y0);
-	// °ë¾¶
+	// åŠå¾„
 	r = QLineF(c, p1).length();
 
 	qreal a1 = AnglePoint2Point(c, p1);
 	qreal a2 = AnglePoint2Point(c, p2);
 	qreal a3 = AnglePoint2Point(c, p3);
-	// ÆğÊ¼½Ç¶È
+	// èµ·å§‹è§’åº¦
 	a = a1;
-	// ÅĞ¶ÏÉ¨¹ıµÄ½Ç¶È
+	// åˆ¤æ–­æ‰«è¿‡çš„è§’åº¦
 	if (a1 > a3)
 	{
 		if (a2 < a1 && a2 > a3)

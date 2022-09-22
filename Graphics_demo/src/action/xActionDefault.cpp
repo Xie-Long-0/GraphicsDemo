@@ -17,7 +17,7 @@ void xActionDefault::mousePressEvent(QMouseEvent *e)
 {
 	if (e->button() == Qt::LeftButton)
 	{
-		// »ñÈ¡Êó±êÎ»ÖÃµÄÍ¼Ôª
+		// èŽ·å–é¼ æ ‡ä½ç½®çš„å›¾å…ƒ
 		auto gi = m_view->itemAt(e->pos());
 		if (gi == nullptr || gi->type() <= xEntity::ET_Unknown)
 			return;
@@ -27,7 +27,7 @@ void xActionDefault::mousePressEvent(QMouseEvent *e)
 
 		if (item->flags() & QGraphicsItem::ItemIsSelectable && item->parentItem() == nullptr)
 		{
-			// ½«µ±Ç°Í¼Ôª¶ÑµþÔÚÓëÆäÏà×²µÄÆäËüÍ¼ÔªÉÏÃæ
+			// å°†å½“å‰å›¾å…ƒå †å åœ¨ä¸Žå…¶ç›¸æ’žçš„å…¶å®ƒå›¾å…ƒä¸Šé¢
 			auto others = item->collidingItems();
 			for (auto i : others)
 			{
@@ -37,17 +37,17 @@ void xActionDefault::mousePressEvent(QMouseEvent *e)
 			}
 		}
 
-		// ÅÐ¶ÏÊÇ·ñÑ¡ÖÐ¿ØÖÆµã
+		// åˆ¤æ–­æ˜¯å¦é€‰ä¸­æŽ§åˆ¶ç‚¹
 		if (item->isCtrlPoint(m_p))
 		{
 			m_isGrabCtrlPoint = true;
 			m_item = item;
 			return;
 		}
-		// ÅÐ¶ÏÊÇ·ñÊôÓÚRegionÀàÐÍ
+		// åˆ¤æ–­æ˜¯å¦å±žäºŽRegionç±»åž‹
 		if (item->type() > xEntity::ET_Region_Start && item->type() < xEntity::ET_Region_End)
 		{
-			// ÅÐ¶ÏÊÇ·ñÑ¡ÖÐ·¶Î§±ßÔµ
+			// åˆ¤æ–­æ˜¯å¦é€‰ä¸­èŒƒå›´è¾¹ç¼˜
 			auto ri = static_cast<xRegionEntity *>(gi);
 			if (ri->isRegionEdge(m_p))
 			{
@@ -56,7 +56,7 @@ void xActionDefault::mousePressEvent(QMouseEvent *e)
 				return;
 			}
 		}
-		// ÅÐ¶ÏÊÇ·ñÒÆ¶¯Í¼Ôª
+		// åˆ¤æ–­æ˜¯å¦ç§»åŠ¨å›¾å…ƒ
 		if (item->flags() & QGraphicsItem::ItemIsMovable)
 		{
 			m_willMoveItem = true;
@@ -72,7 +72,7 @@ void xActionDefault::mousePressEvent(QMouseEvent *e)
 
 void xActionDefault::mouseMoveEvent(QMouseEvent *e)
 {
-	// ÒÆ¶¯¿ØÖÆµã
+	// ç§»åŠ¨æŽ§åˆ¶ç‚¹
 	if (m_isGrabCtrlPoint && m_item)
 	{
 		auto p = viewMapToScene(e);
@@ -82,7 +82,7 @@ void xActionDefault::mouseMoveEvent(QMouseEvent *e)
 		e->accept();
 		return;
 	}
-	// ÒÆ¶¯·¶Î§
+	// ç§»åŠ¨èŒƒå›´
 	if (m_isGrabRegionEdge && m_item)
 	{
 		auto p = viewMapToScene(e);
@@ -91,7 +91,7 @@ void xActionDefault::mouseMoveEvent(QMouseEvent *e)
 		e->accept();
 		return;
 	}
-	// ÒÆ¶¯Í¼Ôª
+	// ç§»åŠ¨å›¾å…ƒ
 	if (m_willMoveItem && m_item)
 	{
 		auto p = viewMapToScene(e);
@@ -109,7 +109,7 @@ void xActionDefault::mouseReleaseEvent(QMouseEvent *e)
 	{
 		if (m_itemChanged && m_item)
 		{
-			// ÒÆ¶¯ºó¶ÔÐèÒªÖØÐÂ¼ÆËãµÄÍ¼ÐÎÖ´ÐÐ¼ÆËãÈÎÎñ
+			// ç§»åŠ¨åŽå¯¹éœ€è¦é‡æ–°è®¡ç®—çš„å›¾å½¢æ‰§è¡Œè®¡ç®—ä»»åŠ¡
 			if (m_item->needCalculate())
 				m_item->requestCalc();
 		}

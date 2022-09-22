@@ -52,31 +52,31 @@ public:
 	{
 		S_NoStyle = 0,
 
-		// ²»´ø·¶Î§ÊµÌåÑùÊ½
-		S_Drawing = 10,   // ÕıÔÚ»­
-		S_Drawn,          // ÒÑ»­ºÃ
-		S_Measured,       // ÒÑ²âÁ¿
-		S_Failed,         // Ê¶±ğÊ§°Ü
-		S_Selected,       // Ñ¡Ôñ
-		S_Hovered,        // ĞüÍ£
+		// ä¸å¸¦èŒƒå›´å®ä½“æ ·å¼
+		S_Drawing = 10,   // æ­£åœ¨ç”»
+		S_Drawn,          // å·²ç”»å¥½
+		S_Measured,       // å·²æµ‹é‡
+		S_Failed,         // è¯†åˆ«å¤±è´¥
+		S_Selected,       // é€‰æ‹©
+		S_Hovered,        // æ‚¬åœ
 		S_HoverSelected,
 
-		// ´ø·¶Î§ÊµÌåÑùÊ½
-		S_RegDrawing = 20,// ÕıÔÚ»­
-		S_RegDrawn,       // ÒÑ»­ºÃ
-		S_RegMeasured,    // ÒÑ²âÁ¿
-		S_RegFailed,      // Ê¶±ğÊ§°Ü
-		S_RegSelected,    // Ñ¡Ôñ
-		S_RegHovered,     // ĞüÍ£
+		// å¸¦èŒƒå›´å®ä½“æ ·å¼
+		S_RegDrawing = 20,// æ­£åœ¨ç”»
+		S_RegDrawn,       // å·²ç”»å¥½
+		S_RegMeasured,    // å·²æµ‹é‡
+		S_RegFailed,      // è¯†åˆ«å¤±è´¥
+		S_RegSelected,    // é€‰æ‹©
+		S_RegHovered,     // æ‚¬åœ
 		S_RegHoverSelected,
 
-		// ÎÄ×ÖÑùÊ½
-		S_TxtDrawing = 30,// ÕıÔÚ»­
-		S_TxtDrawn,       // ÒÑ»­ºÃ
-		S_TxtMeasured,    // ÒÑ²âÁ¿
-		S_TxtFailed,      // Ê¶±ğÊ§°Ü
-		S_TxtSelected,    // Ñ¡Ôñ
-		S_TxtHovered,     // ĞüÍ£
+		// æ–‡å­—æ ·å¼
+		S_TxtDrawing = 30,// æ­£åœ¨ç”»
+		S_TxtDrawn,       // å·²ç”»å¥½
+		S_TxtMeasured,    // å·²æµ‹é‡
+		S_TxtFailed,      // è¯†åˆ«å¤±è´¥
+		S_TxtSelected,    // é€‰æ‹©
+		S_TxtHovered,     // æ‚¬åœ
 	};
 	Q_ENUM(Style)
 
@@ -94,16 +94,16 @@ public:
 };
 
 /**
- * @brief ÉèÖÃÏàÓ¦StyleµÄÑùÊ½
- * @param style ÑùÊ½Ã¶¾Ù
- * @param pen ´«ÈëµÄ»­±ÊÖ¸Õë
- * @param brush ´«ÈëµÄ±ÊË¢Ö¸Õë
- * @param factor ÊÓÍ¼µÄËõ·ÅÏµÊı£¬ÓÃÓÚÉèÖÃ»­±Ê¿í¶È
+ * @brief è®¾ç½®ç›¸åº”Styleçš„æ ·å¼
+ * @param style æ ·å¼æšä¸¾
+ * @param pen ä¼ å…¥çš„ç”»ç¬”æŒ‡é’ˆ
+ * @param brush ä¼ å…¥çš„ç¬”åˆ·æŒ‡é’ˆ
+ * @param factor è§†å›¾çš„ç¼©æ”¾ç³»æ•°ï¼Œç”¨äºè®¾ç½®ç”»ç¬”å®½åº¦
 */
 void MakeStyle(xDef::Style style = xDef::S_NoStyle, QPen *pen = nullptr, QBrush *brush = nullptr, qreal factor = 1.0);
 
 /**
- * @brief ÓÉÔ²ĞÄ¡¢°ë¾¶¼°3¸ö¿ØÖÆµã×é³ÉµÄÔ²
+ * @brief ç”±åœ†å¿ƒã€åŠå¾„åŠ3ä¸ªæ§åˆ¶ç‚¹ç»„æˆçš„åœ†
 */
 struct xCircleData
 {
@@ -121,7 +121,7 @@ struct xCircleData
 	QPointF pt1() const noexcept { return p1; }
 	QPointF pt2() const noexcept { return p2; }
 	QPointF pt3() const noexcept { return p3; }
-	// Ô²µÄÍâ½Ó¾ØĞÎ
+	// åœ†çš„å¤–æ¥çŸ©å½¢
 	QRectF boundingRect() const noexcept { return QRectF(c.x() - r, c.y() - r, r * 2, r * 2); }
 	inline void translate(const QPointF &p) noexcept;
 
@@ -131,9 +131,9 @@ struct xCircleData
 	xCircleData &operator=(xCircleData &&o) noexcept = default;
 
 private:
-	// ÓÉ3µã¹¹ÔìÔ²ĞÄºÍ°ë¾¶
+	// ç”±3ç‚¹æ„é€ åœ†å¿ƒå’ŒåŠå¾„
 	void createFrom3P() noexcept;
-	// ÓÉÔ²ĞÄ°ë¾¶¹¹Ôì3µã£¨0¡ã£¬120¡ã£¬240¡ã£©
+	// ç”±åœ†å¿ƒåŠå¾„æ„é€ 3ç‚¹ï¼ˆ0Â°ï¼Œ120Â°ï¼Œ240Â°ï¼‰
 	inline void generate3P() noexcept;
 
 	QPointF c;
@@ -142,7 +142,7 @@ private:
 };
 
 /**
- * @brief ÓÉÔ²ĞÄ¡¢°ë¾¶¡¢ÆğÊ¼½Ç¶È¡¢É¨¹ı½Ç¶È¼°3¸ö¿ØÖÆµã×é³ÉµÄÔ²»¡
+ * @brief ç”±åœ†å¿ƒã€åŠå¾„ã€èµ·å§‹è§’åº¦ã€æ‰«è¿‡è§’åº¦åŠ3ä¸ªæ§åˆ¶ç‚¹ç»„æˆçš„åœ†å¼§
 */
 struct xArcData
 {
@@ -156,22 +156,22 @@ struct xArcData
 	inline void setCenter(const QPointF &center) noexcept;
 	qreal radius() const noexcept { return r; }
 	inline void setRadius(qreal radius) noexcept;
-	// ÆğÊ¼½Ç¶È£¨»¡¶È£©
+	// èµ·å§‹è§’åº¦ï¼ˆå¼§åº¦ï¼‰
 	qreal angle() const noexcept { return a; }
 	inline void setAngle(qreal angle) noexcept;
-	// ¾­¹ıµÄ½Ç¶È£¨»¡¶È£©
+	// ç»è¿‡çš„è§’åº¦ï¼ˆå¼§åº¦ï¼‰
 	qreal spanAngle() const noexcept { return sa; }
 	inline void setSpanAngle(qreal alength) noexcept;
-	// ÆğÊ¼½Ç¶È£¨¶È£©
+	// èµ·å§‹è§’åº¦ï¼ˆåº¦ï¼‰
 	qreal angleDegree() const noexcept { return a * 180 / M_PI; }
 	inline void setAngleDegree(qreal angle) noexcept;
-	// ¾­¹ıµÄ½Ç¶È£¨¶È£©
+	// ç»è¿‡çš„è§’åº¦ï¼ˆåº¦ï¼‰
 	qreal spanAngleDegree() const noexcept { return sa * 180 / M_PI; }
 	inline void setSpanAngleDegree(qreal alength) noexcept;
 	QPointF pt1() const noexcept { return p1; }
 	QPointF pt2() const noexcept { return p2; }
 	QPointF pt3() const noexcept { return p3; }
-	// Ô²»¡ËùÔÚÔ²µÄÍâ½Ó¾ØĞÎ
+	// åœ†å¼§æ‰€åœ¨åœ†çš„å¤–æ¥çŸ©å½¢
 	QRectF boundingRect() const noexcept { return QRectF(c.x() - r, c.y() - r, r * 2, r * 2); }
 	inline void translate(const QPointF &p) noexcept;
 
@@ -181,22 +181,22 @@ struct xArcData
 	xArcData &operator=(xArcData &&o) noexcept = default;
 
 private:
-	// ÓÉ3µã¹¹ÔìÔ²ĞÄ¡¢°ë¾¶¼°½Ç¶È
+	// ç”±3ç‚¹æ„é€ åœ†å¿ƒã€åŠå¾„åŠè§’åº¦
 	void createFrom3P() noexcept;
-	// ÓÉÔ²ĞÄ°ë¾¶Óë½Ç¶È¹¹Ôì3¸öµã
+	// ç”±åœ†å¿ƒåŠå¾„ä¸è§’åº¦æ„é€ 3ä¸ªç‚¹
 	inline void generate3P() noexcept;
 
 	QPointF c;
 	qreal r = 0.0;
-	qreal a = 0.0;		// ÆğÊ¼½Ç¶È£¨»¡¶È£©
-	qreal sa = 0.0;	// É¨¹ı½Ç¶È£¨»¡¶È£©£¬ÄæÊ±ÕëÎªÕı£¬Ë³Ê±ÕëÎª¸º
+	qreal a = 0.0;		// èµ·å§‹è§’åº¦ï¼ˆå¼§åº¦ï¼‰
+	qreal sa = 0.0;	// æ‰«è¿‡è§’åº¦ï¼ˆå¼§åº¦ï¼‰ï¼Œé€†æ—¶é’ˆä¸ºæ­£ï¼Œé¡ºæ—¶é’ˆä¸ºè´Ÿ
 	QPointF p1, p2, p3;
 };
 
-// ½«Ô²»¡×ª»»Îª½üËÆ±Æ½üµÄ¶à±ßĞÎ
+// å°†åœ†å¼§è½¬æ¢ä¸ºè¿‘ä¼¼é€¼è¿‘çš„å¤šè¾¹å½¢
 QPolygonF ArcToPolygon(const xArcData &arc);
 
-// ½«Ô²»¡×ª»»Îª½üËÆ±Æ½üµÄ¶à±ßĞÎ
+// å°†åœ†å¼§è½¬æ¢ä¸ºè¿‘ä¼¼é€¼è¿‘çš„å¤šè¾¹å½¢
 QPolygonF ArcToPolygon(const QPointF &center, qreal radius, qreal angle, qreal spanAngle);
 
 // struct xCircleData

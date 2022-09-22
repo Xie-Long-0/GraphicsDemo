@@ -15,23 +15,23 @@
 #define M_2PI (6.28318530717958647692528)   // PI * 2
 #endif
 
-constexpr double ANGLE_15_RAD = 0.261799;	// 15¶È¶ÔÓ¦µÄ»¡¶È
-constexpr double DELTA_DIST = 5.0;		// ½ÏÐ¡µÄ¾àÀëÔöÁ¿£¬Í¨³£ÓÃÓÚÒÆ¶¯Ê±µÄÅÐ¶Ï
-constexpr double DELTA_DIST_2 = 8.0;	// ½Ï´óµÄ¾àÀëÔöÁ¿£¬Í¨³£ÓÃÓÚµã»÷Ê±µÄÅÐ¶Ï
+constexpr double ANGLE_15_RAD = 0.261799;	// 15åº¦å¯¹åº”çš„å¼§åº¦
+constexpr double DELTA_DIST = 5.0;		// è¾ƒå°çš„è·ç¦»å¢žé‡ï¼Œé€šå¸¸ç”¨äºŽç§»åŠ¨æ—¶çš„åˆ¤æ–­
+constexpr double DELTA_DIST_2 = 8.0;	// è¾ƒå¤§çš„è·ç¦»å¢žé‡ï¼Œé€šå¸¸ç”¨äºŽç‚¹å‡»æ—¶çš„åˆ¤æ–­
 
 /**
- * @brief ¸ù¾Ý»ù´¡Path´´½¨¾ßÓÐ¿í¶ÈµÄ¿ÕÐÄPath
- * @param path ´«ÈëµÄ»æ»­Â·¾¶
- * @param width ´«ÈëµÄ¿í¶È
- * @return ´´½¨¾ßÓÐ¿í¶ÈµÄÂ·¾¶
+ * @brief æ ¹æ®åŸºç¡€Pathåˆ›å»ºå…·æœ‰å®½åº¦çš„ç©ºå¿ƒPath
+ * @param path ä¼ å…¥çš„ç»˜ç”»è·¯å¾„
+ * @param width ä¼ å…¥çš„å®½åº¦
+ * @return åˆ›å»ºå…·æœ‰å®½åº¦çš„è·¯å¾„
 */
 QPainterPath StrokeShapeFromPath(const QPainterPath &path, double width);
 
 /**
- * @brief Í¨¹ý¼«×ø±êÉú³Éµã
- * @param length ³¤¶È
- * @param angle ½Ç¶È£¬µ¥Î»Îª»¡¶È
- * @return Éú³ÉµÄµã
+ * @brief é€šè¿‡æžåæ ‡ç”Ÿæˆç‚¹
+ * @param length é•¿åº¦
+ * @param angle è§’åº¦ï¼Œå•ä½ä¸ºå¼§åº¦
+ * @return ç”Ÿæˆçš„ç‚¹
 */
 inline QPointF PointFromPolar(double length, double angle)
 {
@@ -39,7 +39,7 @@ inline QPointF PointFromPolar(double length, double angle)
 }
 
 /**
- * @brief ¼ÆËãÁ½µã¼äµÄ¾àÀë
+ * @brief è®¡ç®—ä¸¤ç‚¹é—´çš„è·ç¦»
 */
 inline double Distance(const QPointF &p1, const QPointF &p2)
 {
@@ -47,27 +47,27 @@ inline double Distance(const QPointF &p1, const QPointF &p2)
 }
 
 /**
- * @brief µãµ½Ö±ÏßµÄ¾àÀë
+ * @brief ç‚¹åˆ°ç›´çº¿çš„è·ç¦»
 */
 double DistancePoint2Line(const QPointF &p, const QLineF &line);
 
 /**
- * @brief ¼ÆËãp1µ½p2ÐÎ³ÉµÄÇãÐ±½Ç£¨»¡¶È£©£¬[0, 2PI)
- * @param reverseY Ö¸Ê¾YÖá×ø±êÊÇ·ñ·´×ª
- * @return p1µ½p2ÐÎ³ÉµÄÇãÐ±½Ç£¨»¡¶È£©
+ * @brief è®¡ç®—p1åˆ°p2å½¢æˆçš„å€¾æ–œè§’ï¼ˆå¼§åº¦ï¼‰ï¼Œ[0, 2PI)
+ * @param reverseY æŒ‡ç¤ºYè½´åæ ‡æ˜¯å¦åè½¬
+ * @return p1åˆ°p2å½¢æˆçš„å€¾æ–œè§’ï¼ˆå¼§åº¦ï¼‰
 */
 double AnglePoint2Point(const QPointF &p1, const QPointF &p2, bool reverseY = true) noexcept;
 
 /**
- * @brief ÅÐ¶ÏsrcAngleÊÇ·ñÔÚÄ³¸ö·¶Î§ÄÚ
- * @param srcAngle Ô´½Ç£¨»¡¶È£©
- * @param angle ÆðÊ¼½Ç£¨»¡¶È£©
- * @param spanAngle É¨¹ý½Ç¶È£¨»¡¶È£©
+ * @brief åˆ¤æ–­srcAngleæ˜¯å¦åœ¨æŸä¸ªèŒƒå›´å†…
+ * @param srcAngle æºè§’ï¼ˆå¼§åº¦ï¼‰
+ * @param angle èµ·å§‹è§’ï¼ˆå¼§åº¦ï¼‰
+ * @param spanAngle æ‰«è¿‡è§’åº¦ï¼ˆå¼§åº¦ï¼‰
 */
 bool AngleIsBetween(double srcAngle, double angle, double spanAngle) noexcept;
 
 /**
- * @brief ½«½Ç£¨»¡¶È£©×ª»»µ½ [0, 2PI) ·¶Î§
+ * @brief å°†è§’ï¼ˆå¼§åº¦ï¼‰è½¬æ¢åˆ° [0, 2PI) èŒƒå›´
 */
 constexpr double NormalizeAngle(double angle) noexcept
 {
@@ -83,7 +83,7 @@ constexpr double NormalizeAngle(double angle) noexcept
 }
 
 /**
- * @brief ½«½Ç×ª»»µ½ [0, 360) ·¶Î§
+ * @brief å°†è§’è½¬æ¢åˆ° [0, 360) èŒƒå›´
 */
 constexpr double NormalizeAngleDegree(double angle) noexcept
 {
@@ -99,7 +99,7 @@ constexpr double NormalizeAngleDegree(double angle) noexcept
 }
 
 /**
- * @brief ½«½Ç£¨»¡¶È£©×ª»»µ½ (-2PI, 2PI) ·¶Î§
+ * @brief å°†è§’ï¼ˆå¼§åº¦ï¼‰è½¬æ¢åˆ° (-2PI, 2PI) èŒƒå›´
 */
 constexpr double NormalizeAngleEx(double angle) noexcept
 {
@@ -115,7 +115,7 @@ constexpr double NormalizeAngleEx(double angle) noexcept
 }
 
 /**
- * @brief ½«½Ç×ª»»µ½ (-360, 360) ·¶Î§
+ * @brief å°†è§’è½¬æ¢åˆ° (-360, 360) èŒƒå›´
 */
 constexpr double NormalizeAngleDegreeEx(double angle) noexcept
 {
@@ -131,10 +131,10 @@ constexpr double NormalizeAngleDegreeEx(double angle) noexcept
 }
 
 /**
- * @brief ÒÔµãÎªÖÐÐÄÌî³äÒ»¸öÕý·½ÐÎ
- * @param p ÖÐÐÄµã
- * @param w Õý·½ÐÎ±ß³¤µÄÒ»°ë
- * @param color Ìî³äÑÕÉ«
+ * @brief ä»¥ç‚¹ä¸ºä¸­å¿ƒå¡«å……ä¸€ä¸ªæ­£æ–¹å½¢
+ * @param p ä¸­å¿ƒç‚¹
+ * @param w æ­£æ–¹å½¢è¾¹é•¿çš„ä¸€åŠ
+ * @param color å¡«å……é¢œè‰²
 */
 inline void FillRectByPoint(QPainter *painter, const QPointF &p, double w, const QColor &color) noexcept
 {
@@ -142,9 +142,9 @@ inline void FillRectByPoint(QPainter *painter, const QPointF &p, double w, const
 }
 
 /**
- * @brief ÒÔµãÎªÖÐÐÄÌî³äÒ»¸öÕý·½ÐÎ£¬ÒÔ»­±ÊµÄ¿í¶ÈÓëÑÕÉ«Îª²ÎÊý
- * @param p ÖÐÐÄµã
- * @param pen »­±Ê
+ * @brief ä»¥ç‚¹ä¸ºä¸­å¿ƒå¡«å……ä¸€ä¸ªæ­£æ–¹å½¢ï¼Œä»¥ç”»ç¬”çš„å®½åº¦ä¸Žé¢œè‰²ä¸ºå‚æ•°
+ * @param p ä¸­å¿ƒç‚¹
+ * @param pen ç”»ç¬”
 */
 inline void FillRectByPoint(QPainter *painter, const QPointF &p, const QPen &pen) noexcept
 {
@@ -153,13 +153,13 @@ inline void FillRectByPoint(QPainter *painter, const QPointF &p, const QPen &pen
 	painter->fillRect(QRectF(p.x() - w, p.y() - w, w * 2, w * 2), c);
 }
 
-// »¡¶È×ª½Ç¶È
+// å¼§åº¦è½¬è§’åº¦
 constexpr double Rad2Deg(double radAngle) noexcept
 {
 	return radAngle * 180 / M_PI;
 }
 
-// ½Ç¶È×ª»¡¶È
+// è§’åº¦è½¬å¼§åº¦
 constexpr double Deg2Rad(double degAngle) noexcept
 {
 	return degAngle * M_PI / 180;

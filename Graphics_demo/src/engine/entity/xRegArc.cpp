@@ -55,12 +55,12 @@ void xRegArc::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	const qreal w = m_width;
 	QPainterPath path;
 	path.addPolygon(ArcToPolygon(center(), radius() + w, angle(), spanAngle()));
-	// °ë¾¶´óÓÚ·¶Î§¿í¶ÈÊ±¼ÓÈëÄÚÔ²»¡
+	// åŠå¾„å¤§äºèŒƒå›´å®½åº¦æ—¶åŠ å…¥å†…åœ†å¼§
 	if (m_arc.radius() > w)
 	{
-		// ÄÚÍâÁ½¸öÔ²»¡¶ËµãÁ¬½ÓÏß
+		// å†…å¤–ä¸¤ä¸ªåœ†å¼§ç«¯ç‚¹è¿æ¥çº¿
 		path.lineTo(center() + PointFromPolar(radius() - w, angle() + spanAngle()));
-		// Ìí¼ÓÁíÒ»¸ö·´ÏòÔ²»¡£¬Ê¹ÓÃÆä°´Ë³ĞòÁ¬Ïß
+		// æ·»åŠ å¦ä¸€ä¸ªåå‘åœ†å¼§ï¼Œä½¿ç”¨å…¶æŒ‰é¡ºåºè¿çº¿
 		path.addPolygon(ArcToPolygon(center(), radius() - w, angle() + spanAngle(), -spanAngle()));
 		path.lineTo(center() + PointFromPolar(radius() + w, angle()));
 	}
@@ -75,17 +75,17 @@ void xRegArc::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
 	if (style != xDef::S_NoStyle)
 	{
-		// Ñ¡ÖĞ×´Ì¬
+		// é€‰ä¸­çŠ¶æ€
 		if (isSelected())
 		{
 			m_subArc->setSelected(true);
 			style = xDef::S_RegSelected;
-			// Ñ¡ÖĞÊ±»æ»­±ß¿ò
+			// é€‰ä¸­æ—¶ç»˜ç”»è¾¹æ¡†
 			painter->setPen(QPen(QColor(255, 255, 0, 255), 1.0 / f));
 			painter->drawPath(path);
 		}
 
-		// ĞüÍ£×´Ì¬
+		// æ‚¬åœçŠ¶æ€
 		if (option->state & QStyle::State_MouseOver)
 		{
 			style = xDef::S_RegHovered;
@@ -94,13 +94,13 @@ void xRegArc::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 		MakeStyle(style, &m_pen, &m_brush, f);
 	}
 
-	// Ìî³ä·¶Î§
+	// å¡«å……èŒƒå›´
 	painter->fillPath(path, m_brush);
-	// »­ÖĞĞÄÔ²»¡
+	// ç”»ä¸­å¿ƒåœ†å¼§
 	painter->setPen(m_pen);
 	painter->drawPolyline(ArcToPolygon(m_arc));
 
-	// Ñ¡ÖĞÊ±»æ»­¿ØÖÆµã
+	// é€‰ä¸­æ—¶ç»˜ç”»æ§åˆ¶ç‚¹
 	if (isSelected() && (flags() & ItemIsMovable))
 	{
 		const qreal w = m_pen.widthF();
@@ -129,10 +129,10 @@ QPainterPath xRegArc::shape() const
 	const qreal pw = m_pen.widthF() + m_width;
 
 	path.addPolygon(ArcToPolygon(center(), radius() + pw, angle(), spanAngle()));
-	// °ë¾¶´óÓÚ·¶Î§¿í¶ÈÊ±¼ÓÈëÄÚÔ²»¡
+	// åŠå¾„å¤§äºèŒƒå›´å®½åº¦æ—¶åŠ å…¥å†…åœ†å¼§
 	if (m_arc.radius() > m_width)
 	{
-		// Ìí¼ÓÁíÒ»¸ö·´ÏòÔ²»¡£¬Ê¹ÓÃÆä°´Ë³ĞòÁ¬Ïß
+		// æ·»åŠ å¦ä¸€ä¸ªåå‘åœ†å¼§ï¼Œä½¿ç”¨å…¶æŒ‰é¡ºåºè¿çº¿
 		path.addPolygon(ArcToPolygon(center(), radius() - pw, angle() + spanAngle(), -spanAngle()));
 		path.closeSubpath();
 	}
@@ -331,7 +331,7 @@ bool xRegArc::isCtrlPoint(const QPointF &p) const
 void xRegArc::changeEdgeByPoint(const QPointF &p)
 {
 	const qreal a = AnglePoint2Point(m_arc.center(), p);
-	// ÅĞ¶ÏÊÇ·ñÔÚÔ²»¡¼Ğ½Ç·¶Î§ÄÚ
+	// åˆ¤æ–­æ˜¯å¦åœ¨åœ†å¼§å¤¹è§’èŒƒå›´å†…
 	if (!AngleIsBetween(a, m_arc.angle(), m_arc.spanAngle()))
 	{
 		return;

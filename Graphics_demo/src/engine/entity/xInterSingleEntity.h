@@ -4,7 +4,7 @@
 #include <QFont>
 
 /**
- * @brief ¹ØÁªÒ»¸öÍ¼ÔªµÄ»ùÀà
+ * @brief å…³è”ä¸€ä¸ªå›¾å…ƒçš„åŸºç±»
 */
 class xInterSingleEntity : public xEntity
 {
@@ -28,43 +28,43 @@ public:
 	virtual void bindEntity(xEntity *e);
 
 	/**
-	* @brief ÒÆ¶¯Í¼Ôª
-	* @param delta ÒÆ¶¯ÔöÁ¿£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
+	* @brief ç§»åŠ¨å›¾å…ƒ
+	* @param delta ç§»åŠ¨å¢é‡ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
 	*/
 	void moveBy(const QPointF &delta) override;
 	QList<QPointF> controlPoints() const noexcept override;
 	/**
-	 * @brief ÒÆ¶¯Í¼ÔªµÄÒ»¸ö¿ØÖÆµã
-	 * @param pt ¿ØÖÆµãÎ»ÖÃ£¬ÓÃÓÚÅĞ¶ÏÄÄ¸ö¿ØÖÆµã£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
-	 * @param movedPt ÒÆ¶¯ºóµÄµãÎ»ÖÃ£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
+	 * @brief ç§»åŠ¨å›¾å…ƒçš„ä¸€ä¸ªæ§åˆ¶ç‚¹
+	 * @param pt æ§åˆ¶ç‚¹ä½ç½®ï¼Œç”¨äºåˆ¤æ–­å“ªä¸ªæ§åˆ¶ç‚¹ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
+	 * @param movedPt ç§»åŠ¨åçš„ç‚¹ä½ç½®ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
 	*/
 	void moveCtrlPoint(const QPointF &pt, const QPointF &movedPt) override;
 	bool isCtrlPoint(const QPointF &p) const override;
 
 public slots:
-	// ÓÃÓÚµ÷ÓÃ¼ÆËãÈÎÎñ
+	// ç”¨äºè°ƒç”¨è®¡ç®—ä»»åŠ¡
 	virtual void calculate() = 0;
 
 protected slots:
-	// °ó¶¨µÄÍ¼ĞÎ·¢Éú¸Ä±ä
+	// ç»‘å®šçš„å›¾å½¢å‘ç”Ÿæ”¹å˜
 	virtual void onEntityChanged() = 0;
-	// °ó¶¨µÄÍ¼ĞÎ·¢ÉúÒÆ¶¯
+	// ç»‘å®šçš„å›¾å½¢å‘ç”Ÿç§»åŠ¨
 	virtual void onEntityMoved(const QPointF &delta);
 
 protected:
 	inline void updateTransform();
 
 protected:
-	QString m_text;	// ÏÔÊ¾ÎÄ±¾
-	QRectF m_textRect;		// ÎÄ±¾Õ¼ÓÃµÄ¾ØĞÎ¿ò
-	QPointF m_bindPoint;	// °ó¶¨µã
-	QPointF m_anchorPoint;	// Ãª¶¨µã
-	QTransform m_transform;	// ±ä»»¾ØÕó
-	qreal m_rotateAngle = 0;	// Ğı×ª½Ç¶È£¨½Ç¶È£©
-	qreal m_shiftDist = 0.0;	// ÎÄ×ÖÆ«ÒÆ¾àÀë£¬Íù×óÆ«ÊÇ¸ºÊı£¬ÍùÓÒÆ«ÊÇÕıÊı
-	xEntity *m_bindEntity = nullptr;	// ¹ØÁªµÄÍ¼Ôª
-	QFont m_font;	// ×ÖÌå
-	qreal m_lastFactor = 0;	// ¼ÇÂ¼ÉÏ´ÎËõ·ÅºóµÄÖµ£¬µ±ÖµÎ´¸Ä±äÊ±²»¸üĞÂÎÄ±¾´óĞ¡£¬ÒÔ¼õÉÙ»æ»­¼ÆËã
+	QString m_text;	// æ˜¾ç¤ºæ–‡æœ¬
+	QRectF m_textRect;		// æ–‡æœ¬å ç”¨çš„çŸ©å½¢æ¡†
+	QPointF m_bindPoint;	// ç»‘å®šç‚¹
+	QPointF m_anchorPoint;	// é”šå®šç‚¹
+	QTransform m_transform;	// å˜æ¢çŸ©é˜µ
+	qreal m_rotateAngle = 0;	// æ—‹è½¬è§’åº¦ï¼ˆè§’åº¦ï¼‰
+	qreal m_shiftDist = 0.0;	// æ–‡å­—åç§»è·ç¦»ï¼Œå¾€å·¦åæ˜¯è´Ÿæ•°ï¼Œå¾€å³åæ˜¯æ­£æ•°
+	xEntity *m_bindEntity = nullptr;	// å…³è”çš„å›¾å…ƒ
+	QFont m_font;	// å­—ä½“
+	qreal m_lastFactor = 0;	// è®°å½•ä¸Šæ¬¡ç¼©æ”¾åçš„å€¼ï¼Œå½“å€¼æœªæ”¹å˜æ—¶ä¸æ›´æ–°æ–‡æœ¬å¤§å°ï¼Œä»¥å‡å°‘ç»˜ç”»è®¡ç®—
 };
 
 inline void xInterSingleEntity::updateTransform()
@@ -78,19 +78,19 @@ inline void xInterSingleEntity::updateTransform()
 
 /**
 * 
-*                            ¨u¨v
-*                          ¨u    ¨v
-*                          ¨v       ¨vxInterSingleEntity
-*                            ¨v       ¨v
-*                     Ãª¶¨µã¡ú¨u¨v      ¨v
-*                    ¡¡¡¡ ¡¡¨u    ¨v    ¨u
-*               °ó¶¨µã    ¨u        ¨v¨u
-*                   ©¦  ¨u
-*              ¨u¨v ¡ı¨u¨r½Ç¶È
-*            ¨u    ¨v ©¨©¨©¨©¨©¨ 0¡ã
-*          ¨u xEntity¨v
-*          ¨v        ¨u
-*            ¨v    ¨u
-*              ¨v¨u
+*                            â•±â•²
+*                          â•±    â•²
+*                          â•²       â•²xInterSingleEntity
+*                            â•²       â•²
+*                     é”šå®šç‚¹â†’â•±â•²      â•²
+*                    ã€€ã€€ ã€€â•±    â•²    â•±
+*               ç»‘å®šç‚¹    â•±        â•²â•±
+*                   â”‚  â•±
+*              â•±â•² â†“â•±â•®è§’åº¦
+*            â•±    â•² â”„â”„â”„â”„â”„ 0Â°
+*          â•± xEntityâ•²
+*          â•²        â•±
+*            â•²    â•±
+*              â•²â•±
 * 
 */

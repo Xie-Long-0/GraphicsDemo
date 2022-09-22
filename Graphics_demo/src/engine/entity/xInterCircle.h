@@ -6,7 +6,7 @@ class xCircle;
 class xRegCircle;
 
 /**
- * @brief ¹ØÁªÒ»¸öÔ²£¨»ò·¶Î§Ô²£©µÄÍ¼Ôª£¬¼Ì³Ğ×ÔxInterSingleEntity
+ * @brief å…³è”ä¸€ä¸ªåœ†ï¼ˆæˆ–èŒƒå›´åœ†ï¼‰çš„å›¾å…ƒï¼Œç»§æ‰¿è‡ªxInterSingleEntity
 */
 class xInterCircle : public xInterSingleEntity
 {
@@ -18,9 +18,9 @@ public:
 	xInterCircle(xCircle *item, xGraphicView *view, QGraphicsItem *parent = nullptr);
 	xInterCircle(xRegCircle *item, xGraphicView *view, QGraphicsItem *parent = nullptr);
 
-	// ×Ô¶¨ÒåÊµÌåÀàĞÍÃ¶¾Ù
+	// è‡ªå®šä¹‰å®ä½“ç±»å‹æšä¸¾
 	enum { Type = ET_InterCircle };
-	// ÖØĞ´º¯Êı£¬·µ»Øµ±Ç°µÄÀàĞÍÖµ
+	// é‡å†™å‡½æ•°ï¼Œè¿”å›å½“å‰çš„ç±»å‹å€¼
 	int type() const override;
 
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;

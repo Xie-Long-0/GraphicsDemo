@@ -7,7 +7,7 @@ class QMouseEvent;
 class xGraphicView;
 
 /**
- * @brief Action类的接口类，用于各种绘图动作
+ * @brief Action绫荤殑鎺ュ彛绫伙紝鐢ㄤ簬鍚勭缁樺浘鍔ㄤ綔
 */
 class xActionInterface
 {

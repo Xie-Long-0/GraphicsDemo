@@ -3,7 +3,7 @@
 #include "xActionInterface.h"
 
 /**
- * @brief ActionÔ¤ÀÀ²ã½Ó¿Ú£¬Ìá¹©È·ÈÏÓëÈ¡ÏûµÄ²Ù×÷
+ * @brief Actioné¢„è§ˆå±‚æŽ¥å£ï¼Œæä¾›ç¡®è®¤ä¸Žå–æ¶ˆçš„æ“ä½œ
 */
 class xActionPreviewInterface : public xActionInterface
 {
@@ -11,12 +11,12 @@ public:
 	xActionPreviewInterface(xGraphicView *view, xDef::ActionType type);
 	virtual ~xActionPreviewInterface();
 
-	// È·ÈÏÍê³Éµ±Ç°²Ù×÷
+	// ç¡®è®¤å®Œæˆå½“å‰æ“ä½œ
 	virtual void confirm();
-	// È¡Ïûµ±Ç°µÄ²Ù×÷£¬ÐèÒªÓÉÅÉÉúÀà¾ßÌåÊµÏÖ
+	// å–æ¶ˆå½“å‰çš„æ“ä½œï¼Œéœ€è¦ç”±æ´¾ç”Ÿç±»å…·ä½“å®žçŽ°
 	virtual void cancel() = 0;
-	// Ö´ÐÐ¼ÆËãÈÎÎñ
+	// æ‰§è¡Œè®¡ç®—ä»»åŠ¡
 	virtual void calculate() {}
-	// µ±Ç°²Ù×÷ÊÇ·ñÒÑÍê³É£¬Ä¬ÈÏÌõ¼þÎªÅÐ¶Ï(m_status >= xDef::S_ActionFinished)
+	// å½“å‰æ“ä½œæ˜¯å¦å·²å®Œæˆï¼Œé»˜è®¤æ¡ä»¶ä¸ºåˆ¤æ–­(m_status >= xDef::S_ActionFinished)
 	virtual bool isFinished() const;
 };

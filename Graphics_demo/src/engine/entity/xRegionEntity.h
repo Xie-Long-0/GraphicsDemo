@@ -5,7 +5,7 @@
 #include "xEntity.h"
 
 /**
- * @brief ¼Ì³ĞxEntityµÄ´ø·¶Î§µÄÍ¼ÔªĞé»ùÀà
+ * @brief ç»§æ‰¿xEntityçš„å¸¦èŒƒå›´çš„å›¾å…ƒè™šåŸºç±»
 */
 class xRegionEntity : public xEntity
 {
@@ -17,19 +17,19 @@ public:
 	xRegionEntity(qreal width, xGraphicView *view, QGraphicsItem *parent = nullptr);
 	virtual ~xRegionEntity() = default;
 
-	// ÅĞ¶ÏÊÇ·ñÊÇ·¶Î§±ßÔµ£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
+	// åˆ¤æ–­æ˜¯å¦æ˜¯èŒƒå›´è¾¹ç¼˜ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
 	virtual bool isRegionEdge(const QPointF &p) const = 0;
-	// Í¨¹ıµãÀ´¸Ä±ä·¶Î§¿í¶È£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
+	// é€šè¿‡ç‚¹æ¥æ”¹å˜èŒƒå›´å®½åº¦ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
 	virtual void changeEdgeByPoint(const QPointF &p) = 0;
 
-	// ·¶Î§¿í¶È£¬´óĞ¡Îª´ÓÖĞĞÄÍ¼ĞÎµ½×î´óÒ»±ßµÄ¾àÀë£¨Í¨³£Çé¿öÏÂ¼´ÎªÍ¼Ôª·¶Î§¿í¶ÈµÄÒ»°ë£©
+	// èŒƒå›´å®½åº¦ï¼Œå¤§å°ä¸ºä»ä¸­å¿ƒå›¾å½¢åˆ°æœ€å¤§ä¸€è¾¹çš„è·ç¦»ï¼ˆé€šå¸¸æƒ…å†µä¸‹å³ä¸ºå›¾å…ƒèŒƒå›´å®½åº¦çš„ä¸€åŠï¼‰
 	qreal regWidth() const noexcept { return m_width; }
 	void setRegWidth(qreal w);
 	QBrush brush() const noexcept { return m_brush; }
 	void setBrush(const QBrush &brush);
 
 signals:
-	// ·¶Î§¿í¶È¸Ä±äĞÅºÅ£¬ÓÉsetRegWidthº¯Êı·¢ËÍ
+	// èŒƒå›´å®½åº¦æ”¹å˜ä¿¡å·ï¼Œç”±setRegWidthå‡½æ•°å‘é€
 	void regWidthChanged(qreal newWidth);
 
 protected:

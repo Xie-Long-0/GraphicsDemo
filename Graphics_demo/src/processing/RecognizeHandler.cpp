@@ -27,7 +27,7 @@ void RecognizeHandler::calcCircle(xInterCircle *ic)
 	if (e->parentEntity())
 		e = e->parentEntity();
 
-	// Ä£Äâ¼ÆËã
+	// æ¨¡æ‹Ÿè®¡ç®—
 	QThread::msleep(300);
 
 	if (e->type() == xCircle::Type)
@@ -75,7 +75,7 @@ void RecognizeHandler::calcCircle(xInterCircle *ic)
 			c->setSubCircle(data);
 			ic->setText(QString("RegCircle R: %1").arg(data.radius()));
 
-			// ½«°ó¶¨¶ÔÏóÇÐ»»µ½Éú³ÉµÄÔ²
+			// å°†ç»‘å®šå¯¹è±¡åˆ‡æ¢åˆ°ç”Ÿæˆçš„åœ†
 			ic->bindEntity(c->subCircle());
 
 			c->setStatus(xDef::ES_MeasureOK);
@@ -89,9 +89,9 @@ void RecognizeHandler::calcCircle(xInterCircle *ic)
 		{
 			ic->setText(QString("Measure Failed"));
 			
-			// Ê§°ÜÊ±°ó¶¨µ½·¶Î§Ô²
+			// å¤±è´¥æ—¶ç»‘å®šåˆ°èŒƒå›´åœ†
 			ic->bindEntity(c);
-			// Òþ²Ø×ÓÔ²
+			// éšè—å­åœ†
 			c->hideSubCircle();
 			c->showThis();
 
@@ -116,7 +116,7 @@ void RecognizeHandler::calcArc(xInterArc *ie)
 	if (e->parentEntity())
 		e = e->parentEntity();
 
-	// Ä£Äâ¼ÆËã
+	// æ¨¡æ‹Ÿè®¡ç®—
 	QThread::msleep(300);
 
 	if (e->type() == xArc::Type)
@@ -164,7 +164,7 @@ void RecognizeHandler::calcArc(xInterArc *ie)
 			c->setSubArc(data);
 			ie->setText(QString("RegArc R: %1").arg(data.radius()));
 
-			// ½«°ó¶¨¶ÔÏóÇÐ»»µ½Éú³ÉµÄÔ²
+			// å°†ç»‘å®šå¯¹è±¡åˆ‡æ¢åˆ°ç”Ÿæˆçš„åœ†
 			ie->bindEntity(c->subArc());
 
 			c->setStatus(xDef::ES_MeasureOK);
@@ -178,9 +178,9 @@ void RecognizeHandler::calcArc(xInterArc *ie)
 		{
 			ie->setText(QString("Measure Failed"));
 			
-			// Ê§°ÜÊ±°ó¶¨µ½·¶Î§Ô²
+			// å¤±è´¥æ—¶ç»‘å®šåˆ°èŒƒå›´åœ†
 			ie->bindEntity(c);
-			// Òþ²Ø×ÓÔ²
+			// éšè—å­åœ†
 			c->hideSubArc();
 			c->showThis();
 

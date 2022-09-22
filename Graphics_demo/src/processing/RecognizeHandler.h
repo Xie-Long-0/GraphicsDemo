@@ -6,7 +6,7 @@ class xInterCircle;
 class xInterArc;
 
 /**
- * @brief Ä£Äâ¼ÆËã¡¢Ê¶±ğµÈÈÎÎñµÄ´¦Àí
+ * @brief æ¨¡æ‹Ÿè®¡ç®—ã€è¯†åˆ«ç­‰ä»»åŠ¡çš„å¤„ç†
 */
 class RecognizeHandler : public QObject
 {

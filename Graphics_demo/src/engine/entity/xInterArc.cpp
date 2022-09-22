@@ -39,7 +39,7 @@ void xInterArc::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 	const qreal f = viewScaleFactor();
 	if (style != xDef::S_NoStyle)
 	{
-		// Ñ¡ÖĞ×´Ì¬
+		// é€‰ä¸­çŠ¶æ€
 		if (isSelected())
 		{
 			style = xDef::S_TxtSelected;
@@ -47,7 +47,7 @@ void xInterArc::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 				m_bindEntity->setSelected(true);
 		}
 
-		// ĞüÍ£×´Ì¬
+		// æ‚¬åœçŠ¶æ€
 		if (option->state & QStyle::State_MouseOver)
 		{
 			style = xDef::S_TxtHovered;
@@ -56,37 +56,37 @@ void xInterArc::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 		MakeStyle(style, &m_pen, nullptr, f);
 	}
 
-	// Á¬½ÓÏß
+	// è¿æ¥çº¿
 	const QLineF linkL(m_bindPoint, m_anchorPoint);
-	// ±ß¾à
+	// è¾¹è·
 	const qreal m = m_pen.widthF() + 4 / f;
 
-	// Ëõ·Å¸Ä±äÊ±¸üĞÂ×ÖÌå´óĞ¡
+	// ç¼©æ”¾æ”¹å˜æ—¶æ›´æ–°å­—ä½“å¤§å°
 	if (!qFuzzyCompare(m_lastFactor, f))
 	{
 		m_lastFactor = f;
-		// ¸üĞÂ×ÖÌå´óĞ¡
+		// æ›´æ–°å­—ä½“å¤§å°
 		m_font.setPointSizeF(FontSize / f);
 
 		QFontMetricsF fm(m_font);
 		m_textRect = fm.boundingRect(m_text);
-		// ¾ØĞÎÔ­µãÒÆµ½µ×±ßÖĞĞÄ
+		// çŸ©å½¢åŸç‚¹ç§»åˆ°åº•è¾¹ä¸­å¿ƒ
 		m_textRect.translate(-m_textRect.bottomLeft());
 		m_textRect.translate(-m_textRect.width() / 2, 0);
 	}
 
-	// »­Á¬½ÓµÄĞéÏß
+	// ç”»è¿æ¥çš„è™šçº¿
 	painter->setPen(QPen(m_pen.color(), m_pen.widthF(), Qt::DashLine));
 	painter->drawLine(linkL);
 
-	// ×ª»»»æ»­×ø±êÏµ
+	// è½¬æ¢ç»˜ç”»åæ ‡ç³»
 	painter->translate(m_bindPoint);
 	painter->rotate(m_rotateAngle);
 	painter->translate(m_shiftDist, -linkL.length());
 
 	painter->setPen(m_pen);
 	painter->drawLine(m_textRect.bottomLeft() + QPointF(-m, 0), m_textRect.bottomRight() + QPointF(m, 0));
-	// »­ÎÄ±¾ÄÚÈİ£¬½«ÎÄ×ÖÌí¼Óµ½»æ»­Â·¾¶¿ÉµÃµ½¸üÆ½ÕûµÄÎÄ×Ö
+	// ç”»æ–‡æœ¬å†…å®¹ï¼Œå°†æ–‡å­—æ·»åŠ åˆ°ç»˜ç”»è·¯å¾„å¯å¾—åˆ°æ›´å¹³æ•´çš„æ–‡å­—
 	QPainterPath path;
 	path.addText(m_textRect.left(), m_textRect.bottom() - m, m_font, m_text);
 	painter->drawPath(path);
@@ -97,19 +97,19 @@ QRectF xInterArc::boundingRect() const
 	if (m_bindEntity == nullptr)
 		return QRectF();
 
-	// Á¬½ÓÏß
+	// è¿æ¥çº¿
 	const QLineF linkL(m_bindPoint, m_anchorPoint);
 	const qreal m = m_pen.widthF() * 2 + 4 / viewScaleFactor();
 
-	// ±ß½ç¾ØĞÎ
+	// è¾¹ç•ŒçŸ©å½¢
 	QRectF rect = m_textRect.marginsAdded({ m,0,m,m });
-	// ÒÆµ½°ó¶¨µãÉÏ·½
+	// ç§»åˆ°ç»‘å®šç‚¹ä¸Šæ–¹
 	rect.translate(m_bindPoint);
 	rect.translate(m_shiftDist, -linkL.length());
-	// Ó¦ÓÃĞı×ª¾ØÕó£¬µÃµ½¾ØĞÎĞı×ªºóµÄÍâ½Ó¾ØĞÎ
+	// åº”ç”¨æ—‹è½¬çŸ©é˜µï¼Œå¾—åˆ°çŸ©å½¢æ—‹è½¬åçš„å¤–æ¥çŸ©å½¢
 	rect = m_transform.mapRect(rect);
 
-	// ½«±ß½ç¾ØĞÎÀ©´óµ½°ó¶¨µãÎ»ÖÃ
+	// å°†è¾¹ç•ŒçŸ©å½¢æ‰©å¤§åˆ°ç»‘å®šç‚¹ä½ç½®
 	if (m_bindPoint.x() < rect.left() + m)
 	{
 		rect.setLeft(m_bindPoint.x() - m);
@@ -136,18 +136,18 @@ QPainterPath xInterArc::shape() const
 	if (m_bindEntity == nullptr)
 		return QPainterPath();
 
-	// Á¬½ÓÏß
+	// è¿æ¥çº¿
 	const QLineF linkL(m_bindPoint, m_anchorPoint);
 	const qreal m = m_pen.widthF() * 2;
 
-	// Ê¹ÓÃ¶à±ßĞÎ´¦ÀíÎÄ×Ö¿ò¾ØĞÎ£¬´úÌæÎÄ×Ö»æ»­Â·¾¶£¬Ìá¸ßĞ§ÂÊ
+	// ä½¿ç”¨å¤šè¾¹å½¢å¤„ç†æ–‡å­—æ¡†çŸ©å½¢ï¼Œä»£æ›¿æ–‡å­—ç»˜ç”»è·¯å¾„ï¼Œæé«˜æ•ˆç‡
 	QPolygonF pg(m_textRect.marginsAdded({ m,0,m,m }));
-	// ÒÆµ½°ó¶¨µãÉÏ·½
+	// ç§»åˆ°ç»‘å®šç‚¹ä¸Šæ–¹
 	pg.translate(m_bindPoint);
 	pg.translate(m_shiftDist, -linkL.length());
 
 	QPainterPath path;
-	// Ìí¼ÓĞı×ªºóµÄ¶à±ßĞÎ
+	// æ·»åŠ æ—‹è½¬åçš„å¤šè¾¹å½¢
 	path.addPolygon(m_transform.map(pg));
 	return path;
 }

@@ -6,7 +6,7 @@
 #include "xGraphicView.h"
 
 /**
- * @brief »ùÓÚQGraphicsObject£¬´øÓĞ»­±Ê¡¢ÑùÊ½ºÍĞÅºÅ²ÛµÄÍ¼ÔªĞé»ùÀà
+ * @brief åŸºäºQGraphicsObjectï¼Œå¸¦æœ‰ç”»ç¬”ã€æ ·å¼å’Œä¿¡å·æ§½çš„å›¾å…ƒè™šåŸºç±»
 */
 class xEntity : public QGraphicsObject
 {
@@ -15,14 +15,14 @@ class xEntity : public QGraphicsObject
 public:
 	enum EntityType {
 		ET_Unknown = UserType,
-		// ²»´ø·¶Î§µÄÍ¼Ôª
+		// ä¸å¸¦èŒƒå›´çš„å›¾å…ƒ
 		ET_Entity_Start,
 		ET_Line,
 		ET_Circle,
 		ET_Arc,
 		ET_Point,
 		ET_Entity_End,
-		// ´ø·¶Î§µÄÍ¼Ôª
+		// å¸¦èŒƒå›´çš„å›¾å…ƒ
 		ET_Region_Start,
 		ET_RegLine,
 		ET_RegCircle,
@@ -30,14 +30,14 @@ public:
 		ET_RegPoint,
 		ET_RegRect,
 		ET_Region_End,
-		// °ó¶¨µ¥¸öÍ¼Ôª
+		// ç»‘å®šå•ä¸ªå›¾å…ƒ
 		ET_InterSingle_Start,
 		ET_InterLine,
 		ET_InterCircle,
 		ET_InterArc,
 		ET_InterPoint,
 		ET_InterSingle_End,
-		// °ó¶¨Á½¸öÍ¼Ôª
+		// ç»‘å®šä¸¤ä¸ªå›¾å…ƒ
 		ET_InterCouple_Start,
 		ET_InterLineAndLine,
 		ET_InterLineAndCircle,
@@ -56,19 +56,19 @@ public:
 	virtual ~xEntity() = default;
 	
 	/**
-	 * @brief ÒÆ¶¯Í¼Ôª
-	 * @param delta ÒÆ¶¯ÔöÁ¿£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
+	 * @brief ç§»åŠ¨å›¾å…ƒ
+	 * @param delta ç§»åŠ¨å¢é‡ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
 	*/
 	virtual void moveBy(const QPointF &delta) = 0;
-	// ·µ»ØÍ¼ÔªµÄ»æ»­¿ØÖÆµã
+	// è¿”å›å›¾å…ƒçš„ç»˜ç”»æ§åˆ¶ç‚¹
 	virtual QList<QPointF> controlPoints() const noexcept = 0;
 	/**
-	 * @brief ÒÆ¶¯Í¼ÔªµÄÒ»¸ö¿ØÖÆµã
-	 * @param pt ¿ØÖÆµãÎ»ÖÃ£¬ÓÃÓÚÅĞ¶ÏÄÄ¸ö¿ØÖÆµã£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
-	 * @param movedPt ÒÆ¶¯ºóµÄµãÎ»ÖÃ£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
+	 * @brief ç§»åŠ¨å›¾å…ƒçš„ä¸€ä¸ªæ§åˆ¶ç‚¹
+	 * @param pt æ§åˆ¶ç‚¹ä½ç½®ï¼Œç”¨äºåˆ¤æ–­å“ªä¸ªæ§åˆ¶ç‚¹ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
+	 * @param movedPt ç§»åŠ¨åçš„ç‚¹ä½ç½®ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
 	*/
 	virtual void moveCtrlPoint(const QPointF &pt, const QPointF &movedPt) = 0;
-	// ÅĞ¶ÏÊÇ·ñÊÇ¿ØÖÆµã£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
+	// åˆ¤æ–­æ˜¯å¦æ˜¯æ§åˆ¶ç‚¹ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
 	virtual bool isCtrlPoint(const QPointF &p) const = 0;
 
 	xDef::EntityStatus status() const noexcept { return m_status; }
@@ -91,7 +91,7 @@ public:
 	void setNeedCalcFlag(bool flag) noexcept { m_needCalc = flag; }
 
 public slots:
-	// Í¨¹ıÍ¸Ã÷¶ÈÉèÖÃ´ËÍ¼ÔªµÄ¿É¼ûĞÔ£¬²»Ó°ÏìchildrenµÄ¿É¼ûĞÔ
+	// é€šè¿‡é€æ˜åº¦è®¾ç½®æ­¤å›¾å…ƒçš„å¯è§æ€§ï¼Œä¸å½±å“childrençš„å¯è§æ€§
 	inline void setThisVisible(bool visible) noexcept;
 	inline void showThis() noexcept { setThisVisible(true); }
 	inline void hideThis() noexcept { setThisVisible(false); }
@@ -102,20 +102,20 @@ signals:
 	void selectedChanged(bool selected);
 	void cursorChanged(const QCursor &newCursor);
 	void flagsChanged(const GraphicsItemFlags &newFlags);
-	// Î»ÖÃ¸Ä±äĞÅºÅ£¬ÓÉmoveByº¯Êı·¢ËÍ
+	// ä½ç½®æ”¹å˜ä¿¡å·ï¼Œç”±moveByå‡½æ•°å‘é€
 	void posChanged(const QPointF &delta);
-	// ĞÎ×´¸Ä±äĞÅºÅ
+	// å½¢çŠ¶æ”¹å˜ä¿¡å·
 	void shapeChanged();
-	// Í¨Öª¹ØÁªÍ¼ĞÎ½øĞĞ¼ÆËã
+	// é€šçŸ¥å…³è”å›¾å½¢è¿›è¡Œè®¡ç®—
 	void requestCalc();
 
 protected:
-	// ÓÃÓÚ´¦Àí»ùÀàQGraphicsItem´«µİµÄ¸Ä±ä£¬·¢ËÍÏàÓ¦ĞÅºÅ
+	// ç”¨äºå¤„ç†åŸºç±»QGraphicsItemä¼ é€’çš„æ”¹å˜ï¼Œå‘é€ç›¸åº”ä¿¡å·
 	QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
-	// »ñÈ¡ÊÓÍ¼µÄËõ·ÅÏµÊı
+	// è·å–è§†å›¾çš„ç¼©æ”¾ç³»æ•°
 	inline qreal viewScaleFactor() const noexcept;
 
-	QString m_name;	// Í¼ÔªµÄÃû³Æ
+	QString m_name;	// å›¾å…ƒçš„åç§°
 	QPen m_pen;
 	xDef::Style m_style = xDef::S_NoStyle;
 	xDef::EntityStatus m_status = xDef::ES_NotMeasured;
@@ -131,7 +131,7 @@ inline void xEntity::init() noexcept
 {
 	setFlag(ItemIsMovable);
 	setFlag(ItemIsSelectable);
-	// ºöÂÔparentµÄÍ¸Ã÷¶È£¬ÒÔÊµÏÖparent²»¿É¼û¶øchildren¿É¼û
+	// å¿½ç•¥parentçš„é€æ˜åº¦ï¼Œä»¥å®ç°parentä¸å¯è§è€Œchildrenå¯è§
 	setFlag(ItemIgnoresParentOpacity);
 	setAcceptHoverEvents(true);
 }

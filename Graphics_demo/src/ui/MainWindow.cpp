@@ -73,13 +73,13 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-	// ½«sceneµÄÏú»ÙÍÆ³Ùµ½view´°¿ÚÏú»ÙÖ®ºó
+	// å°†sceneçš„é”€æ¯æ¨è¿Ÿåˆ°viewçª—å£é”€æ¯ä¹‹å
 	m_scene->deleteLater();
 }
 
 void MainWindow::onDrawLine()
 {
-	// ÇĞ»»²Ù×÷´°¿Ú
+	// åˆ‡æ¢æ“ä½œçª—å£
 	auto opw = new OperationWidget(ui.r_pop_widget);
 	m_vLayout->addWidget(opw);
 	ui.r_main_widget->hide();
@@ -88,7 +88,7 @@ void MainWindow::onDrawLine()
 	auto action = new xActionDrawLine(m_view);
 	m_view->setAction(action);
 
-	// Á¬½ÓÈ·¶¨¡¢È¡Ïû¡¢ÏÂÒ»²½ĞÅºÅ²Û
+	// è¿æ¥ç¡®å®šã€å–æ¶ˆã€ä¸‹ä¸€æ­¥ä¿¡å·æ§½
 	connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
 	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
 	connect(opw, &OperationWidget::nextEmit, this, [=] {
@@ -100,7 +100,7 @@ void MainWindow::onDrawLine()
 
 void MainWindow::onDrawCircle()
 {
-	// ÇĞ»»²Ù×÷´°¿Ú
+	// åˆ‡æ¢æ“ä½œçª—å£
 	auto opw = new OperationWidget(ui.r_pop_widget);
 	m_vLayout->addWidget(opw);
 	ui.r_main_widget->hide();
@@ -109,7 +109,7 @@ void MainWindow::onDrawCircle()
 	auto action = new xActionDrawCircle(m_view);
 	m_view->setAction(action);
 
-	// Á¬½ÓÈ·¶¨¡¢È¡Ïû¡¢ÏÂÒ»²½ĞÅºÅ²Û
+	// è¿æ¥ç¡®å®šã€å–æ¶ˆã€ä¸‹ä¸€æ­¥ä¿¡å·æ§½
 	connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
 	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
 	connect(opw, &OperationWidget::nextEmit, this, [=] {
@@ -121,7 +121,7 @@ void MainWindow::onDrawCircle()
 
 void MainWindow::onDrawArc()
 {
-	// ÇĞ»»²Ù×÷´°¿Ú
+	// åˆ‡æ¢æ“ä½œçª—å£
 	auto opw = new OperationWidget(ui.r_pop_widget);
 	m_vLayout->addWidget(opw);
 	ui.r_main_widget->hide();
@@ -130,7 +130,7 @@ void MainWindow::onDrawArc()
 	auto action = new xActionDrawArc(m_view);
 	m_view->setAction(action);
 
-	// Á¬½ÓÈ·¶¨¡¢È¡Ïû¡¢ÏÂÒ»²½ĞÅºÅ²Û
+	// è¿æ¥ç¡®å®šã€å–æ¶ˆã€ä¸‹ä¸€æ­¥ä¿¡å·æ§½
 	connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
 	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
 	connect(opw, &OperationWidget::nextEmit, this, [=] {
@@ -142,7 +142,7 @@ void MainWindow::onDrawArc()
 
 void MainWindow::onDrawRegLine()
 {
-	// ÇĞ»»²Ù×÷´°¿Ú
+	// åˆ‡æ¢æ“ä½œçª—å£
 	auto opw = new OperationWidget(ui.r_pop_widget);
 	m_vLayout->addWidget(opw);
 	ui.r_main_widget->hide();
@@ -151,7 +151,7 @@ void MainWindow::onDrawRegLine()
 	auto action = new xActionDrawRegLine(m_view);
 	m_view->setAction(action);
 
-	// Á¬½ÓÈ·¶¨¡¢È¡Ïû¡¢ÏÂÒ»²½ĞÅºÅ²Û
+	// è¿æ¥ç¡®å®šã€å–æ¶ˆã€ä¸‹ä¸€æ­¥ä¿¡å·æ§½
 	connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
 	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
 	connect(opw, &OperationWidget::nextEmit, this, [=] {
@@ -163,7 +163,7 @@ void MainWindow::onDrawRegLine()
 
 void MainWindow::onDrawRegCircle()
 {
-	// ÇĞ»»²Ù×÷´°¿Ú
+	// åˆ‡æ¢æ“ä½œçª—å£
 	auto opw = new OperationWidget(ui.r_pop_widget);
 	m_vLayout->addWidget(opw);
 	ui.r_main_widget->hide();
@@ -172,7 +172,7 @@ void MainWindow::onDrawRegCircle()
 	auto action = new xActionDrawRegCircle(m_view);
 	m_view->setAction(action);
 
-	// Á¬½ÓÈ·¶¨¡¢È¡Ïû¡¢ÏÂÒ»²½ĞÅºÅ²Û
+	// è¿æ¥ç¡®å®šã€å–æ¶ˆã€ä¸‹ä¸€æ­¥ä¿¡å·æ§½
 	connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
 	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
 	connect(opw, &OperationWidget::nextEmit, this, [=] {
@@ -184,7 +184,7 @@ void MainWindow::onDrawRegCircle()
 
 void MainWindow::onDrawRegArc()
 {
-	// ÇĞ»»²Ù×÷´°¿Ú
+	// åˆ‡æ¢æ“ä½œçª—å£
 	auto opw = new OperationWidget(ui.r_pop_widget);
 	m_vLayout->addWidget(opw);
 	ui.r_main_widget->hide();
@@ -193,7 +193,7 @@ void MainWindow::onDrawRegArc()
 	auto action = new xActionDrawRegArc(m_view);
 	m_view->setAction(action);
 
-	// Á¬½ÓÈ·¶¨¡¢È¡Ïû¡¢ÏÂÒ»²½ĞÅºÅ²Û
+	// è¿æ¥ç¡®å®šã€å–æ¶ˆã€ä¸‹ä¸€æ­¥ä¿¡å·æ§½
 	connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
 	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
 	connect(opw, &OperationWidget::nextEmit, this, [=] {
@@ -205,7 +205,7 @@ void MainWindow::onDrawRegArc()
 
 void MainWindow::onDrawRegRect()
 {
-	// ÇĞ»»²Ù×÷´°¿Ú
+	// åˆ‡æ¢æ“ä½œçª—å£
 	auto opw = new OperationWidget(ui.r_pop_widget);
 	m_vLayout->addWidget(opw);
 	ui.r_main_widget->hide();
@@ -214,7 +214,7 @@ void MainWindow::onDrawRegRect()
 	auto action = new xActionDrawRegRect(m_view);
 	m_view->setAction(action);
 
-	// Á¬½ÓÈ·¶¨¡¢È¡Ïû¡¢ÏÂÒ»²½ĞÅºÅ²Û
+	// è¿æ¥ç¡®å®šã€å–æ¶ˆã€ä¸‹ä¸€æ­¥ä¿¡å·æ§½
 	connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
 	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
 	connect(opw, &OperationWidget::nextEmit, this, [=] {
@@ -226,7 +226,7 @@ void MainWindow::onDrawRegRect()
 
 void MainWindow::onDrawInterCircle()
 {
-	// ÇĞ»»²Ù×÷´°¿Ú
+	// åˆ‡æ¢æ“ä½œçª—å£
 	auto opw = new OperationWidget(ui.r_pop_widget);
 	m_vLayout->addWidget(opw);
 	ui.r_main_widget->hide();
@@ -235,7 +235,7 @@ void MainWindow::onDrawInterCircle()
 	auto action = new xActionDrawInterCircle(m_view);
 	m_view->setAction(action);
 
-	// Á¬½ÓÈ·¶¨¡¢È¡Ïû¡¢ÏÂÒ»²½ĞÅºÅ²Û
+	// è¿æ¥ç¡®å®šã€å–æ¶ˆã€ä¸‹ä¸€æ­¥ä¿¡å·æ§½
 	connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
 	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
 	connect(opw, &OperationWidget::calcEmit, this, [=] {
@@ -251,7 +251,7 @@ void MainWindow::onDrawInterCircle()
 
 void MainWindow::onDrawInterArc()
 {
-	// ÇĞ»»²Ù×÷´°¿Ú
+	// åˆ‡æ¢æ“ä½œçª—å£
 	auto opw = new OperationWidget(ui.r_pop_widget);
 	m_vLayout->addWidget(opw);
 	ui.r_main_widget->hide();
@@ -260,7 +260,7 @@ void MainWindow::onDrawInterArc()
 	auto action = new xActionDrawInterArc(m_view);
 	m_view->setAction(action);
 
-	// Á¬½ÓÈ·¶¨¡¢È¡Ïû¡¢ÏÂÒ»²½ĞÅºÅ²Û
+	// è¿æ¥ç¡®å®šã€å–æ¶ˆã€ä¸‹ä¸€æ­¥ä¿¡å·æ§½
 	connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
 	connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
 	connect(opw, &OperationWidget::calcEmit, this, [=] {

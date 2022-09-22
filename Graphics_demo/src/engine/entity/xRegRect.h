@@ -13,9 +13,9 @@ public:
 	xRegRect(const QPointF& topleft, const QPointF &botright, xGraphicView* view, QGraphicsItem* parent = nullptr);
 	~xRegRect();
 
-	// ×Ô¶¨ÒåÊµÌåÀàĞÍÃ¶¾Ù
+	// è‡ªå®šä¹‰å®ä½“ç±»å‹æšä¸¾
 	enum { Type = ET_RegRect };
-	// ÖØĞ´º¯Êı£¬·µ»Øµ±Ç°µÄÀàĞÍÖµ
+	// é‡å†™å‡½æ•°ï¼Œè¿”å›å½“å‰çš„ç±»å‹å€¼
 	int type() const override;
 
 	void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
@@ -24,26 +24,26 @@ public:
 
 	QRectF rect() const noexcept { return m_rect; }
 	void setRect(const QRectF& rect);
-	// Í¨¹ıÈÎÒâÁ½µãÉèÖÃ¾ØĞÎ£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
+	// é€šè¿‡ä»»æ„ä¸¤ç‚¹è®¾ç½®çŸ©å½¢ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
 	void setRect(const QPointF &p1, const QPointF &p2) { setRect(QRectF(p1, p2)); }
 
 	/**
-	 * @brief ÒÆ¶¯Í¼Ôª
-	 * @param delta ÒÆ¶¯ÔöÁ¿£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
+	 * @brief ç§»åŠ¨å›¾å…ƒ
+	 * @param delta ç§»åŠ¨å¢é‡ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
 	*/
 	void moveBy(const QPointF& delta) override;
 	QList<QPointF> controlPoints() const noexcept override;
 	/**
-	 * @brief ÒÆ¶¯Í¼ÔªµÄÒ»¸ö¿ØÖÆµã
-	 * @param pt ¿ØÖÆµãÎ»ÖÃ£¬ÓÃÓÚÅĞ¶ÏÄÄ¸ö¿ØÖÆµã£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
-	 * @param movedPt ÒÆ¶¯ºóµÄµãÎ»ÖÃ£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
+	 * @brief ç§»åŠ¨å›¾å…ƒçš„ä¸€ä¸ªæ§åˆ¶ç‚¹
+	 * @param pt æ§åˆ¶ç‚¹ä½ç½®ï¼Œç”¨äºåˆ¤æ–­å“ªä¸ªæ§åˆ¶ç‚¹ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
+	 * @param movedPt ç§»åŠ¨åçš„ç‚¹ä½ç½®ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
 	*/
 	void moveCtrlPoint(const QPointF& pt, const QPointF& movedPt) override;
 	bool isCtrlPoint(const QPointF& p) const override;
 
-	// ÅĞ¶ÏÊÇ·ñÊÇ·¶Î§±ßÔµ£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
+	// åˆ¤æ–­æ˜¯å¦æ˜¯èŒƒå›´è¾¹ç¼˜ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
 	bool isRegionEdge(const QPointF& p) const override;
-	// Í¨¹ıµãÀ´¸Ä±ä·¶Î§¿í¶È£¬Ğè´«Èëscene×ø±êÖĞµÄÖµ
+	// é€šè¿‡ç‚¹æ¥æ”¹å˜èŒƒå›´å®½åº¦ï¼Œéœ€ä¼ å…¥sceneåæ ‡ä¸­çš„å€¼
 	void changeEdgeByPoint(const QPointF& p) override;
 
 protected:

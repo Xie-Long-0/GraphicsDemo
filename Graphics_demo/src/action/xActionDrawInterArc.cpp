@@ -39,7 +39,7 @@ void xActionDrawInterArc::mousePressEvent(QMouseEvent *e)
 			{
 				m_ientity = new xInterArc(m_view);
 			}
-			// ��Բ
+			// 绑定圆
 			m_ientity->bindEntity(item);
 			m_ientity->setText("Bind Arc");
 			m_ientity->setAnchorPoint(viewMapToScene(e));

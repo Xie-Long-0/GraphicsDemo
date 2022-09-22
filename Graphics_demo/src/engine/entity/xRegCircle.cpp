@@ -54,10 +54,10 @@ void xRegCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 
 	const qreal r = m_regCircle.radius();
 	QPainterPath path;
-	// ÍâÔ²ÂÖÀª
+	// å¤–åœ†è½®å»“
 	path.addEllipse(m_regCircle.center(), r + m_width, r + m_width);
 	if (r > m_width)
-		// ÄÚÔ²ÂÖÀª
+		// å†…åœ†è½®å»“
 		path.addEllipse(m_regCircle.center(), r - m_width, r - m_width);
 
 	auto style = m_style;
@@ -65,17 +65,17 @@ void xRegCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 
 	if (style != xDef::S_NoStyle)
 	{
-		// Ñ¡ÖĞ×´Ì¬
+		// é€‰ä¸­çŠ¶æ€
 		if (isSelected())
 		{
 			m_subCircle->setSelected(true);
 			style = xDef::S_RegSelected;
-			// Ñ¡ÖĞÊ±»æ»­±ß¿ò
+			// é€‰ä¸­æ—¶ç»˜ç”»è¾¹æ¡†
 			painter->setPen(QPen(QColor(255, 255, 0, 255), 1.0 / f));
 			painter->drawPath(path);
 		}
 
-		// ĞüÍ£×´Ì¬
+		// æ‚¬åœçŠ¶æ€
 		if (option->state & QStyle::State_MouseOver)
 		{
 			style = xDef::S_RegHovered;
@@ -84,13 +84,13 @@ void xRegCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 		MakeStyle(style, &m_pen, &m_brush, f);
 	}
 
-	// Ìî³ä·¶Î§
+	// å¡«å……èŒƒå›´
 	painter->fillPath(path, m_brush);
-	// »­ÖĞĞÄÔ²
+	// ç”»ä¸­å¿ƒåœ†
 	painter->setPen(m_pen);
 	painter->drawEllipse(m_regCircle.boundingRect());
 
-	// Ñ¡ÖĞÊ±»æ»­¿ØÖÆµã
+	// é€‰ä¸­æ—¶ç»˜ç”»æ§åˆ¶ç‚¹
 	if (isSelected() && (flags() & ItemIsMovable))
 	{
 		const qreal w = m_pen.widthF();
@@ -106,8 +106,8 @@ QRectF xRegCircle::boundingRect() const
 	if (!m_regCircle.isValid())
 		return QRectF();
 
-	// ¼ÆËãÍ¼ĞÎÔÚÊÓ³¡ÖĞµÄ¾ØĞÎ£¬°üÀ¨»­±ÊµÄ¿í¶È£¬·ñÔòÎŞ·¨ÕıÈ·ÏÔÊ¾
-	// Note£º»­±Ê¿í¶ÈÉèÖÃÎª2±¶ÒÔ±ã¸üÈİÒ×±»Ñ¡ÖĞ
+	// è®¡ç®—å›¾å½¢åœ¨è§†åœºä¸­çš„çŸ©å½¢ï¼ŒåŒ…æ‹¬ç”»ç¬”çš„å®½åº¦ï¼Œå¦åˆ™æ— æ³•æ­£ç¡®æ˜¾ç¤º
+	// Noteï¼šç”»ç¬”å®½åº¦è®¾ç½®ä¸º2å€ä»¥ä¾¿æ›´å®¹æ˜“è¢«é€‰ä¸­
 	const qreal pw = m_pen.widthF() * 2;
 	const qreal x = m_regCircle.center().x() - m_regCircle.radius() - m_width - pw;
 	const qreal y = m_regCircle.center().y() - m_regCircle.radius() - m_width - pw;
