@@ -13,6 +13,10 @@ xRegionEntity::xRegionEntity(qreal width, xGraphicView *view, QGraphicsItem *par
 	m_hasChild = true;
 }
 
+xRegionEntity::~xRegionEntity()
+{
+}
+
 void xRegionEntity::setRegWidth(qreal w)
 {
 	if (qFuzzyCompare(w, m_width))

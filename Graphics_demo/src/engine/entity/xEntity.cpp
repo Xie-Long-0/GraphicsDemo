@@ -8,6 +8,10 @@ xEntity::xEntity(xGraphicView *view, QGraphicsItem *parent)
 	init();
 }
 
+xEntity::~xEntity()
+{
+}
+
 void xEntity::setPen(const QPen &pen)
 {
 	if (pen == m_pen)

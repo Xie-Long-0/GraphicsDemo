@@ -26,14 +26,19 @@ xInterCircle::xInterCircle(xRegCircle *item, xGraphicView *view, QGraphicsItem *
 	bindEntity(item);
 }
 
-int xInterCircle::type() const
+int xInterCircle::type() const noexcept
 {
 	return Type;
 }
 
 void xInterCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-	Q_UNUSED(widget);
+    if (painter == nullptr)
+    {
+        qWarning() << __FUNCTION__ << "painter is a nullptr!";
+        return;
+    }
+    Q_UNUSED(widget);
 
 	auto style = m_style;
 	const qreal f = viewScaleFactor();
@@ -154,7 +159,13 @@ QPainterPath xInterCircle::shape() const
 
 void xInterCircle::bindEntity(xEntity *e)
 {
-	xInterSingleEntity::bindEntity(e);
+    if (e == nullptr)
+    {
+        qWarning() << __FUNCTION__ << "entity is a nullptr!";
+        return;
+    }
+
+    xInterSingleEntity::bindEntity(e);
 	if (e->type() == xCircle::Type)
 	{
 		auto c = static_cast<xCircle *>(e);

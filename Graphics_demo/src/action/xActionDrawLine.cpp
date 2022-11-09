@@ -20,7 +20,7 @@ void xActionDrawLine::mousePressEvent(QMouseEvent *e)
 {
 	if (e->button() == Qt::LeftButton)
 	{
-		auto spos = viewMapToScene(e);
+		const auto spos = viewMapToScene(e);
 		switch (m_status)
 		{
 		case xDef::AS_Default:

@@ -38,14 +38,19 @@ xRegLine::~xRegLine()
 {
 }
 
-int xRegLine::type() const
+int xRegLine::type() const noexcept
 {
 	return Type;
 }
 
 void xRegLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-	Q_UNUSED(widget);
+    if (painter == nullptr)
+    {
+        qWarning() << __FUNCTION__ << "painter is a nullptr!";
+        return;
+    }
+    Q_UNUSED(widget);
 
 	const qreal angle = m_regLine.angle() * M_PI / 180.0;
 	// 矩形4个顶点，line.p1左边的点开始，顺时针
@@ -205,7 +210,7 @@ void xRegLine::moveBy(const QPointF &delta)
 	emit posChanged(delta);
 }
 
-QList<QPointF> xRegLine::controlPoints() const noexcept
+QList<QPointF> xRegLine::controlPoints() const
 {
 	return { pt1(),pt2() };
 }

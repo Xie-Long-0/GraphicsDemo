@@ -75,7 +75,7 @@ void xActionDefault::mouseMoveEvent(QMouseEvent *e)
 	// 移动控制点
 	if (m_isGrabCtrlPoint && m_item)
 	{
-		auto p = viewMapToScene(e);
+		const auto p = viewMapToScene(e);
 		m_item->moveCtrlPoint(m_p, p);
 		m_p = p;
 		m_itemChanged = true;
@@ -85,7 +85,7 @@ void xActionDefault::mouseMoveEvent(QMouseEvent *e)
 	// 移动范围
 	if (m_isGrabRegionEdge && m_item)
 	{
-		auto p = viewMapToScene(e);
+		const auto p = viewMapToScene(e);
 		static_cast<xRegionEntity *>(m_item)->changeEdgeByPoint(p);
 		m_itemChanged = true;
 		e->accept();
@@ -94,7 +94,7 @@ void xActionDefault::mouseMoveEvent(QMouseEvent *e)
 	// 移动图元
 	if (m_willMoveItem && m_item)
 	{
-		auto p = viewMapToScene(e);
+		const auto p = viewMapToScene(e);
 		m_item->moveBy(p - m_p);
 		m_p = p;
 		m_itemChanged = true;

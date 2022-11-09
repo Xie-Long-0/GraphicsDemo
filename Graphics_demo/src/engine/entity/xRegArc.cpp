@@ -43,14 +43,19 @@ xRegArc::xRegArc(const QPointF &p1, const QPointF &p2, const QPointF &p3, qreal 
 	m_subArc->hide();
 }
 
-int xRegArc::type() const
+int xRegArc::type() const noexcept
 {
 	return Type;
 }
 
 void xRegArc::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-	Q_UNUSED(widget);
+    if (painter == nullptr)
+    {
+        qWarning() << __FUNCTION__ << "painter is a nullptr!";
+        return;
+    }
+    Q_UNUSED(widget);
 
 	const qreal w = m_width;
 	QPainterPath path;
@@ -103,11 +108,11 @@ void xRegArc::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 	// 选中时绘画控制点
 	if (isSelected() && (flags() & ItemIsMovable))
 	{
-		const qreal w = m_pen.widthF();
-		FillRectByPoint(painter, m_arc.center(), w, Qt::yellow);
-		FillRectByPoint(painter, m_arc.pt1(), w, Qt::yellow);
-		FillRectByPoint(painter, m_arc.pt2(), w, Qt::yellow);
-		FillRectByPoint(painter, m_arc.pt3(), w, Qt::yellow);
+		const qreal pw = m_pen.widthF();
+		FillRectByPoint(painter, m_arc.center(), pw, Qt::yellow);
+		FillRectByPoint(painter, m_arc.pt1(), pw, Qt::yellow);
+		FillRectByPoint(painter, m_arc.pt2(), pw, Qt::yellow);
+		FillRectByPoint(painter, m_arc.pt3(), pw, Qt::yellow);
 	}
 }
 
@@ -174,7 +179,7 @@ void xRegArc::setArc(const xArcData &arc, qreal width)
 
 void xRegArc::setArc(const QPointF &center, qreal radius, qreal angle, qreal spanAngle, qreal width)
 {
-	auto arc = xArcData(center, radius, angle, spanAngle);
+	const auto arc = xArcData(center, radius, angle, spanAngle);
 	if (arc == m_arc && qFuzzyCompare(width, m_width))
 		return;
 
@@ -187,7 +192,7 @@ void xRegArc::setArc(const QPointF &center, qreal radius, qreal angle, qreal spa
 
 void xRegArc::setArc(const QPointF &p1, const QPointF &p2, const QPointF &p3, qreal width)
 {
-	auto arc = xArcData(p1, p2, p3);
+	const auto arc = xArcData(p1, p2, p3);
 	if (arc == m_arc && qFuzzyCompare(width, m_width))
 		return;
 
@@ -297,7 +302,7 @@ void xRegArc::moveBy(const QPointF &delta)
 	emit posChanged(delta);
 }
 
-QList<QPointF> xRegArc::controlPoints() const noexcept
+QList<QPointF> xRegArc::controlPoints() const
 {
 	return { pt1(), pt2(), pt3() };
 }

@@ -26,14 +26,19 @@ xInterArc::xInterArc(xRegArc *item, xGraphicView *view, QGraphicsItem *parent)
 	bindEntity(item);
 }
 
-int xInterArc::type() const
+int xInterArc::type() const noexcept
 {
 	return Type;
 }
 
 void xInterArc::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-	Q_UNUSED(widget);
+    if (painter == nullptr)
+    {
+        qWarning() << __FUNCTION__ << "painter is a nullptr!";
+        return;
+    }
+    Q_UNUSED(widget);
 
 	auto style = m_style;
 	const qreal f = viewScaleFactor();
@@ -154,7 +159,13 @@ QPainterPath xInterArc::shape() const
 
 void xInterArc::bindEntity(xEntity *e)
 {
-	xInterSingleEntity::bindEntity(e);
+    if (e == nullptr)
+    {
+        qWarning() << __FUNCTION__ << "entity is a nullptr!";
+        return;
+    }
+
+    xInterSingleEntity::bindEntity(e);
 	if (e->type() == xArc::Type)
 	{
 		auto c = static_cast<xArc *>(e);

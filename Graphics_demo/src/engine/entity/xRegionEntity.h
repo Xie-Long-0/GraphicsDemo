@@ -15,7 +15,7 @@ public:
 	Q_DISABLE_COPY(xRegionEntity)
 	explicit xRegionEntity(xGraphicView *view, QGraphicsItem *parent = nullptr);
 	xRegionEntity(qreal width, xGraphicView *view, QGraphicsItem *parent = nullptr);
-	virtual ~xRegionEntity() = default;
+	virtual ~xRegionEntity();
 
 	// 判断是否是范围边缘，需传入scene坐标中的值
 	virtual bool isRegionEdge(const QPointF &p) const = 0;

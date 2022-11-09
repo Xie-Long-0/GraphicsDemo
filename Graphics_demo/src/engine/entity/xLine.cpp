@@ -22,14 +22,19 @@ xLine::xLine(const QPointF &p1, const QPointF &p2, xGraphicView *view, QGraphics
 {
 }
 
-int xLine::type() const
+int xLine::type() const noexcept
 {
 	return Type;
 }
 
 void xLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-	Q_UNUSED(widget);
+    if (painter == nullptr)
+    {
+        qWarning() << __FUNCTION__ << "painter is a nullptr!";
+        return;
+    }
+    Q_UNUSED(widget);
 
 	auto style = m_style;
 
@@ -151,7 +156,7 @@ void xLine::moveBy(const QPointF &delta)
 	emit posChanged(delta);
 }
 
-QList<QPointF> xLine::controlPoints() const noexcept
+QList<QPointF> xLine::controlPoints() const
 {
 	return { pt1(), pt2() };
 }

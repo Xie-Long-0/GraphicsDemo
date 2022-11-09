@@ -243,7 +243,7 @@ QPolygonF ArcToPolygon(const QPointF &center, qreal radius, qreal angle, qreal s
 	return pg;
 }
 
-void xCircleData::createFrom3P() noexcept
+void xCircleData::createFrom3P()
 {
 	if (p1 == p2 || p2 == p3 || p3 == p1)
 	{
@@ -270,22 +270,47 @@ void xCircleData::createFrom3P() noexcept
 	c += p1;
 }
 
-void xArcData::createFrom3P() noexcept
+xArcData::xArcData(const QPointF &center, qreal radius, qreal angle, qreal spanAngle)
+    : c(center)
+    , r(radius)
+    , a(angle)
+    , sa(spanAngle)
 {
-	auto p12 = p2 - p1;
-	auto p23 = p3 - p2;
-	auto p13 = p3 - p1;
+    while (a < 0)
+    {
+        a += M_2PI;
+    }
+    while (a > M_2PI)
+    {
+        a -= M_2PI;
+    }
+    while (sa < -M_2PI)
+    {
+        sa += M_2PI;
+    }
+    while (sa > M_2PI)
+    {
+        sa -= M_2PI;
+    }
+    generate3P();
+}
+
+void xArcData::createFrom3P()
+{
+	const auto p12 = p2 - p1;
+	const auto p23 = p3 - p2;
+	const auto p13 = p3 - p1;
 
 	// p1 * p1
-	qreal dp1 = QPointF::dotProduct(p1, p1);
+	const qreal dp1 = QPointF::dotProduct(p1, p1);
 	// p2 * p2 - p1 * p1
-	qreal dp12 = QPointF::dotProduct(p2, p2) - dp1;
+	const qreal dp12 = QPointF::dotProduct(p2, p2) - dp1;
 	// p3 * p3 - p1 * p1
-	qreal dp13 = QPointF::dotProduct(p3, p3) - dp1;
+	const qreal dp13 = QPointF::dotProduct(p3, p3) - dp1;
 	// cross-product, p12 x p23
-	qreal cp12p23 = p12.x() * p23.y() - p12.y() * p23.x();
+	const qreal cp12p23 = p12.x() * p23.y() - p12.y() * p23.x();
 	// cross-product, p12 x p13
-	qreal cp12p13 = p12.x() * p13.y() - p12.y() * p13.x();
+	const qreal cp12p13 = p12.x() * p13.y() - p12.y() * p13.x();
 
 	// 3点共线
 	if (qFuzzyCompare(cp12p13, 0))
@@ -294,17 +319,17 @@ void xArcData::createFrom3P() noexcept
 		return;
 	}
 
-	qreal x0 = (p13.y() * dp12 - p12.y() * dp13) / (cp12p13 * 2);
-	qreal y0 = (p12.x() * dp13 - p13.x() * dp12) / (cp12p13 * 2);
+	const qreal x0 = (p13.y() * dp12 - p12.y() * dp13) / (cp12p13 * 2);
+	const qreal y0 = (p12.x() * dp13 - p13.x() * dp12) / (cp12p13 * 2);
 
 	// 圆心
 	c = QPointF(x0, y0);
 	// 半径
 	r = QLineF(c, p1).length();
 
-	qreal a1 = AnglePoint2Point(c, p1);
-	qreal a2 = AnglePoint2Point(c, p2);
-	qreal a3 = AnglePoint2Point(c, p3);
+	const qreal a1 = AnglePoint2Point(c, p1);
+	const qreal a2 = AnglePoint2Point(c, p2);
+	const qreal a3 = AnglePoint2Point(c, p3);
 	// 起始角度
 	a = a1;
 	// 判断扫过的角度
@@ -322,4 +347,78 @@ void xArcData::createFrom3P() noexcept
 		else
 			sa = a3 - a1 - M_2PI;
 	}
+}
+
+void xArcData::setAngle(qreal angle)
+{
+    while (angle < 0)
+    {
+        angle += M_2PI;
+    }
+    while (angle > M_2PI)
+    {
+        angle -= M_2PI;
+    }
+
+    if (qFuzzyCompare(angle, a))
+        return;
+
+    a = angle;
+    generate3P();
+}
+
+void xArcData::setSpanAngle(qreal alength)
+{
+    while (alength < -M_2PI)
+    {
+        alength += M_2PI;
+    }
+    while (alength > M_2PI)
+    {
+        alength -= M_2PI;
+    }
+
+    if (qFuzzyCompare(alength, sa))
+        return;
+
+    sa = alength;
+    generate3P();
+}
+
+void xArcData::setAngleDegree(qreal angle)
+{
+    qreal arad = angle * M_PI / 180;
+    while (arad < 0)
+    {
+        arad += M_2PI;
+    }
+    while (arad > M_2PI)
+    {
+        arad -= M_2PI;
+    }
+
+    if (qFuzzyCompare(arad, a))
+        return;
+
+    a = arad;
+    generate3P();
+}
+
+void xArcData::setSpanAngleDegree(qreal alength)
+{
+    qreal arad = alength * M_PI / 180;
+    while (arad < -M_2PI)
+    {
+        arad += M_2PI;
+    }
+    while (arad > M_2PI)
+    {
+        arad -= M_2PI;
+    }
+
+    if (qFuzzyCompare(arad, a))
+        return;
+
+    sa = arad;
+    generate3P();
 }

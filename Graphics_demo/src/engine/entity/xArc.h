@@ -19,7 +19,7 @@ public:
 	// 自定义实体类型枚举
 	enum { Type = ET_Arc };
 	// 重写函数，返回当前的类型值
-	int type() const override;
+	int type() const noexcept override;
 
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 	QRectF boundingRect() const override;
@@ -55,7 +55,7 @@ public:
 	 * @param delta 移动增量，需传入scene坐标中的值
 	*/
 	void moveBy(const QPointF &delta) override;
-	QList<QPointF> controlPoints() const noexcept override;
+	QList<QPointF> controlPoints() const override;
 	/**
 	 * @brief 移动图元的一个控制点
 	 * @param pt 控制点位置，用于判断哪个控制点，需传入scene坐标中的值

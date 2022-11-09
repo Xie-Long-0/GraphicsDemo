@@ -8,6 +8,12 @@
 
 constexpr double FontSize = 12.0;
 
+/*
+* 此文件将定义以下结构体
+*/
+struct xCircleData;
+struct xArcData;
+
 /**
  * @brief Definitions about Entity
 */
@@ -102,22 +108,28 @@ public:
 */
 void MakeStyle(xDef::Style style = xDef::S_NoStyle, QPen *pen = nullptr, QBrush *brush = nullptr, qreal factor = 1.0);
 
+// 将圆弧转换为近似逼近的多边形
+QPolygonF ArcToPolygon(const xArcData &arc);
+
+// 将圆弧转换为近似逼近的多边形
+QPolygonF ArcToPolygon(const QPointF &center, qreal radius, qreal angle, qreal spanAngle);
+
 /**
- * @brief 由圆心、半径及3个控制点组成的圆
+ * @brief 定义由圆心、半径及3个控制点组成的圆
 */
 struct xCircleData
 {
 	xCircleData() noexcept {}
 	xCircleData(const xCircleData &other) noexcept = default;
 	xCircleData(xCircleData &&other) noexcept = default;
-	inline xCircleData(const QPointF &center, qreal radius) noexcept;
-	inline xCircleData(qreal cx, qreal cy, qreal radius) noexcept;
-	inline xCircleData(const QPointF &p1, const QPointF &p2, const QPointF &p3) noexcept;
+	inline xCircleData(const QPointF &center, qreal radius);
+	inline xCircleData(qreal cx, qreal cy, qreal radius);
+	inline xCircleData(const QPointF &p1, const QPointF &p2, const QPointF &p3);
 
 	QPointF center() const noexcept { return c; }
 	inline void setCenter(const QPointF &center) noexcept;
 	qreal radius() const noexcept { return r; }
-	inline void setRadius(qreal radius) noexcept;
+	inline void setRadius(qreal radius);
 	QPointF pt1() const noexcept { return p1; }
 	QPointF pt2() const noexcept { return p2; }
 	QPointF pt3() const noexcept { return p3; }
@@ -132,9 +144,9 @@ struct xCircleData
 
 private:
 	// 由3点构造圆心和半径
-	void createFrom3P() noexcept;
+	void createFrom3P();
 	// 由圆心半径构造3点（0°，120°，240°）
-	inline void generate3P() noexcept;
+	inline void generate3P();
 
 	QPointF c;
 	qreal r = 0.0;
@@ -149,25 +161,25 @@ struct xArcData
 	xArcData() noexcept {}
 	xArcData(const xArcData &other) noexcept = default;
 	xArcData(xArcData &&other) noexcept = default;
-	inline xArcData(const QPointF &center, qreal radius, qreal angle, qreal spanAngle) noexcept;
-	inline xArcData(const QPointF &p1, const QPointF &p2, const QPointF &p3) noexcept;
+	xArcData(const QPointF &center, qreal radius, qreal angle, qreal spanAngle);
+	inline xArcData(const QPointF &p1, const QPointF &p2, const QPointF &p3);
 
 	QPointF center() const noexcept { return c; }
 	inline void setCenter(const QPointF &center) noexcept;
 	qreal radius() const noexcept { return r; }
-	inline void setRadius(qreal radius) noexcept;
+	inline void setRadius(qreal radius);
 	// 起始角度（弧度）
 	qreal angle() const noexcept { return a; }
-	inline void setAngle(qreal angle) noexcept;
+	void setAngle(qreal angle);
 	// 经过的角度（弧度）
 	qreal spanAngle() const noexcept { return sa; }
-	inline void setSpanAngle(qreal alength) noexcept;
+	void setSpanAngle(qreal alength);
 	// 起始角度（度）
 	qreal angleDegree() const noexcept { return a * 180 / M_PI; }
-	inline void setAngleDegree(qreal angle) noexcept;
+	void setAngleDegree(qreal angle);
 	// 经过的角度（度）
 	qreal spanAngleDegree() const noexcept { return sa * 180 / M_PI; }
-	inline void setSpanAngleDegree(qreal alength) noexcept;
+	void setSpanAngleDegree(qreal alength);
 	QPointF pt1() const noexcept { return p1; }
 	QPointF pt2() const noexcept { return p2; }
 	QPointF pt3() const noexcept { return p3; }
@@ -182,9 +194,9 @@ struct xArcData
 
 private:
 	// 由3点构造圆心、半径及角度
-	void createFrom3P() noexcept;
+	void createFrom3P();
 	// 由圆心半径与角度构造3个点
-	inline void generate3P() noexcept;
+	inline void generate3P();
 
 	QPointF c;
 	qreal r = 0.0;
@@ -193,28 +205,22 @@ private:
 	QPointF p1, p2, p3;
 };
 
-// 将圆弧转换为近似逼近的多边形
-QPolygonF ArcToPolygon(const xArcData &arc);
-
-// 将圆弧转换为近似逼近的多边形
-QPolygonF ArcToPolygon(const QPointF &center, qreal radius, qreal angle, qreal spanAngle);
-
-// struct xCircleData
-inline xCircleData::xCircleData(const QPointF &c, qreal r) noexcept
+// xCircleData implements
+inline xCircleData::xCircleData(const QPointF &c, qreal r)
 	: c(c)
 	, r(r)
 {
 	generate3P();
 }
 
-inline xCircleData::xCircleData(qreal cx, qreal cy, qreal r) noexcept
+inline xCircleData::xCircleData(qreal cx, qreal cy, qreal r)
 	: c(cx, cy)
 	, r(r)
 {
 	generate3P();
 }
 
-inline xCircleData::xCircleData(const QPointF &p1, const QPointF &p2, const QPointF &p3) noexcept
+inline xCircleData::xCircleData(const QPointF &p1, const QPointF &p2, const QPointF &p3)
 	: p1(p1), p2(p2), p3(p3)
 {
 	createFrom3P();
@@ -224,14 +230,14 @@ inline void xCircleData::setCenter(const QPointF &center) noexcept
 {
 	if (center == c)
 		return;
-	auto d = center - c;
+	const auto d = center - c;
 	p1 += d;
 	p2 += d;
 	p3 += d;
 	c = center;
 }
 
-inline void xCircleData::setRadius(qreal radius) noexcept
+inline void xCircleData::setRadius(qreal radius)
 {
 	if (qFuzzyCompare(radius, r))
 		return;
@@ -242,7 +248,7 @@ inline void xCircleData::setRadius(qreal radius) noexcept
 	p3 = c + PointFromPolar(r, QLineF(c, p3).angle() * M_PI / 180.0);
 }
 
-inline void xCircleData::generate3P() noexcept
+inline void xCircleData::generate3P()
 {
 	if (r < 0.00001)
 	{
@@ -273,39 +279,14 @@ inline bool operator==(const xCircleData &c1, const xCircleData &c2) noexcept
 	return (c1.c == c2.c && qFuzzyCompare(c1.r, c2.r));
 }
 
-// struct xArcData
-inline xArcData::xArcData(const QPointF &center, qreal radius, qreal angle, qreal spanAngle) noexcept
-	: c(center)
-	, r(radius)
-	, a(angle)
-	, sa(spanAngle)
-{
-	while (a < 0)
-	{
-		a += M_2PI;
-	}
-	while (a > M_2PI)
-	{
-		a -= M_2PI;
-	}
-	while (sa < -M_2PI)
-	{
-		sa += M_2PI;
-	}
-	while (sa > M_2PI)
-	{
-		sa -= M_2PI;
-	}
-	generate3P();
-}
-
-inline xArcData::xArcData(const QPointF &p1, const QPointF &p2, const QPointF &p3) noexcept
+// xArcData implements
+inline xArcData::xArcData(const QPointF &p1, const QPointF &p2, const QPointF &p3)
 	: p1(p1), p2(p2), p3(p3)
 {
 	createFrom3P();
 }
 
-inline void xArcData::generate3P() noexcept
+inline void xArcData::generate3P()
 {
 	if (!isValid())
 	{
@@ -322,14 +303,14 @@ inline void xArcData::setCenter(const QPointF &center) noexcept
 {
 	if (center == c)
 		return;
-	auto d = center - c;
+	const auto d = center - c;
 	p1 += d;
 	p2 += d;
 	p3 += d;
 	c = center;
 }
 
-inline void xArcData::setRadius(qreal radius) noexcept
+inline void xArcData::setRadius(qreal radius)
 {
 	if (qFuzzyCompare(radius, r))
 		return;
@@ -338,80 +319,6 @@ inline void xArcData::setRadius(qreal radius) noexcept
 	p1 = c + PointFromPolar(r, QLineF(c, p1).angle() * M_PI / 180.0);
 	p2 = c + PointFromPolar(r, QLineF(c, p2).angle() * M_PI / 180.0);
 	p3 = c + PointFromPolar(r, QLineF(c, p3).angle() * M_PI / 180.0);
-}
-
-inline void xArcData::setAngle(qreal angle) noexcept
-{
-	while (angle < 0)
-	{
-		angle += M_2PI;
-	}
-	while (angle > M_2PI)
-	{
-		angle -= M_2PI;
-	}
-
-	if (qFuzzyCompare(angle, a))
-		return;
-
-	a = angle;
-	generate3P();
-}
-
-inline void xArcData::setSpanAngle(qreal alength) noexcept
-{
-	while (alength < -M_2PI)
-	{
-		alength += M_2PI;
-	}
-	while (alength > M_2PI)
-	{
-		alength -= M_2PI;
-	}
-
-	if (qFuzzyCompare(alength, sa))
-		return;
-
-	sa = alength;
-	generate3P();
-}
-
-inline void xArcData::setAngleDegree(qreal angle) noexcept
-{
-	qreal arad = angle * M_PI / 180;
-	while (arad < 0)
-	{
-		arad += M_2PI;
-	}
-	while (arad > M_2PI)
-	{
-		arad -= M_2PI;
-	}
-
-	if (qFuzzyCompare(arad, a))
-		return;
-
-	a = arad;
-	generate3P();
-}
-
-inline void xArcData::setSpanAngleDegree(qreal alength) noexcept
-{
-	qreal arad = alength * M_PI / 180;
-	while (arad < -M_2PI)
-	{
-		arad += M_2PI;
-	}
-	while (arad > M_2PI)
-	{
-		arad -= M_2PI;
-	}
-
-	if (qFuzzyCompare(arad, a))
-		return;
-
-	sa = arad;
-	generate3P();
 }
 
 inline void xArcData::translate(const QPointF &p) noexcept

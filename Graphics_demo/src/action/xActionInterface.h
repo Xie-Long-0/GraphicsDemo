@@ -15,8 +15,8 @@ public:
 	xActionInterface(xGraphicView *view, xDef::ActionType type);
 	virtual ~xActionInterface();
 
-	xDef::ActionType type() const { return m_type; }
-	xDef::ActionStatus status() const { return m_status; }
+	xDef::ActionType type() const noexcept { return m_type; }
+	xDef::ActionStatus status() const noexcept { return m_status; }
 
 	virtual void mousePressEvent(QMouseEvent *e) = 0;
 	virtual void mouseMoveEvent(QMouseEvent *e) = 0;

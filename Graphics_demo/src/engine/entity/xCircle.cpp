@@ -28,13 +28,18 @@ xCircle::xCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, xGraph
 {
 }
 
-int xCircle::type() const
+int xCircle::type() const noexcept
 {
 	return Type;
 }
 
 void xCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    if (painter == nullptr)
+    {
+        qWarning() << __FUNCTION__ << "painter is a nullptr!";
+        return;
+    }
 	Q_UNUSED(widget);
 
 	auto style = m_style;
@@ -120,7 +125,7 @@ void xCircle::setCircle(const QPointF &center, qreal radius)
 
 void xCircle::setCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3)
 {
-	auto c = xCircleData(p1, p2, p3);
+	const auto c = xCircleData(p1, p2, p3);
 	if (c == m_circle)
 		return;
 
@@ -185,7 +190,7 @@ void xCircle::moveBy(const QPointF &delta)
 	emit posChanged(delta);
 }
 
-QList<QPointF> xCircle::controlPoints() const noexcept
+QList<QPointF> xCircle::controlPoints() const
 {
 	return { pt1(), pt2(), pt3() };
 }

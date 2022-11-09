@@ -103,7 +103,7 @@ void xInterSingleEntity::moveBy(const QPointF &delta)
 	update();
 }
 
-QList<QPointF> xInterSingleEntity::controlPoints() const noexcept
+QList<QPointF> xInterSingleEntity::controlPoints() const
 {
 	return { m_anchorPoint };
 }

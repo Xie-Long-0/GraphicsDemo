@@ -27,14 +27,19 @@ xArc::xArc(const QPointF &p1, const QPointF &p2, const QPointF &p3, xGraphicView
 {
 }
 
-int xArc::type() const
+int xArc::type() const noexcept
 {
 	return Type;
 }
 
 void xArc::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-	Q_UNUSED(widget);
+    if (painter == nullptr)
+    {
+        qWarning() << __FUNCTION__ << "painter is a nullptr!";
+        return;
+    }
+    Q_UNUSED(widget);
 
 	auto style = m_style;
 
@@ -118,7 +123,7 @@ void xArc::setArc(const xArcData &arc)
 
 void xArc::setArc(const QPointF &center, qreal radius, qreal angle, qreal spanAngle)
 {
-	auto arc = xArcData(center, radius, angle, spanAngle);
+	const auto arc = xArcData(center, radius, angle, spanAngle);
 	if (arc == m_arc)
 		return;
 
@@ -130,7 +135,7 @@ void xArc::setArc(const QPointF &center, qreal radius, qreal angle, qreal spanAn
 
 void xArc::setArc(const QPointF &p1, const QPointF &p2, const QPointF &p3)
 {
-	auto arc = xArcData(p1, p2, p3);
+	const auto arc = xArcData(p1, p2, p3);
 	if (arc == m_arc)
 		return;
 
@@ -239,7 +244,7 @@ void xArc::moveBy(const QPointF &delta)
 	emit posChanged(delta);
 }
 
-QList<QPointF> xArc::controlPoints() const noexcept
+QList<QPointF> xArc::controlPoints() const
 {
 	return { pt1(), pt2(), pt3() };
 }

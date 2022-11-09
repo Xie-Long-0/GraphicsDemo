@@ -4,6 +4,7 @@
 #include <qpainterpath.h>
 #include <qpainter.h>
 #include <qpolygon.h>
+#include <QDebug>
 
 #ifndef M_PI
 #define M_PI (3.14159265358979323846264)
@@ -33,7 +34,7 @@ QPainterPath StrokeShapeFromPath(const QPainterPath &path, double width);
  * @param angle 角度，单位为弧度
  * @return 生成的点
 */
-inline QPointF PointFromPolar(double length, double angle)
+inline QPointF PointFromPolar(double length, double angle) noexcept
 {
 	return QPointF(std::cos(angle) * length, -std::sin(angle) * length);
 }
@@ -136,8 +137,13 @@ constexpr double NormalizeAngleDegreeEx(double angle) noexcept
  * @param w 正方形边长的一半
  * @param color 填充颜色
 */
-inline void FillRectByPoint(QPainter *painter, const QPointF &p, double w, const QColor &color) noexcept
+inline void FillRectByPoint(QPainter *painter, const QPointF &p, double w, const QColor &color)
 {
+    if (painter == nullptr)
+    {
+        qWarning() << __FUNCTION__ << "painter is a nullptr!";
+        return;
+    }
 	painter->fillRect(QRectF(p.x() - w, p.y() - w, w * 2, w * 2), color);
 }
 
@@ -146,8 +152,13 @@ inline void FillRectByPoint(QPainter *painter, const QPointF &p, double w, const
  * @param p 中心点
  * @param pen 画笔
 */
-inline void FillRectByPoint(QPainter *painter, const QPointF &p, const QPen &pen) noexcept
+inline void FillRectByPoint(QPainter *painter, const QPointF &p, const QPen &pen)
 {
+    if (painter == nullptr)
+    {
+        qWarning() << __FUNCTION__ << "painter is a nullptr!";
+        return;
+    }
 	const double w = pen.widthF();
 	const QColor c = pen.color();
 	painter->fillRect(QRectF(p.x() - w, p.y() - w, w * 2, w * 2), c);

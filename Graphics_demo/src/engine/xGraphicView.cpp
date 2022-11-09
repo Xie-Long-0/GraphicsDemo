@@ -33,7 +33,7 @@ xGraphicView::~xGraphicView()
 		delete m_default;
 }
 
-void xGraphicView::setAction(xActionPreviewInterface *action)
+void xGraphicView::setAction(xActionPreviewInterface *action) noexcept
 {
 	if (m_action)
 	{
@@ -227,7 +227,7 @@ void xGraphicView::mouseReleaseEvent(QMouseEvent *e)
 
 void xGraphicView::wheelEvent(QWheelEvent *e)
 {
-	auto delta = e->angleDelta().y();
+	const auto delta = e->angleDelta().y();
 	// Pressed Ctrl key
 	if (e->modifiers() & Qt::ControlModifier)
 	{

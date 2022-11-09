@@ -16,9 +16,9 @@ public:
 
 	auto getAction() const noexcept { return m_action; }
 	// 设置新的Action，将会把上一个Action结束并释放
-	void setAction(xActionPreviewInterface *action);
+	void setAction(xActionPreviewInterface *action) noexcept;
 	// 返回视图缩放比例
-	qreal scaleFactor() const noexcept { return transform().m11(); }
+	qreal scaleFactor() const { return transform().m11(); }
 	// 调整缩放大小到自适应界面
 	void resizeScene();
 

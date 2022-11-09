@@ -40,14 +40,20 @@ xRegRect::~xRegRect()
 {
 }
 
-int xRegRect::type() const
+int xRegRect::type() const noexcept
 {
 	return Type;
 }
 
 void xRegRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-	auto style = m_style;
+    if (painter == nullptr)
+    {
+        qWarning() << __FUNCTION__ << "painter is a nullptr!";
+        return;
+    }
+
+    auto style = m_style;
 
 	if (style != xDef::S_NoStyle)
 	{
@@ -115,7 +121,7 @@ void xRegRect::moveBy(const QPointF &delta)
 	emit posChanged(delta);
 }
 
-QList<QPointF> xRegRect::controlPoints() const noexcept
+QList<QPointF> xRegRect::controlPoints() const
 {
 	return { m_rect.topLeft(), m_rect.topRight(), m_rect.bottomLeft(), m_rect.bottomRight() };
 }

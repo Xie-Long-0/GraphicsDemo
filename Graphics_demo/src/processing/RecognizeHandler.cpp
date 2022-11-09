@@ -1,5 +1,6 @@
 #include "RecognizeHandler.h"
 #include <QThread>
+#include <QDebug>
 
 #include "xInterCircle.h"
 #include "xCircle.h"
@@ -19,12 +20,20 @@ RecognizeHandler::~RecognizeHandler()
 
 void RecognizeHandler::calcCircle(xInterCircle *ic)
 {
-	if (ic == nullptr)return;
+    if (ic == nullptr)
+    {
+        qWarning() << __FUNCTION__ << "IC is a nullptr!";
+        return;
+    }
 
 	auto e = ic->getBindEntity();
-	if (e == nullptr) return;
+    if (e == nullptr)
+    {
+        qWarning() << __FUNCTION__ << "E is a nullptr!";
+        return;
+    }
 
-	if (e->parentEntity())
+	if (e->parentEntity() != nullptr)
 		e = e->parentEntity();
 
 	// 模拟计算
@@ -108,12 +117,20 @@ void RecognizeHandler::calcCircle(xInterCircle *ic)
 
 void RecognizeHandler::calcArc(xInterArc *ie)
 {
-	if (ie == nullptr)return;
+	if (ie == nullptr)
+    {
+        qWarning() << __FUNCTION__ << "IE is a nullptr!";
+        return;
+    }
 
 	auto e = ie->getBindEntity();
-	if (e == nullptr) return;
+	if (e == nullptr)
+    {
+        qWarning() << __FUNCTION__ << "E is a nullptr!";
+        return;
+    }
 
-	if (e->parentEntity())
+	if (e->parentEntity() != nullptr)
 		e = e->parentEntity();
 
 	// 模拟计算

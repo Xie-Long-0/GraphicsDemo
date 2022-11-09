@@ -43,14 +43,19 @@ xRegCircle::xRegCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, 
 	m_subCircle->hide();
 }
 
-int xRegCircle::type() const
+int xRegCircle::type() const noexcept
 {
 	return Type;
 }
 
 void xRegCircle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-	Q_UNUSED(widget);
+    if (painter == nullptr)
+    {
+        qWarning() << __FUNCTION__ << "painter is a nullptr!";
+        return;
+    }
+    Q_UNUSED(widget);
 
 	const qreal r = m_regCircle.radius();
 	QPainterPath path;
@@ -159,7 +164,7 @@ void xRegCircle::setCircle(const QPointF &center, qreal radius, qreal width)
 
 void xRegCircle::setCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, qreal width)
 {
-	auto c = xCircleData(p1, p2, p3);
+	const auto c = xCircleData(p1, p2, p3);
 	if (c.center() == m_regCircle.center() && qFuzzyCompare(c.radius(), m_regCircle.radius()) && qFuzzyCompare(width, m_width))
 		return;
 
@@ -225,7 +230,7 @@ void xRegCircle::moveBy(const QPointF &delta)
 	emit posChanged(delta);
 }
 
-QList<QPointF> xRegCircle::controlPoints() const noexcept
+QList<QPointF> xRegCircle::controlPoints() const
 {
 	return { pt1(), pt2(), pt3() };
 }

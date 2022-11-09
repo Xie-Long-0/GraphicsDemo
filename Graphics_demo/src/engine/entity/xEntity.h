@@ -53,7 +53,7 @@ public:
 
 	Q_DISABLE_COPY(xEntity)
 	explicit xEntity(xGraphicView *view, QGraphicsItem *parent = nullptr);
-	virtual ~xEntity() = default;
+    virtual ~xEntity();
 	
 	/**
 	 * @brief 移动图元
@@ -61,7 +61,7 @@ public:
 	*/
 	virtual void moveBy(const QPointF &delta) = 0;
 	// 返回图元的绘画控制点
-	virtual QList<QPointF> controlPoints() const noexcept = 0;
+	virtual QList<QPointF> controlPoints() const = 0;
 	/**
 	 * @brief 移动图元的一个控制点
 	 * @param pt 控制点位置，用于判断哪个控制点，需传入scene坐标中的值
@@ -78,13 +78,13 @@ public:
 	xDef::Style style() const noexcept { return m_style; }
 	void setStyle(xDef::Style style);
 	QString name() const noexcept { return m_name; }
-	void setName(const QString &name) { m_name = name; }
+	void setName(const QString &name) noexcept { m_name = name; }
 
 	inline xEntity* parentEntity() const;
 
-	bool isThisVisible() const noexcept { return isVisible() && opacity() > 0; }
-	bool isMovable() const noexcept { return (flags() & ItemIsMovable); }
-	bool isSelectable() const noexcept { return (flags() & ItemIsSelectable); }
+	bool isThisVisible() const { return isVisible() && opacity() > 0; }
+	bool isMovable() const { return (flags() & ItemIsMovable); }
+	bool isSelectable() const { return (flags() & ItemIsSelectable); }
 	bool hasChild() const noexcept { return m_hasChild; }
 
 	bool needCalculate() const noexcept { return m_needCalc; }
@@ -92,11 +92,11 @@ public:
 
 public slots:
 	// 通过透明度设置此图元的可见性，不影响children的可见性
-	inline void setThisVisible(bool visible) noexcept;
-	inline void showThis() noexcept { setThisVisible(true); }
-	inline void hideThis() noexcept { setThisVisible(false); }
-	inline void setMovable(bool b) noexcept;
-	inline void setSelectable(bool b) noexcept;
+	inline void setThisVisible(bool visible);
+	inline void showThis() { setThisVisible(true); }
+	inline void hideThis() { setThisVisible(false); }
+	inline void setMovable(bool b);
+	inline void setSelectable(bool b);
 
 signals:
 	void selectedChanged(bool selected);
@@ -124,10 +124,10 @@ protected:
 	bool m_hasChild = false;
 
 private:
-	inline void init() noexcept;
+	inline void init();
 };
 
-inline void xEntity::init() noexcept
+inline void xEntity::init()
 {
 	setFlag(ItemIsMovable);
 	setFlag(ItemIsSelectable);
@@ -136,7 +136,7 @@ inline void xEntity::init() noexcept
 	setAcceptHoverEvents(true);
 }
 
-inline void xEntity::setThisVisible(bool visible) noexcept
+inline void xEntity::setThisVisible(bool visible)
 {
 	if (visible)
 		setOpacity(1.0);
@@ -144,7 +144,7 @@ inline void xEntity::setThisVisible(bool visible) noexcept
 		setOpacity(0);
 }
 
-inline void xEntity::setMovable(bool b) noexcept
+inline void xEntity::setMovable(bool b)
 {
 	if (b)
 		setFlag(ItemIsMovable, true);
@@ -152,7 +152,7 @@ inline void xEntity::setMovable(bool b) noexcept
 		setFlag(ItemIsMovable, false);
 }
 
-inline void xEntity::setSelectable(bool b) noexcept
+inline void xEntity::setSelectable(bool b)
 {
 	if (b)
 		setFlag(ItemIsSelectable, true);

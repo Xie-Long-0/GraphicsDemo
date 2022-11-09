@@ -21,7 +21,7 @@ public:
 	// 自定义实体类型枚举
 	enum { Type = ET_InterArc };
 	// 重写函数，返回当前的类型值
-	int type() const override;
+	int type() const noexcept override;
 
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 	QRectF boundingRect() const override;
