@@ -157,7 +157,7 @@
      <x>0</x>
      <y>0</y>
      <width>922</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_file">
@@ -176,8 +176,14 @@
    <addaction name="menu_edit"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
+   <property name="movable">
+    <bool>false</bool>
+   </property>
    <property name="allowedAreas">
-    <set>Qt::BottomToolBarArea|Qt::LeftToolBarArea|Qt::TopToolBarArea</set>
+    <set>Qt::TopToolBarArea</set>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -185,6 +191,7 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="separator"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action_quit">

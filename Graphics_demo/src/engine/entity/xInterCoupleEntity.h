@@ -36,7 +36,7 @@ public:
 	 * @param delta 移动增量，需传入scene坐标中的值
 	*/
 	void moveBy(const QPointF &delta) override;
-	QList<QPointF> controlPoints() const noexcept override;
+	QList<QPointF> controlPoints() const override;
 	/**
 	 * @brief 移动图元的一个控制点
 	 * @param pt 控制点位置，用于判断哪个控制点，需传入scene坐标中的值
@@ -45,11 +45,18 @@ public:
 	void moveCtrlPoint(const QPointF &pt, const QPointF &movedPt) override;
 	bool isCtrlPoint(const QPointF &p) const override;
 
+public slots:
+    // 用于调用计算任务
+    virtual void calculate() = 0;
+
 protected slots:
 	virtual void onEntity1Changed() = 0;
 	virtual void onEntity2Changed() = 0;
 	virtual void onEntity1Moved(const QPointF &delta);
 	virtual void onEntity2Moved(const QPointF &delta);
+
+protected:
+    inline void updateTransform();
 
 protected:
 	QString m_text;	// 显示文本
@@ -65,6 +72,15 @@ protected:
 	QFont m_font;	// 字体
 	qreal m_lastFactor = 0;	// 记录上次缩放后的值，当值未改变时不更新文本大小，以减少绘画计算
 };
+
+inline void xInterCoupleEntity::updateTransform()
+{
+    //m_rotateAngle = 90.0 - Rad2Deg(AnglePoint2Point(m_bindPoint, m_anchorPoint));
+    //m_transform.reset();
+    //m_transform.translate(m_bindPoint.x(), m_bindPoint.y());
+    //m_transform.rotate(m_rotateAngle);
+    //m_transform.translate(-m_bindPoint.x(), -m_bindPoint.y());
+}
 
 /**
 * 

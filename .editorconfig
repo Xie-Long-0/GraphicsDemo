@@ -1,6 +1,6 @@
 root = true
 
-[*.{c++,cc,cpp,cppm,cxx,h,h++,hh,hpp,hxx,inl,ipp,ixx,tlh,tli}]
+[*.{c,cc,cpp,cppm,cxx,h,hh,hpp,hxx,inl,ipp,ixx}]
 
 end_of_line = crlf
 insert_final_newline = true
@@ -15,19 +15,6 @@ cpp_generate_documentation_comments = doxygen_slash_star
 
 # Visual C++ 格式设置
 
-cpp_indent_braces = false
-cpp_indent_multi_line_relative_to = innermost_parenthesis
-cpp_indent_within_parentheses = indent
-cpp_indent_preserve_within_parentheses = true
-cpp_indent_case_contents = true
-cpp_indent_case_labels = false
-cpp_indent_case_contents_when_block = false
-cpp_indent_lambda_braces_when_parameter = true
-cpp_indent_goto_labels = one_left
-cpp_indent_preprocessor = leftmost_column
-cpp_indent_access_specifiers = false
-cpp_indent_namespace_contents = true
-cpp_indent_preserve_comments = false
 cpp_new_line_before_open_brace_namespace = new_line
 cpp_new_line_before_open_brace_type = new_line
 cpp_new_line_before_open_brace_function = new_line
@@ -38,7 +25,7 @@ cpp_new_line_close_brace_same_line_empty_type = false
 cpp_new_line_close_brace_same_line_empty_function = false
 cpp_new_line_before_catch = true
 cpp_new_line_before_else = true
-cpp_new_line_before_while_in_do_while = false
+cpp_new_line_before_while_in_do_while = true
 cpp_space_before_function_open_parenthesis = remove
 cpp_space_within_parameter_list_parentheses = false
 cpp_space_between_empty_parameter_list_parentheses = false
@@ -72,4 +59,3 @@ cpp_space_around_binary_operator = insert
 cpp_space_around_assignment_operator = insert
 cpp_space_pointer_reference_alignment = right
 cpp_space_around_ternary_operator = insert
-cpp_wrap_preserve_blocks = one_liners

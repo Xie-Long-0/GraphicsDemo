@@ -1,10 +1,10 @@
 #pragma once
 
-#include <qmath.h>
-#include <qpainterpath.h>
-#include <qpainter.h>
-#include <qpolygon.h>
 #include <QDebug>
+#include <qmath.h>
+#include <qpainter.h>
+#include <qpainterpath.h>
+#include <qpolygon.h>
 
 #ifndef M_PI
 #define M_PI (3.14159265358979323846264)
@@ -42,7 +42,7 @@ inline QPointF PointFromPolar(double length, double angle) noexcept
 /**
  * @brief 计算两点间的距离
 */
-inline double Distance(const QPointF &p1, const QPointF &p2)
+inline double Distance(const QPointF &p1, const QPointF &p2) noexcept
 {
 	return std::hypot(p2.x() - p1.x(), p2.y() - p1.y());
 }

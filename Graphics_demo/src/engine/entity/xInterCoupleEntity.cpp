@@ -126,9 +126,9 @@ void xInterCoupleEntity::moveBy(const QPointF &delta)
 {
 }
 
-QList<QPointF> xInterCoupleEntity::controlPoints() const noexcept
+QList<QPointF> xInterCoupleEntity::controlPoints() const
 {
-	return QList<QPointF>();
+    return { m_anchorPoint };
 }
 
 void xInterCoupleEntity::moveCtrlPoint(const QPointF &pt, const QPointF &movedPt)
