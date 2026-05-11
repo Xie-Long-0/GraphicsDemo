@@ -94,7 +94,7 @@ void xActionDrawInterCircle::cancel()
 	if (m_icircle)
 	{
 		m_scene->removeItem(m_icircle);
-		m_icircle->deleteLater();
+		delete m_icircle;
 		m_icircle = nullptr;
 	}
 	m_status = xDef::AS_Default;

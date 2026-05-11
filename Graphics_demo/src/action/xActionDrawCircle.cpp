@@ -105,13 +105,13 @@ void xActionDrawCircle::cancel()
 	if (m_line)
 	{
 		m_scene->removeItem(m_line);
-		m_line->deleteLater();
+		delete m_line;
 		m_line = nullptr;
 	}
 	if (m_circle)
 	{
 		m_scene->removeItem(m_circle);
-		m_circle->deleteLater();
+		delete m_circle;
 		m_circle = nullptr;
 	}
 	m_status = xDef::AS_Default;

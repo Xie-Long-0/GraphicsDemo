@@ -94,7 +94,7 @@ void xActionDrawInterArc::cancel()
 	if (m_ientity)
 	{
 		m_scene->removeItem(m_ientity);
-		m_ientity->deleteLater();
+		delete m_ientity;
 		m_ientity = nullptr;
 	}
 	m_status = xDef::AS_Default;

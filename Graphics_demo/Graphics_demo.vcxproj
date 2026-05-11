@@ -145,6 +145,7 @@
     <ClCompile Include="src\engine\entity\xRegLine.cpp" />
     <ClCompile Include="src\engine\entity\xRegRect.cpp" />
     <ClCompile Include="src\engine\xGraphicView.cpp" />
+    <ClCompile Include="src\engine\SceneItemService.cpp" />
     <ClCompile Include="src\engine\xTypeDef.cpp" />
     <ClCompile Include="src\engine\xUtils.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="src\action\xActionInterface.h" />
     <QtMoc Include="src\engine\entity\xInterArc.h" />
     <ClInclude Include="src\engine\xUtils.h" />
+    <ClInclude Include="src\engine\SceneItemService.h" />
     <QtMoc Include="src\engine\entity\xRegArc.h" />
     <QtMoc Include="src\processing\RecognizeHandler.h" />
     <QtMoc Include="src\engine\entity\xArc.h" />

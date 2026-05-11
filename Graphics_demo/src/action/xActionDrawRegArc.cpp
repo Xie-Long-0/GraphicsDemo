@@ -78,7 +78,7 @@ void xActionDrawRegArc::mouseMoveEvent(QMouseEvent *e)
 		if (m_line)
 		{
 			m_scene->removeItem(m_line);
-			m_line->deleteLater();
+			delete m_line;
 			m_line = nullptr;
 		}
 		if (m_arc == nullptr)
@@ -105,13 +105,13 @@ void xActionDrawRegArc::cancel()
 	if (m_line)
 	{
 		m_scene->removeItem(m_line);
-		m_line->deleteLater();
+		delete m_line;
 		m_line = nullptr;
 	}
 	if (m_arc)
 	{
 		m_scene->removeItem(m_arc);
-		m_arc->deleteLater();
+		delete m_arc;
 		m_arc = nullptr;
 	}
 	m_status = xDef::AS_Default;

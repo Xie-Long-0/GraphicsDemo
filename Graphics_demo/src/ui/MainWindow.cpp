@@ -6,6 +6,7 @@
 #include <QStyleOption>
 #include <QThread>
 #include <QTimer>
+#include <functional>
 
 #include "FunctionsTabWidget.h"
 #include "OperationWidget.h"
@@ -89,207 +90,44 @@ MainWindow::~MainWindow()
     m_scene->deleteLater();
 }
 
-void MainWindow::onDrawLine()
+void MainWindow::startAction(const std::function<xActionPreviewInterface *()> &factory, bool enableCalc)
 {
-    // 切换操作窗口
     auto opw = new OperationWidget(ui.r_pop_widget);
     m_vLayout->addWidget(opw);
     ui.r_main_widget->hide();
     ui.r_pop_widget->show();
 
-    auto action = new xActionDrawLine(m_view);
-    m_view->setAction(action);
+    m_view->setAction(factory());
 
-    // 连接确定、取消、下一步信号槽
     connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
     connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
+    if (enableCalc)
+    {
+        connect(opw, &OperationWidget::calcEmit, this, [=] {
+            if (auto action = m_view->getAction(); action != nullptr)
+                action->calculate();
+        });
+    }
     connect(opw, &OperationWidget::nextEmit, this, [=] {
         m_view->finishAction();
-        auto action = new xActionDrawLine(m_view);
-        m_view->setAction(action);
-        });
+        m_view->setAction(factory());
+    });
 }
 
-void MainWindow::onDrawCircle()
-{
-    // 切换操作窗口
-    auto opw = new OperationWidget(ui.r_pop_widget);
-    m_vLayout->addWidget(opw);
-    ui.r_main_widget->hide();
-    ui.r_pop_widget->show();
-
-    auto action = new xActionDrawCircle(m_view);
-    m_view->setAction(action);
-
-    // 连接确定、取消、下一步信号槽
-    connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
-    connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
-    connect(opw, &OperationWidget::nextEmit, this, [=] {
-        m_view->finishAction();
-        auto action = new xActionDrawCircle(m_view);
-        m_view->setAction(action);
-        });
-}
-
-void MainWindow::onDrawArc()
-{
-    // 切换操作窗口
-    auto opw = new OperationWidget(ui.r_pop_widget);
-    m_vLayout->addWidget(opw);
-    ui.r_main_widget->hide();
-    ui.r_pop_widget->show();
-
-    auto action = new xActionDrawArc(m_view);
-    m_view->setAction(action);
-
-    // 连接确定、取消、下一步信号槽
-    connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
-    connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
-    connect(opw, &OperationWidget::nextEmit, this, [=] {
-        m_view->finishAction();
-        auto action = new xActionDrawArc(m_view);
-        m_view->setAction(action);
-        });
-}
-
-void MainWindow::onDrawRegLine()
-{
-    // 切换操作窗口
-    auto opw = new OperationWidget(ui.r_pop_widget);
-    m_vLayout->addWidget(opw);
-    ui.r_main_widget->hide();
-    ui.r_pop_widget->show();
-
-    auto action = new xActionDrawRegLine(m_view);
-    m_view->setAction(action);
-
-    // 连接确定、取消、下一步信号槽
-    connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
-    connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
-    connect(opw, &OperationWidget::nextEmit, this, [=] {
-        m_view->finishAction();
-        auto action = new xActionDrawRegLine(m_view);
-        m_view->setAction(action);
-        });
-}
-
-void MainWindow::onDrawRegCircle()
-{
-    // 切换操作窗口
-    auto opw = new OperationWidget(ui.r_pop_widget);
-    m_vLayout->addWidget(opw);
-    ui.r_main_widget->hide();
-    ui.r_pop_widget->show();
-
-    auto action = new xActionDrawRegCircle(m_view);
-    m_view->setAction(action);
-
-    // 连接确定、取消、下一步信号槽
-    connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
-    connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
-    connect(opw, &OperationWidget::nextEmit, this, [=] {
-        m_view->finishAction();
-        auto action = new xActionDrawRegCircle(m_view);
-        m_view->setAction(action);
-        });
-}
-
-void MainWindow::onDrawRegArc()
-{
-    // 切换操作窗口
-    auto opw = new OperationWidget(ui.r_pop_widget);
-    m_vLayout->addWidget(opw);
-    ui.r_main_widget->hide();
-    ui.r_pop_widget->show();
-
-    auto action = new xActionDrawRegArc(m_view);
-    m_view->setAction(action);
-
-    // 连接确定、取消、下一步信号槽
-    connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
-    connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
-    connect(opw, &OperationWidget::nextEmit, this, [=] {
-        m_view->finishAction();
-        auto action = new xActionDrawRegArc(m_view);
-        m_view->setAction(action);
-        });
-}
-
-void MainWindow::onDrawRegRect()
-{
-    // 切换操作窗口
-    auto opw = new OperationWidget(ui.r_pop_widget);
-    m_vLayout->addWidget(opw);
-    ui.r_main_widget->hide();
-    ui.r_pop_widget->show();
-
-    auto action = new xActionDrawRegRect(m_view);
-    m_view->setAction(action);
-
-    // 连接确定、取消、下一步信号槽
-    connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
-    connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
-    connect(opw, &OperationWidget::nextEmit, this, [=] {
-        m_view->finishAction();
-        auto action = new xActionDrawRegRect(m_view);
-        m_view->setAction(action);
-        });
-}
-
-void MainWindow::onDrawInterCircle()
-{
-    // 切换操作窗口
-    auto opw = new OperationWidget(ui.r_pop_widget);
-    m_vLayout->addWidget(opw);
-    ui.r_main_widget->hide();
-    ui.r_pop_widget->show();
-
-    auto action = new xActionDrawInterCircle(m_view);
-    m_view->setAction(action);
-
-    // 连接确定、取消、下一步信号槽
-    connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
-    connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
-    connect(opw, &OperationWidget::calcEmit, this, [=] {
-        if (auto action = m_view->getAction(); action != nullptr)
-            action->calculate();
-        });
-    connect(opw, &OperationWidget::nextEmit, this, [=] {
-        m_view->finishAction();
-        auto action = new xActionDrawInterCircle(m_view);
-        m_view->setAction(action);
-        });
-}
-
-void MainWindow::onDrawInterArc()
-{
-    // 切换操作窗口
-    auto opw = new OperationWidget(ui.r_pop_widget);
-    m_vLayout->addWidget(opw);
-    ui.r_main_widget->hide();
-    ui.r_pop_widget->show();
-
-    auto action = new xActionDrawInterArc(m_view);
-    m_view->setAction(action);
-
-    // 连接确定、取消、下一步信号槽
-    connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
-    connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
-    connect(opw, &OperationWidget::calcEmit, this, [=] {
-        if (auto action = m_view->getAction(); action != nullptr)
-            action->calculate();
-        });
-    connect(opw, &OperationWidget::nextEmit, this, [=] {
-        m_view->finishAction();
-        auto action = new xActionDrawInterArc(m_view);
-        m_view->setAction(action);
-        });
-}
+void MainWindow::onDrawLine() { startAction([=] { return new xActionDrawLine(m_view); }, false); }
+void MainWindow::onDrawCircle() { startAction([=] { return new xActionDrawCircle(m_view); }, false); }
+void MainWindow::onDrawArc() { startAction([=] { return new xActionDrawArc(m_view); }, false); }
+void MainWindow::onDrawRegLine() { startAction([=] { return new xActionDrawRegLine(m_view); }, false); }
+void MainWindow::onDrawRegCircle() { startAction([=] { return new xActionDrawRegCircle(m_view); }, false); }
+void MainWindow::onDrawRegArc() { startAction([=] { return new xActionDrawRegArc(m_view); }, false); }
+void MainWindow::onDrawRegRect() { startAction([=] { return new xActionDrawRegRect(m_view); }, false); }
+void MainWindow::onDrawInterCircle() { startAction([=] { return new xActionDrawInterCircle(m_view); }, true); }
+void MainWindow::onDrawInterArc() { startAction([=] { return new xActionDrawInterArc(m_view); }, true); }
 
 void MainWindow::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e)
-        QStyleOption op;
+    QStyleOption op;
     op.initFrom(this);
     QPainter p(this);
     style()->drawPrimitive(QStyle::PE_Widget, &op, &p, this);

@@ -1,11 +1,13 @@
 #pragma once
 
 #include <QMainWindow>
+#include <functional>
 #include "ui_MainWindow.h"
 
 class xGraphicView;
 class QGraphicsScene;
 class OperationWidget;
+class xActionPreviewInterface;
 
 class MainWindow : public QMainWindow
 {
@@ -37,6 +39,8 @@ private slots:
 	void onOperateCanceled();
 
 private:
+	void startAction(const std::function<xActionPreviewInterface *()> &factory, bool enableCalc);
+
 	Ui::MainWindow ui;
 	xGraphicView *m_view = nullptr;
 	QGraphicsScene *m_scene = nullptr;

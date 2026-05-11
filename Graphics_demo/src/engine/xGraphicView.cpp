@@ -5,6 +5,7 @@
 #include "action/xActionPreviewInterface.h"
 #include "action/xActionDefault.h"
 #include "entity/xEntity.h"
+#include "SceneItemService.h"
 
 xGraphicView::xGraphicView(QGraphicsScene *scene, QWidget *parent)
 	: QGraphicsView(scene, parent)
@@ -91,73 +92,12 @@ void xGraphicView::zoomByFactor(qreal factor)
 
 void xGraphicView::removeSelectedItems()
 {
-	QGraphicsItem *mayRemoveItem = nullptr;
-
-	auto items = scene()->selectedItems();
-	for (auto i : items)
-	{
-		// 当一次选中操作包含多个图元时需要分情况操作
-		if (items.size() > 1)
-		{
-			// 选中InterSingle或InterCouple时只删除该图元
-			if ((i->type() > xEntity::ET_InterSingle_Start && i->type() < xEntity::ET_InterSingle_End) ||
-				(i->type() > xEntity::ET_InterCouple_Start && i->type() < xEntity::ET_InterCouple_End))
-			{
-				scene()->removeItem(i);
-				delete i;
-				return;
-			}
-
-			// 选中具有父子图元时需要判断有无关联图形
-			if (i->parentItem() != nullptr)
-			{
-				continue;
-			}
-			if (!i->childItems().isEmpty())
-			{
-				mayRemoveItem = i;
-			}
-		}
-		else
-		{
-			scene()->removeItem(i);
-			delete i;
-			return;
-		}
-	}
-
-	if (mayRemoveItem)
-	{
-		scene()->removeItem(mayRemoveItem);
-		delete mayRemoveItem;
-		return;
-	}
+	SceneItemService::removeSelectedItems(scene());
 }
 
 void xGraphicView::removeAllItems()
 {
-	// 保留一个PixmapItem
-	while (scene()->items().size() > 1)
-	{
-		auto items = scene()->items();
-		for (auto i : items)
-		{
-			if (i->type() == QGraphicsPixmapItem::Type)
-				continue;
-
-			scene()->removeItem(i);
-			// 删除有父母或孩子的图形时需要重新获取items
-			if (i->parentItem() != nullptr || i->childItems().isEmpty() != true)
-			{
-				delete i;
-				break;
-			}
-			else
-			{
-				delete i;
-			}
-		}
-	}
+	SceneItemService::removeAllItems(scene());
 }
 
 void xGraphicView::resizeScene()

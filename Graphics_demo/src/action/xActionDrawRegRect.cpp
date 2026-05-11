@@ -78,7 +78,7 @@ void xActionDrawRegRect::cancel()
 	if (m_rect)
 	{
 		m_scene->removeItem(m_rect);
-		m_rect->deleteLater();
+		delete m_rect;
 		m_rect = nullptr;
 	}
 	m_status = xDef::AS_Default;
