@@ -28,18 +28,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui.setupUi(this);
     ui.view_widget->installEventFilter(this);
 
-    auto agent = new QWK::WidgetWindowAgent(this);
-    if (agent->setup(this) == false)
-        qDebug() << "QWK::WidgetWindowAgent setup false";
-
-    auto titleBar = new QWidget(ui.menuBar);
-    titleBar->resize(ui.menuBar->width() * 0.5, ui.menuBar->height());
-    titleBar->move(ui.menuBar->width() * 0.5, 0);
-    auto maxBtn = new QPushButton("Max", titleBar);
-    agent->setTitleBar(titleBar);
-    agent->setSystemButton(QWK::WindowAgentBase::Maximize, maxBtn);
-    agent->setHitTestVisible(maxBtn);
-
     m_scene = new QGraphicsScene();
     m_view = new xGraphicView(m_scene, ui.view_widget);
 
@@ -114,20 +102,47 @@ void MainWindow::startAction(const std::function<xActionPreviewInterface *()> &f
     });
 }
 
-void MainWindow::onDrawLine() { startAction([=] { return new xActionDrawLine(m_view); }, false); }
-void MainWindow::onDrawCircle() { startAction([=] { return new xActionDrawCircle(m_view); }, false); }
-void MainWindow::onDrawArc() { startAction([=] { return new xActionDrawArc(m_view); }, false); }
-void MainWindow::onDrawRegLine() { startAction([=] { return new xActionDrawRegLine(m_view); }, false); }
-void MainWindow::onDrawRegCircle() { startAction([=] { return new xActionDrawRegCircle(m_view); }, false); }
-void MainWindow::onDrawRegArc() { startAction([=] { return new xActionDrawRegArc(m_view); }, false); }
-void MainWindow::onDrawRegRect() { startAction([=] { return new xActionDrawRegRect(m_view); }, false); }
-void MainWindow::onDrawInterCircle() { startAction([=] { return new xActionDrawInterCircle(m_view); }, true); }
-void MainWindow::onDrawInterArc() { startAction([=] { return new xActionDrawInterArc(m_view); }, true); }
+void MainWindow::onDrawLine()
+{
+    startAction([=] { return new xActionDrawLine(m_view); }, false);
+}
+void MainWindow::onDrawCircle()
+{
+    startAction([=] { return new xActionDrawCircle(m_view); }, false);
+}
+void MainWindow::onDrawArc()
+{
+    startAction([=] { return new xActionDrawArc(m_view); }, false);
+}
+void MainWindow::onDrawRegLine()
+{
+    startAction([=] { return new xActionDrawRegLine(m_view); }, false);
+}
+void MainWindow::onDrawRegCircle()
+{
+    startAction([=] { return new xActionDrawRegCircle(m_view); }, false);
+}
+void MainWindow::onDrawRegArc()
+{
+    startAction([=] { return new xActionDrawRegArc(m_view); }, false);
+}
+void MainWindow::onDrawRegRect()
+{
+    startAction([=] { return new xActionDrawRegRect(m_view); }, false);
+}
+void MainWindow::onDrawInterCircle()
+{
+    startAction([=] { return new xActionDrawInterCircle(m_view); }, true);
+}
+void MainWindow::onDrawInterArc()
+{
+    startAction([=] { return new xActionDrawInterArc(m_view); }, true);
+}
 
 void MainWindow::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e)
-    QStyleOption op;
+        QStyleOption op;
     op.initFrom(this);
     QPainter p(this);
     style()->drawPrimitive(QStyle::PE_Widget, &op, &p, this);
