@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QWidget>
+#include <QString>
 #include "ui_OperationWidget.h"
 
 class OperationWidget : public QWidget
@@ -9,6 +10,10 @@ class OperationWidget : public QWidget
 
 public:
 	OperationWidget(QWidget *parent = nullptr);
+
+	void setActionName(const QString &name);
+	void setCalcEnabled(bool enabled);
+	void setNextEnabled(bool enabled);
 
 signals:
 	void confirmEmit();

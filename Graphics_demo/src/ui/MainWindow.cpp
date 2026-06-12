@@ -4,9 +4,12 @@
 #include <QGraphicsScene>
 #include <QPainter>
 #include <QStyleOption>
+#include <QString>
 #include <QThread>
 #include <QTimer>
 #include <functional>
+#include <memory>
+#include <utility>
 
 #include "FunctionsTabWidget.h"
 #include "OperationWidget.h"
@@ -78,65 +81,91 @@ MainWindow::~MainWindow()
     m_scene->deleteLater();
 }
 
-void MainWindow::startAction(const std::function<xActionPreviewInterface *()> &factory, bool enableCalc)
+void MainWindow::startAction(ActionDescriptor descriptor)
 {
-    auto opw = new OperationWidget(ui.r_pop_widget);
-    m_vLayout->addWidget(opw);
+    if (!descriptor.factory)
+        return;
+
+    destroyOperationWidget();
+
+    m_operationWidget = new OperationWidget(ui.r_pop_widget);
+    m_operationWidget->setActionName(QString::fromUtf8(descriptor.name));
+    m_operationWidget->setCalcEnabled(descriptor.enableCalc);
+    m_operationWidget->setNextEnabled(descriptor.enableNext);
+    m_vLayout->addWidget(m_operationWidget);
     ui.r_main_widget->hide();
     ui.r_pop_widget->show();
 
-    m_view->setAction(factory());
+    m_view->setAction(descriptor.factory());
 
-    connect(opw, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
-    connect(opw, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
-    if (enableCalc)
+    auto operationWidget = m_operationWidget;
+    connect(operationWidget, &QObject::destroyed, this, [this, operationWidget] {
+        if (m_operationWidget == operationWidget)
+            m_operationWidget = nullptr;
+    });
+    connect(m_operationWidget, &OperationWidget::confirmEmit, this, &MainWindow::onOperateFinished);
+    connect(m_operationWidget, &OperationWidget::cancelEmit, this, &MainWindow::onOperateCanceled);
+    if (descriptor.enableCalc)
     {
-        connect(opw, &OperationWidget::calcEmit, this, [=] {
+        connect(m_operationWidget, &OperationWidget::calcEmit, this, [this] {
             if (auto action = m_view->getAction(); action != nullptr)
                 action->calculate();
         });
     }
-    connect(opw, &OperationWidget::nextEmit, this, [=] {
-        m_view->finishAction();
-        m_view->setAction(factory());
-    });
+    if (descriptor.enableNext)
+    {
+        connect(m_operationWidget, &OperationWidget::nextEmit, this, [this, descriptor = std::move(descriptor)] {
+            m_view->finishAction();
+            m_view->setAction(descriptor.factory());
+        });
+    }
+}
+
+void MainWindow::destroyOperationWidget()
+{
+    if (m_operationWidget == nullptr)
+        return;
+
+    m_vLayout->removeWidget(m_operationWidget);
+    m_operationWidget->deleteLater();
+    m_operationWidget = nullptr;
 }
 
 void MainWindow::onDrawLine()
 {
-    startAction([=] { return new xActionDrawLine(m_view); }, false);
+    startAction({ "直线", [this] { return std::make_unique<xActionDrawLine>(m_view); } });
 }
 void MainWindow::onDrawCircle()
 {
-    startAction([=] { return new xActionDrawCircle(m_view); }, false);
+    startAction({ "圆", [this] { return std::make_unique<xActionDrawCircle>(m_view); } });
 }
 void MainWindow::onDrawArc()
 {
-    startAction([=] { return new xActionDrawArc(m_view); }, false);
+    startAction({ "圆弧", [this] { return std::make_unique<xActionDrawArc>(m_view); } });
 }
 void MainWindow::onDrawRegLine()
 {
-    startAction([=] { return new xActionDrawRegLine(m_view); }, false);
+    startAction({ "线型区域", [this] { return std::make_unique<xActionDrawRegLine>(m_view); } });
 }
 void MainWindow::onDrawRegCircle()
 {
-    startAction([=] { return new xActionDrawRegCircle(m_view); }, false);
+    startAction({ "圆形区域", [this] { return std::make_unique<xActionDrawRegCircle>(m_view); } });
 }
 void MainWindow::onDrawRegArc()
 {
-    startAction([=] { return new xActionDrawRegArc(m_view); }, false);
+    startAction({ "圆弧区域", [this] { return std::make_unique<xActionDrawRegArc>(m_view); } });
 }
 void MainWindow::onDrawRegRect()
 {
-    startAction([=] { return new xActionDrawRegRect(m_view); }, false);
+    startAction({ "矩形区域", [this] { return std::make_unique<xActionDrawRegRect>(m_view); } });
 }
 void MainWindow::onDrawInterCircle()
 {
-    startAction([=] { return new xActionDrawInterCircle(m_view); }, true);
+    startAction({ "拟合圆", [this] { return std::make_unique<xActionDrawInterCircle>(m_view); }, true });
 }
 void MainWindow::onDrawInterArc()
 {
-    startAction([=] { return new xActionDrawInterArc(m_view); }, true);
+    startAction({ "拟合圆弧", [this] { return std::make_unique<xActionDrawInterArc>(m_view); }, true });
 }
 
 void MainWindow::paintEvent(QPaintEvent *e)
@@ -172,6 +201,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *e)
 void MainWindow::onOperateFinished()
 {
     m_view->finishAction();
+    destroyOperationWidget();
     ui.r_pop_widget->hide();
     ui.r_main_widget->show();
 }
@@ -179,6 +209,7 @@ void MainWindow::onOperateFinished()
 void MainWindow::onOperateCanceled()
 {
     m_view->cancelAction();
+    destroyOperationWidget();
     ui.r_pop_widget->hide();
     ui.r_main_widget->show();
 }

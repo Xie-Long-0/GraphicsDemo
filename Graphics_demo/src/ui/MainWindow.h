@@ -2,6 +2,7 @@
 
 #include <QMainWindow>
 #include <functional>
+#include <memory>
 #include "ui_MainWindow.h"
 
 class xGraphicView;
@@ -39,11 +40,22 @@ private slots:
 	void onOperateCanceled();
 
 private:
-	void startAction(const std::function<xActionPreviewInterface *()> &factory, bool enableCalc);
+	using ActionFactory = std::function<std::unique_ptr<xActionPreviewInterface>()>;
+	struct ActionDescriptor
+	{
+		const char *name = "";
+		ActionFactory factory;
+		bool enableCalc = false;
+		bool enableNext = true;
+	};
+
+	void startAction(ActionDescriptor descriptor);
+	void destroyOperationWidget();
 
 	Ui::MainWindow ui;
 	xGraphicView *m_view = nullptr;
 	QGraphicsScene *m_scene = nullptr;
 	QVBoxLayout *m_vLayout = nullptr;
+	OperationWidget *m_operationWidget = nullptr;
 	bool m_firstResize = true;
 };

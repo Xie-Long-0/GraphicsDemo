@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QGraphicsView>
+#include <memory>
 
 class xActionInterface;
 class xActionPreviewInterface;
@@ -14,9 +15,9 @@ public:
 	xGraphicView(QGraphicsScene *scene, QWidget *parent);
 	~xGraphicView();
 
-	auto getAction() const noexcept { return m_action; }
+	auto getAction() const noexcept { return m_action.get(); }
 	// 设置新的Action，将会把上一个Action结束并释放
-	void setAction(xActionPreviewInterface *action) noexcept;
+	void setAction(std::unique_ptr<xActionPreviewInterface> action) noexcept;
 	// 返回视图缩放比例
 	qreal scaleFactor() const { return transform().m11(); }
 	// 调整缩放大小到自适应界面
@@ -47,8 +48,8 @@ private:
 	void onScaleChanged();
 
 private:
-	xActionPreviewInterface *m_action = nullptr;
-	xActionDefault *m_default = nullptr;
+	std::unique_ptr<xActionPreviewInterface> m_action;
+	std::unique_ptr<xActionDefault> m_default;
 	QGraphicsPixmapItem *m_pixmap = nullptr;
 	qreal m_initFactor = 0.0;
 };

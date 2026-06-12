@@ -2,6 +2,8 @@
 #include <QMouseEvent>
 #include <QImage>
 #include <QDebug>
+#include <memory>
+#include <utility>
 #include "action/xActionPreviewInterface.h"
 #include "action/xActionDefault.h"
 #include "entity/xEntity.h"
@@ -23,24 +25,14 @@ xGraphicView::xGraphicView(QGraphicsScene *scene, QWidget *parent)
 	m_pixmap->setFlag(QGraphicsItem::ItemIsSelectable, false);
 	scene->addItem(m_pixmap);
 
-	m_default = new xActionDefault(this);
+	m_default = std::make_unique<xActionDefault>(this);
 }
 
-xGraphicView::~xGraphicView()
-{
-	if (m_action)
-		delete m_action;
-	if (m_default)
-		delete m_default;
-}
+xGraphicView::~xGraphicView() = default;
 
-void xGraphicView::setAction(xActionPreviewInterface *action) noexcept
+void xGraphicView::setAction(std::unique_ptr<xActionPreviewInterface> action) noexcept
 {
-	if (m_action)
-	{
-		delete m_action;
-	}
-	m_action = action;
+	m_action = std::move(action);
 }
 
 void xGraphicView::finishAction()
@@ -51,8 +43,7 @@ void xGraphicView::finishAction()
 			m_action->confirm();
 		else
 			m_action->cancel();
-		delete m_action;
-		m_action = nullptr;
+		m_action.reset();
 	}
 }
 
@@ -61,8 +52,7 @@ void xGraphicView::cancelAction()
 	if (m_action)
 	{
 		m_action->cancel();
-		delete m_action;
-		m_action = nullptr;
+		m_action.reset();
 	}
 }
 
